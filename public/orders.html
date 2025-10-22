@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Orders Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">🍳 RACII</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="orders.html" class="active">Orders</a>
+      <a href="payments.html">Payments</a>
+    </div>
+  </nav>
+</header>
+
+<section class="form-section">
+  <div class="form-container">
+    <h2>Orders Dashboard</h2>
+
+    <div class="summary-cards">
+      <div class="summary-card">
+        <h3>Total Orders</h3>
+        <p>120</p>
+      </div>
+      <div class="summary-card">
+        <h3>Pending Orders</h3>
+        <p>15</p>
+      </div>
+      <div class="summary-card">
+        <h3>Completed Orders</h3>
+        <p>105</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="ordersChart"></canvas>
+    </div>
+
+    <div class="orders-list">
+      <h3>Recent Orders</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Client</th>
+            <th>Cook</th>
+            <th>Dish</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="orders-table-body">
+          <!-- Orders will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// Sample orders data
+const orders = [
+  {id: 'ORD001', client: 'Alice', cook: 'Maria Rossi', dish: 'Pasta', status: 'Completed'},
+  {id: 'ORD002', client: 'Bob', cook: 'Arjun Mehta', dish: 'Butter Chicken', status: 'Pending'},
+  {id: 'ORD003', client: 'Charlie', cook: 'Élodie Laurent', dish: 'Macarons', status: 'Completed'},
+  {id: 'ORD004', client: 'Dana', cook: 'Carlos Rivera', dish: 'Tacos', status: 'Completed'},
+  {id: 'ORD005', client: 'Eve', cook: 'Hana Suzuki', dish: 'Sushi', status: 'Pending'}
+];
+
+// Populate orders table
+const tableBody = document.getElementById('orders-table-body');
+orders.forEach(order=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${order.id}</td>
+                  <td>${order.client}</td>
+                  <td>${order.cook}</td>
+                  <td>${order.dish}</td>
+                  <td>${order.status}</td>`;
+  tableBody.appendChild(tr);
+});
+
+// Orders chart
+const ctx = document.getElementById('ordersChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Completed', 'Pending'],
+    datasets: [{
+      label: 'Number of Orders',
+      data: [orders.filter(o=>o.status==='Completed').length,
+             orders.filter(o=>o.status==='Pending').length],
+      backgroundColor: ['#f5e0d3','#fce8d5']
+    }]
+  },
+  options: {
+    responsive:true,
+    plugins:{legend:{display:false}}
+  }
+});
+</script>
+
+</body>
+</html>

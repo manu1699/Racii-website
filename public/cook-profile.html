@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII — Cook Profile</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.profile-container { max-width:900px; margin:60px auto; padding:0 16px; }
+.profile-header { display:flex; align-items:center; gap:16px; margin-bottom:24px; }
+.profile-header img { width:120px; height:120px; border-radius:12px; object-fit:cover; }
+.profile-info h2 { margin-bottom:6px; }
+.profile-info p { color:var(--muted); margin-bottom:4px; }
+.photos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-top:16px; }
+.photos-grid img { width:100%; height:100px; object-fit:cover; border-radius:10px; }
+.btn-book { background:var(--accent); color:#fff; border:none; padding:12px; border-radius:10px; cursor:pointer; margin-top:18px; transition:0.25s ease; }
+.btn-book:hover { background:var(--accent-dark); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="nav container">
+    <div class="logo">🍳 RACII</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="find-cook.html">Back to List</a>
+    </nav>
+  </div>
+</div>
+
+<main class="profile-container">
+  <div id="profile"></div>
+</main>
+
+<footer class="footer container">
+  © 2025 RACII — Share food, share culture.
+</footer>
+
+<script>
+function getCookId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id');
+}
+
+function loadProfile() {
+  const cookId = getCookId();
+  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
+  const cook = cooks.find(c=>c.id===cookId);
+  const container = document.getElementById('profile');
+
+  if(!cook){
+    container.innerHTML = '<p style="text-align:center; color:var(--muted)">Cook not found.</p>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="profile-header">
+      <img src="${cook.dishPhotos[0] || 'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
+      <div class="profile-info">
+        <h2>${cook.name}</h2>
+        <p>Nationality: ${cook.nationality}</p>
+        <p>Short Bio: ${cook.bio}</p>
+      </div>
+    </div>
+
+    <h3>Dish Photos</h3>
+    <div class="photos-grid">
+      ${cook.dishPhotos.map(d=>`<img src="${d}">`).join('')}
+    </div>
+
+    <h3 style="margin-top:18px;">Kitchen Photos</h3>
+    <div class="photos-grid">
+      ${cook.kitchenPhotos.map(k=>`<img src="${k}">`).join('')}
+    </div>
+
+    <button class="btn-book" onclick="alert('Booking feature coming soon!')">Book Now</button>
+  `;
+}
+
+window.addEventListener('DOMContentLoaded', loadProfile);
+</script>
+
+</body>
+</html>

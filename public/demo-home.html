@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Full Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">🍳 RACII</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Booking</a>
+    <a href="#">Cooks</a>
+    <a href="#">Orders</a>
+    <a href="#">Admin</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Experience food, stories, and culture — cooked by real people.</h1>
+    <p>Discover authentic dishes, join cooking sessions, and share culture through food — all from Italy!</p>
+    <a href="#" class="btn">Find a Cook Near You 🍽️</a>
+    <a href="#" class="btn">Join a Cooking Class 🎓</a>
+    <a href="#" class="btn">Dine With the Cook 🥂</a>
+  </section>
+
+  <!-- How RACII Works -->
+  <section class="how">
+    <h2>How RACII Works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Find a Cook 👩‍🍳</h3>
+        <p>Browse verified home cooks from around the world.</p>
+      </div>
+      <div class="step">
+        <h3>Choose Experience 🍷</h3>
+        <p>Book a meal, join a class, or dine together.</p>
+      </div>
+      <div class="step">
+        <h3>Join, Learn & Dine 🎉</h3>
+        <p>Immerse yourself in authentic culture and flavors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cook Cards / Profiles -->
+  <section class="cooks">
+    <h2>Top Social Cooks</h2>
+    <div class="cook-cards">
+      <div class="cook-card">
+        <img src="https://via.placeholder.com/250x180" alt="Cook Image">
+        <h3>Maria Rossi</h3>
+        <p>Passionate about Italian cuisine, loves sharing stories.</p>
+        <a href="#" class="btn">Book a Meal</a>
+      </div>
+      <div class="cook-card">
+        <img src="https://via.placeholder.com/250x180" alt="Cook Image">
+        <h3>Ahmed Ali</h3>
+        <p>Specializes in Middle Eastern dishes with authentic taste.</p>
+        <a href="#" class="btn">Join Cooking Session</a>
+      </div>
+      <div class="cook-card">
+        <img src="https://via.placeholder.com/250x180" alt="Cook Image">
+        <h3>Li Wei</h3>
+        <p>Loves teaching Chinese home cooking and traditions.</p>
+        <a href="#" class="btn">Invite Cook to Dine</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Form Preview -->
+  <section class="booking-preview">
+    <h2>Book a Meal</h2>
+    <form class="booking-form">
+      <div class="form-group">
+        <label for="guest-name">Your Name</label>
+        <input type="text" id="guest-name" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label for="guest-email">Email</label>
+        <input type="email" id="guest-email" placeholder="example@mail.com">
+      </div>
+      <div class="form-group">
+        <label for="experience">Select Experience Type</label>
+        <select id="experience">
+          <option>🍽️ Eat Only</option>
+          <option>🍷 Join While Cooking</option>
+          <option>🎓 Learn to Cook</option>
+        </select>
+      </div>
+      <div class="checkbox-group">
+        <label><input type="checkbox"> Would you like the cook to dine with you?</label>
+        <label><input type="checkbox"> Bring your own drinks</label>
+        <label><input type="checkbox"> Include recipe card for the dish</label>
+      </div>
+      <button type="submit" class="btn">Book Now</button>
+    </form>
+  </section>
+
+  <!-- Payment Section Preview -->
+  <section class="payment-preview">
+    <h2>Payment Options</h2>
+    <div class="payment-methods">
+      <button class="btn active">PayPal</button>
+      <button class="btn">Credit Card</button>
+      <button class="btn">Debit Card</button>
+      <button class="btn">Satispay</button>
+    </div>
+    <form class="payment-form">
+      <div class="form-group">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="0000 0000 0000 0000">
+      </div>
+      <div class="form-group">
+        <label>Expiry Date</label>
+        <input type="text" placeholder="MM/YY">
+      </div>
+      <div class="form-group">
+        <label>CVV</label>
+        <input type="text" placeholder="123">
+      </div>
+      <button type="submit" class="btn">Pay Now</button>
+    </form>
+  </section>
+
+  <!-- Admin Dashboard Preview -->
+  <section class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    <div class="charts">
+      <div class="chart-container">
+        <h3>Total Bookings</h3>
+        <p>120</p>
+      </div>
+      <div class="chart-container">
+        <h3>Total Revenue</h3>
+        <p>€1,500</p>
+      </div>
+      <div class="chart-container">
+        <h3>Active Cooks</h3>
+        <p>35</p>
+      </div>
+    </div>
+    <div class="list-container">
+      <h3>Recent Orders</h3>
+      <div class="list-item">John booked Maria Rossi</div>
+      <div class="list-item">Anna booked Li Wei</div>
+      <div class="list-item">Ahmed booked Ahmed Ali</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2025 RACII | Made with ❤️ in Italy</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="logo">🍳 RACII Admin</div>
+</header>
+
+<main>
+  <h1>Admin Dashboard</h1>
+
+  <!-- Analytics Section -->
+  <section class="analytics-section">
+    <h2>Analytics</h2>
+    <div class="charts">
+      <div class="chart-container">
+        <h3>Cook Approval Status</h3>
+        <canvas id="cooksChart" width="400" height="250"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Orders per Cook</h3>
+        <canvas id="ordersChart" width="400" height="250"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cooks List -->
+  <section>
+    <h2>Registered Cooks</h2>
+    <div id="cookList" class="list-container"></div>
+  </section>
+
+  <!-- Orders List -->
+  <section>
+    <h2>Orders</h2>
+    <div id="orderList" class="list-container"></div>
+  </section>
+</main>
+
+<script>
+async function loadDashboard() {
+  const cookList = document.getElementById('cookList');
+  const orderList = document.getElementById('orderList');
+
+  try {
+    // Fetch cooks
+    const cooksRes = await fetch('http://localhost:3000/api/cooks');
+    const cooks = await cooksRes.json();
+
+    // Display cooks
+    cooks.forEach(c => {
+      const div = document.createElement('div');
+      div.classList.add('list-item');
+      div.textContent = `${c.name} - ${c.status} - ${c.bio}`;
+      cookList.appendChild(div);
+    });
+
+    // Fetch orders
+    const ordersRes = await fetch('http://localhost:3000/api/orders');
+    const orders = await ordersRes.json();
+
+    // Display orders
+    orders.forEach(o => {
+      const div = document.createElement('div');
+      div.classList.add('list-item');
+      div.textContent = `${o.customerName} booked ${o.cook} for ${o.guests} guests (${o.experience})`;
+      orderList.appendChild(div);
+    });
+
+    // ===== Analytics Charts =====
+    const approvedCooks = cooks.filter(c => c.status === 'Approved').length;
+    const pendingCooks = cooks.filter(c => c.status === 'Pending').length;
+
+    const cooksCtx = document.getElementById('cooksChart').getContext('2d');
+    new Chart(cooksCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Approved', 'Pending'],
+        datasets: [{
+          data: [approvedCooks, pendingCooks],
+          backgroundColor: ['#6b4226', '#f0e6df']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom', labels: { color: '#1c1c1c' } } }
+      }
+    });
+
+    // Orders per cook
+    const cookNames = [...new Set(orders.map(o => o.cook))];
+    const orderCounts = cookNames.map(name => orders.filter(o => o.cook === name).length);
+
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    new Chart(ordersCtx, {
+      type: 'bar',
+      data: {
+        labels: cookNames,
+        datasets: [{
+          label: 'Orders per Cook',
+          data: orderCounts,
+          backgroundColor: '#6b4226'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert('Error loading dashboard data');
+  }
+}
+
+loadDashboard();
+</script>
+
+</body>
+</html>

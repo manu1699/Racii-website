@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RACII | Client Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav class="nav-bar">
+    <div class="logo">🍳 RACII</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="client-register.html" class="active">Client Register</a>
+      <a href="client-login.html">Client Login</a>
+      <a href="cook-register.html">Cook Register</a>
+      <a href="cook-login.html">Cook Login</a>
+    </div>
+    <button id="theme-toggle">🌙</button>
+  </nav>
+</header>
+
+<section class="form-section">
+  <div class="form-container">
+    <h2>Client Registration</h2>
+    <p>Create your account to find and book amazing cooks!</p>
+    <form id="client-register-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required>
+
+      <label for="preferences">Food Preferences</label>
+      <input type="text" id="preferences" placeholder="E.g., Vegan, Italian, Spicy" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password" required>
+
+      <button type="submit" class="btn btn-primary">Register</button>
+      <p class="login-link">Already have an account? <a href="client-login.html">Login here</a></p>
+    </form>
+  </div>
+</section>
+
+<script>
+const clientForm = document.getElementById('client-register-form');
+clientForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert("Registration successful! (Connect backend to save data)");
+  clientForm.reset();
+});
+</script>
+
+</body>
+</html>

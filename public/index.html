@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>RACII | Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {--accent:#ff6b6b;--accent-dark:#e05555;}
+
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color:#000;
+  position:relative;
+  min-height:100vh;
+  background:#e0e0e0;
+}
+
+/* Background slideshow */
+.bg-slideshow{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.1);animation:fade 36s infinite}
+.bg-slide:nth-child(1){background-image:url('images/comfort-food.webp');animation-delay:0s}
+.bg-slide:nth-child(2){background-image:url('images/image food1.jpg');animation-delay:6s}
+.bg-slide:nth-child(3){background-image:url('images/image food2.jpg');animation-delay:12s}
+@keyframes fade{0%{opacity:0;transform:scale(1.1)}10%{opacity:1;transform:scale(1)}25%{opacity:1}35%{opacity:0;transform:scale(1.1)}100%{opacity:0}}
+
+/* Header & Top Menu */
+header nav{display:flex;justify-content:flex-end;align-items:center;padding:16px 24px;background:rgba(255,255,255,0.75);position:fixed;width:100%;top:0;z-index:1001;border-bottom:1px solid #ddd;backdrop-filter:blur(6px)}
+.top-menu{display:flex;align-items:center;gap:16px}
+.top-menu a, .login-btn{
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:1rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#000 !important;
+  text-decoration:none;
+  padding:8px 14px;
+  border-radius:12px;
+  transition:all 0.3s;
+}
+.top-menu a:hover, .login-btn:hover{
+  background:linear-gradient(90deg, var(--accent), #ff3b3b);
+  color:#fff !important;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+.login-btn{
+  background:none;
+  border:1px solid var(--accent);
+  cursor:pointer;
+}
+
+/* Sidebar */
+.sidebar{width:220px;background:rgba(255,255,255,0.95);padding-top:80px;position:fixed;height:100vh;left:-260px;top:0;box-shadow:2px 0 10px rgba(0,0,0,.08);transition:left .28s;z-index:1002}
+.sidebar.show{left:0}
+.sidebar button{display:block;width:100%;padding:12px 20px;border:0;text-align:left;color:#000;font-weight:500;border-radius:12px;cursor:pointer;background:none;transition:all 0.3s}
+.sidebar button:hover{background:linear-gradient(90deg, var(--accent), #ff3b3b);color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+
+/* Main content */
+.content{margin-left:0;padding:96px 18px 32px 18px;position:relative;z-index:100}
+
+/* Glass section */
+.section{
+  max-width:880px;margin:40px auto;padding:40px 18px;text-align:center;
+  background:rgba(255,255,255,0.15);border-radius:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:#fff;box-shadow:0 6px 30px rgba(0,0,0,0.12)
+}
+.section h2{font-size:2rem;margin-bottom:12px;color:black;font-weight:700;text-shadow:0 1px 3px rgba(255,255,255,0.25)}
+.section p{font-size:1.05rem;color:#f1f1f1;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+
+/* Book a meal section */
+.book-meal-home{
+  background:rgba(255,255,255,0.85);
+  padding:36px;
+  border-radius:16px;
+  margin:32px auto;
+  max-width:700px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.12);
+}
+.book-meal-home h3{
+  font-size:1.8rem;margin-bottom:18px;color:#000;font-weight:700;
+}
+.book-meal-home select,.book-meal-home input,.book-meal-home button{
+  margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #ccc;font-size:1rem;
+}
+.book-meal-home button{
+  background:linear-gradient(90deg, var(--accent), #ff3b3b);
+  color:#fff;
+  font-weight:600;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.book-meal-home button:hover{
+  background:linear-gradient(90deg, #e05555, #c0392b);
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Footer */
+footer{text-align:center;padding:20px 12px;background:rgba(255,255,255,0.85);border-top:1px solid #ddd;margin-top:40px;z-index:100}
+
+/* Auth modal */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10010;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:rgba(255,255,255,0.95);padding:26px;border-radius:12px;width:360px;max-width:92%;box-shadow:0 12px 40px rgba(0,0,0,.35);position:relative;text-align:center}
+.modal-content input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ddd;font-size:14px}
+.btn{background:linear-gradient(90deg, var(--accent), #ff3b3b);color:#fff;border:0;padding:12px;border-radius:12px;cursor:pointer;font-weight:600;width:100%;transition:all 0.3s}
+.btn:hover{background:linear-gradient(90deg, #e05555, #c0392b);transform:translateY(-2px)}
+.google-btn{background:#4285F4;color:#fff;border:0;padding:10px;border-radius:12px;cursor:pointer;width:100%}
+.switch-text{margin-top:12px;font-size:14px}
+.switch-text a{color:var(--accent);font-weight:600;text-decoration:none}
+.close{position:absolute;right:14px;top:10px;font-size:20px;cursor:pointer}
+
+/* Responsive */
+@media(max-width:900px){.sidebar{left:0;position:fixed;width:100%;height:auto;padding-top:64px}.content{padding-top:120px}}
+</style>
+</head>
+<body>
+
+<!-- Background slideshow -->
+<div class="bg-slideshow" aria-hidden="true">
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="right-section">
+    <nav class="top-menu centered">
+      <a href="index.html" class="home-btn">Home</a>
+      <a href="#book-meal-section" class="bookmeal-btn">Book a Meal</a>
+      <a href="find-cook.html" class="find-cook-btn">Find a Cook</a>
+      <a href="cook-register.html" class="cook-register-btn">Apply as Cook</a>
+      <a href="my-bookings.html" id="my-bookings-link">My Bookings</a>
+      <button id="open-auth" type="button" class="login/signup-submit">Login / Signup</button>
+    </nav>
+  </div>
+  
+</header>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar" aria-hidden="false">
+  <button type="button" onclick="location.href='index.html#book-meal-section'">Book a Meal</button>
+  <button type="button" onclick="location.href='cook-register.html'">Apply as Cook</button>
+  <button type="button" onclick="location.href='find-cook.html'">Find a Cook</button>
+  <button type="button" onclick="location.href='my-bookings.html'">My Bookings</button>
+  <button id="open-auth" type="button">Login / Signup</button>
+</div>
+
+<!-- Main Content -->
+<main class="content">
+  <section class="section">
+    <h2>Welcome to RACII</h2>
+    <p>Connect with talented cooks and explore meals around you.</p>
+    <p>Discover delicious home-cooked meals from talented local cooks.  
+      Connect directly with cooks, explore diverse cuisines, and enjoy meals made with love.  
+      Book your favorite dishes easily and choose your preferred time and location.  
+      RACII brings authentic, flavorful, and heartwarming homemade dining to your doorstep.</p>
+  </section>
+
+  <section class="book-meal-home" id="book-meal-section">
+    <h3>Book a Meal</h3>
+    <label for="region">Select Region</label><br>
+    <select id="region" onchange="populateCities()">
+      <option value="">Select Region</option>
+      <option value="lombardy">Lombardy</option>
+      <option value="lazio">Lazio</option>
+      <option value="tuscany">Tuscany</option>
+      <option value="sicily">Sicily</option>
+      <option value="veneto">Veneto</option>
+      <option value="piemonte">Piemonte</option>
+      <option value="campania">Campania</option>
+      <option value="emilia-romagna">Emilia-Romagna</option>
+    </select>
+
+    <br><label for="city">Select City</label><br>
+    <select id="city"><option value="">Select City</option></select>
+    <br><br>
+    <button class="btn-primary" onclick="searchCooks()">🔍 Find Cooks Near You</button>
+  </section>
+</main>
+
+<footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
+
+<!-- Auth modal -->
+<div id="auth-modal" class="modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <span class="close" id="auth-close" title="Close">&times;</span>
+    <h2 id="auth-title">Login to RACII</h2>
+    <div id="signin-form">
+      <input id="login-email" type="email" placeholder="Email" autocomplete="email">
+      <input id="login-password" type="password" placeholder="Password" autocomplete="current-password">
+      <button id="login-submit" type="button" class="btn">Login</button>
+      <div style="margin:10px 0">or</div>
+      <button id="google-login" type="button" class="google-btn">Login with Google</button>
+      <div class="switch-text">Don't have an account? <a href="#" id="to-signup">Sign up here</a></div>
+    </div>
+    <div id="signup-form" style="display:none;">
+      <input id="signup-name" type="text" placeholder="Full name" autocomplete="name">
+      <input id="signup-email" type="email" placeholder="Email" autocomplete="email">
+      <input id="signup-password" type="password" placeholder="Password" autocomplete="new-password">
+      <button id="signup-submit" type="button" class="btn">Create Account</button>
+      <div style="margin:10px 0">or</div>
+      <button id="google-signup" type="button" class="google-btn">Sign up with Google</button>
+      <div class="switch-text">Already have an account? <a href="#" id="to-signin">Login here</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Sidebar toggle */
+const sidebar = document.getElementById('sidebar');
+document.querySelectorAll('.top-menu a, .sidebar button').forEach(el=>{
+  el.addEventListener('click', ()=>{ sidebar.classList.remove('show'); });
+});
+
+/* Auth modal handlers */
+const authModal = document.getElementById('auth-modal');
+const openAuthBtn = document.getElementById('open-auth');
+const authClose = document.getElementById('auth-close');
+const signinForm = document.getElementById('signin-form');
+const signupForm = document.getElementById('signup-form');
+const toSignup = document.getElementById('to-signup');
+const toSignin = document.getElementById('to-signin');
+
+function lockScroll(){ document.body.style.overflow='hidden'; }
+function unlockScroll(){ document.body.style.overflow=''; }
+function openAuthModal(){ authModal.classList.add('show'); authModal.setAttribute('aria-hidden','false'); showSignIn(); lockScroll();}
+function closeAuthModal(){ authModal.classList.remove('show'); authModal.setAttribute('aria-hidden','true'); unlockScroll();}
+function showSignUp(){ signinForm.style.display='none'; signupForm.style.display='block'; document.getElementById('auth-title').innerText='Create your RACII account';}
+function showSignIn(){ signupForm.style.display='none'; signinForm.style.display='block'; document.getElementById('auth-title').innerText='Login to RACII';}
+openAuthBtn.addEventListener('click', (e)=>{ e.stopPropagation(); openAuthModal(); });
+authClose.addEventListener('click', closeAuthModal);
+toSignup.addEventListener('click',(e)=>{ e.preventDefault(); showSignUp(); });
+toSignin.addEventListener('click',(e)=>{ e.preventDefault(); showSignIn(); });
+
+authModal.addEventListener('click',(e)=>{ if(e.target===authModal) closeAuthModal(); });
+
+document.getElementById('login-submit').addEventListener('click', ()=>{
+    // Simple example: ask for user type
+    const userType = prompt("Enter user type: 'client' or 'cook'"); 
+    if(userType === 'client' || userType === 'cook'){
+        localStorage.setItem('userType', userType); // store type
+        alert('Login successful as ' + userType);
+        closeAuthModal();
+    } else {
+        alert('Please enter valid user type: client or cook');
+    }
+});
+
+document.getElementById('signup-submit').addEventListener('click', ()=>{ alert('Signup clicked — integrate backend here.'); });
+document.getElementById('google-login').addEventListener('click', ()=>{ alert('Google Login flow'); });
+document.getElementById('google-signup').addEventListener('click', ()=>{ alert('Google Signup flow'); });
+
+const italyCities={lombardy:["Milan","Bergamo","Brescia","Monza","Como"],lazio:["Rome","Frosinone","Viterbo","Latina","Rieti"],tuscany:["Florence","Pisa","Siena","Lucca","Pistoia"],sicily:["Palermo","Catania","Messina","Siracusa","Trapani"],veneto:["Venice","Verona","Padua","Vicenza","Treviso"],piemonte:["Turin","Novara","Alessandria","Asti","Cuneo"],campania:["Naples","Salerno","Caserta","Avellino","Benevento"],"emilia-romagna":["Bologna","Modena","Parma","Ravenna","Rimini"]};
+function populateCities(){
+  const region=document.getElementById('region').value;
+  const citySelect=document.getElementById('city');
+  citySelect.innerHTML='<option value="">Select City</option>';
+  if(region && italyCities[region]){ italyCities[region].forEach(city=>{ const opt=document.createElement('option'); opt.value=city.toLowerCase(); opt.textContent=city; citySelect.appendChild(opt); }); }
+}
+function searchCooks(){
+  const city=document.getElementById('city').value;
+  if(!city){ alert('Please select a city!'); return; }
+  window.location.href=`find-cook.html?city=${encodeURIComponent(city)}`;
+}
+</script>
+</body>
+</html>

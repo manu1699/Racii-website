@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Payments Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">🍳 RACII</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="payments.html" class="active">Payments</a>
+    </div>
+  </nav>
+</header>
+
+<section class="form-section">
+<div class="form-container">
+  <h2>Payments & Dashboard</h2>
+
+  <div class="summary-cards">
+    <div class="summary-card">
+      <h3>Total Payments</h3>
+      <p>€3800</p>
+    </div>
+    <div class="summary-card">
+      <h3>Pending Payments</h3>
+      <p>€450</p>
+    </div>
+    <div class="summary-card">
+      <h3>Active Cooks</h3>
+      <p>25</p>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="paymentsChart"></canvas>
+  </div>
+</div>
+</section>
+
+<script>
+const paymentsCtx = document.getElementById('paymentsChart').getContext('2d');
+new Chart(paymentsCtx, {
+  type:'pie',
+  data:{
+    labels:['Paid','Pending'],
+    datasets:[{
+      data:[3800,450],
+      backgroundColor:['#f5e0d3','#fce8d5'],
+      borderColor:['#e6cbb7','#f5d7b0'],
+      borderWidth:2
+    }]
+  },
+  options:{responsive:true, plugins:{legend:{position:'bottom'}}}
+});
+</script>
+
+</body>
+</html>

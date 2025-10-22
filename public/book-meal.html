@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Book a Meal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; font-family:'Poppins',sans-serif; background:#e0e0e0; color:#000; }
+.container { max-width:700px; margin:80px auto; background:rgba(255,255,255,0.85); padding:40px 24px; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+h2 { text-align:center; margin-bottom:24px; }
+input, select { width:100%; padding:12px 16px; margin-bottom:16px; border-radius:10px; border:1px solid #ccc; font-size:1rem; }
+button { padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; background:#ff6b6b; color:#fff; transition:0.25s; }
+button:hover { background:#e05555; }
+.booking-list { margin-top:24px; }
+.booking-item { background:rgba(255,255,255,0.9); padding:12px; margin-bottom:12px; border-radius:10px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Book a Meal</h2>
+<select id="cook-select"><option value="">Select a Cook</option></select>
+<input type="date" id="meal-date" required>
+<input type="time" id="meal-time" required>
+<input type="number" id="guests" min="1" value="1" required placeholder="Number of Guests">
+<input type="text" id="requests" placeholder="Special Requests (optional)">
+<button id="book-now">Book Now</button>
+
+<div class="booking-list" id="booking-list"></div>
+</div>
+
+<script>
+// Load cooks
+const cooks=JSON.parse(localStorage.getItem('cooks')||'[]');
+const cookSelect=document.getElementById('cook-select');
+cooks.forEach(cook=>{
+  const option=document.createElement('option');
+  option.value=cook.name;
+  option.textContent=`${cook.name} (${cook.nationality})`;
+  cookSelect.appendChild(option);
+});
+
+// Booking
+document.getElementById('book-now').addEventListener('click', ()=>{
+  const selectedCook=cookSelect.value;
+  const date=document.getElementById('meal-date').value;
+  const time=document.getElementById('meal-time').value;
+  const guests=document.getElementById('guests').value;
+  const requests=document.getElementById('requests').value;
+  if(!selectedCook || !date || !time || !guests){ alert('Please fill all required fields!'); return; }
+
+  const bookings=JSON.parse(localStorage.getItem('bookings')||'[]');
+  bookings.push({ cookName:selectedCook,date,time,guests,requests });
+  localStorage.setItem('bookings',JSON.stringify(bookings));
+  alert('Your meal has been booked successfully!');
+  renderBookings();
+});
+
+// Show bookings
+function renderBookings(){
+  const bookingList=document.getElementById('booking-list');
+  const bookings=JSON.parse(localStorage.getItem('bookings')||'[]');
+  bookingList.innerHTML='';
+  if(bookings.length===0){ bookingList.innerHTML='<p>No bookings yet.</p>'; return; }
+  bookings.forEach(b=>{
+    const div=document.createElement('div');
+    div.className='booking-item';
+    div.innerHTML=`<strong>${b.cookName}</strong> — ${b.date} at ${b.time}, Guests: ${b.guests} <br> Requests: ${b.requests || '-'}`;
+    bookingList.appendChild(div);
+  });
+}
+renderBookings();
+</script>
+
+</body>
+</html>

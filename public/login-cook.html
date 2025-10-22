@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Cook Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">🍳 RACII</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="cook-login.html" class="active">Cook Login</a>
+      <a href="cook-register.html">Cook Register</a>
+    </div>
+  </nav>
+</header>
+
+<section class="form-section">
+<div class="form-container">
+  <h2>Cook Login</h2>
+  <form id="cook-login-form">
+    <label for="cook-email">Email</label>
+    <input type="email" id="cook-email" placeholder="Enter your email" required>
+
+    <label for="cook-password">Password</label>
+    <input type="password" id="cook-password" placeholder="Enter your password" required>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+  <p class="login-link">Don't have an account? <a href="cook-register.html">Register here</a></p>
+</div>
+</section>
+
+<script>
+const cookLoginForm = document.getElementById('cook-login-form');
+
+cookLoginForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  const email = document.getElementById('cook-email').value.trim();
+  const password = document.getElementById('cook-password').value.trim();
+  const cooks = JSON.parse(localStorage.getItem('cooks')) || [];
+  const cook = cooks.find(c=>c.email===email && c.password===password);
+  if(cook){
+    alert(`Welcome Cook ${cook.name}`);
+    localStorage.setItem('loggedInCook', JSON.stringify(cook));
+    window.location.href = "index.html";
+  } else alert("Invalid email/password");
+});
+</script>
+
+</body>
+</html>

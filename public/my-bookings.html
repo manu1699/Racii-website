@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings | RACII</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #e0e0e0;
+    color: #000;
+}
+
+/* Header */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background: rgba(255,255,255,0.7);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #ddd;
+    backdrop-filter: blur(6px);
+}
+
+nav .logo {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+nav a {
+    margin-left: 16px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ff6b6b;
+}
+
+/* Main Container */
+.container {
+    max-width: 900px;
+    margin: 100px auto 60px;
+    padding: 16px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+/* Booking Cards */
+.booking-card {
+    background: rgba(255,255,255,0.9);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.booking-card h3 {
+    margin: 0 0 8px;
+    color: #000;
+}
+
+.booking-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.booking-card button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff6b6b;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.booking-card button:hover {
+    background: #e05555;
+}
+
+/* No Bookings */
+.no-bookings {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-top: 40px;
+    color: #555;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 24px 16px;
+    background: rgba(255,255,255,0.85);
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    color: #000;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">🍳 RACII</div>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="find-cook.html">Find Cook</a>
+            <a href="my-bookings.html" style="color:#ff6b6b; font-weight:600;">My Bookings</a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>My Booked Meals</h2>
+    <div id="bookings-container"></div>
+</div>
+
+<footer>
+    © 2025 RACII | Connecting Cooks & Clients Globally 🌍
+</footer>
+
+<script>
+const bookingsContainer = document.getElementById('bookings-container');
+
+// Get user type from localStorage (set during login)
+const userType = localStorage.getItem('userType') || 'client'; // default to client
+
+// Fetch bookings from localStorage
+let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+
+// Filter bookings based on user type
+bookings = bookings.filter(b => b.type === userType);
+
+if (bookings.length === 0) {
+    bookingsContainer.innerHTML = '<p class="no-bookings">You have no bookings yet.</p>';
+} else {
+    bookings.forEach((booking, index) => {
+        const card = document.createElement('div');
+        card.className = 'booking-card';
+        card.innerHTML = `
+            <h3>${booking.cookName || booking.clientName}</h3>
+            <p><strong>Date:</strong> ${booking.date}</p>
+            <p><strong>Time:</strong> ${booking.time}</p>
+            <p><strong>Guests:</strong> ${booking.guests || 'N/A'}</p>
+            ${booking.address ? `<p><strong>Address:</strong> ${booking.address}</p>` : ''}
+            ${booking.requests ? `<p><strong>Special Requests:</strong> ${booking.requests}</p>` : ''}
+            <button onclick="cancelBooking(${index})">Cancel Booking</button>
+        `;
+        bookingsContainer.appendChild(card);
+    });
+}
+
+// Cancel a booking
+function cancelBooking(index){
+    if(confirm('Are you sure you want to cancel this booking?')){
+        bookings.splice(index, 1);
+        // Save back all bookings, including other type bookings
+        let allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        allBookings = allBookings.filter(b => b.type !== userType).concat(bookings);
+        localStorage.setItem('bookings', JSON.stringify(allBookings));
+        location.reload();
+    }
+}
+</script>
+
+</body>
+</html>
