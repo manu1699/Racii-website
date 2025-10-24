@@ -20,35 +20,55 @@
 </header>
 
 <section class="form-section">
-<div class="form-container">
-  <h2>Client Login</h2>
-  <form id="client-login-form">
-    <label for="client-email">Email</label>
-    <input type="email" id="client-email" placeholder="Enter your email" required>
+  <div class="form-container">
+    <h2>Client Login</h2>
+    <form id="client-login-form">
+      <label for="client-email">Email</label>
+      <input type="email" id="client-email" placeholder="Enter your email" required>
 
-    <label for="client-password">Password</label>
-    <input type="password" id="client-password" placeholder="Enter your password" required>
+      <label for="client-password">Password</label>
+      <input type="password" id="client-password" placeholder="Enter your password" required>
 
-    <button type="submit" class="btn btn-primary">Login</button>
-  </form>
-  <p class="login-link">Don't have an account? <a href="client-register.html">Register here</a></p>
-</div>
+      <!-- Terms & Conditions checkbox -->
+      <div class="form-group">
+        <input type="checkbox" id="client-terms" />
+        <label for="client-terms">
+          I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and 
+          <a href="terms-client.html" target="_blank">Terms & Conditions</a>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <p class="login-link">Don't have an account? <a href="client-register.html">Register here</a></p>
+  </div>
 </section>
 
 <script>
 const clientLoginForm = document.getElementById('client-login-form');
 
-clientLoginForm.addEventListener('submit', e=>{
+clientLoginForm.addEventListener('submit', e => {
   e.preventDefault();
+
   const email = document.getElementById('client-email').value.trim();
   const password = document.getElementById('client-password').value.trim();
+  const termsChecked = document.getElementById('client-terms').checked;
+
+  if (!termsChecked) {
+    alert("Please agree to the Terms & Conditions before logging in.");
+    return;
+  }
+
   const clients = JSON.parse(localStorage.getItem('clients')) || [];
-  const client = clients.find(c=>c.email===email && c.password===password);
-  if(client){
+  const client = clients.find(c => c.email === email && c.password === password);
+
+  if (client) {
     alert(`Welcome Client ${client.name}`);
     localStorage.setItem('loggedInClient', JSON.stringify(client));
     window.location.href = "index.html";
-  } else alert("Invalid email/password");
+  } else {
+    alert("Invalid email/password");
+  }
 });
 </script>
 

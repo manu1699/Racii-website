@@ -12,46 +12,71 @@ h2 { text-align:center; margin-bottom:24px; }
 input, select, textarea { width:100%; padding:12px 16px; margin-bottom:16px; border-radius:10px; border:1px solid #ccc; font-size:1rem; }
 button { padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; background:#ff6b6b; color:#fff; transition:0.25s; }
 button:hover { background:#e05555; }
+.form-group { display:flex; align-items:center; margin-bottom:16px; }
+.form-group input[type="checkbox"] { margin-right:12px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h2>Apply as a Cook</h2>
-<form id="cook-form">
-  <input type="text" id="name" placeholder="Full Name" required>
-  <input type="number" id="age" placeholder="Age" required>
-  <input type="text" id="nationality" placeholder="Nationality" required>
-  <input type="text" id="idpassport" placeholder="ID / Passport Number" required>
-  <label>Upload Kitchen Photos (3-4):</label>
-  <input type="file" id="kitchen-photos" multiple required accept="image/*">
-  <label>Upload Dish Photos:</label>
-  <input type="file" id="dish-photos" multiple required accept="image/*">
-  <textarea id="bio" placeholder="Short description of your dishes" rows="3" required></textarea>
-  <button type="submit">Apply</button>
-</form>
+  <h2>Apply as a Cook</h2>
+  <form id="cook-form">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="number" id="age" placeholder="Age" required>
+    <input type="text" id="nationality" placeholder="Nationality" required>
+    <input type="text" id="idpassport" placeholder="ID / Passport Number" required>
+    
+    <label>Upload Kitchen Photos (3-4):</label>
+    <input type="file" id="kitchen-photos" multiple required accept="image/*">
+    
+    <label>Upload Dish Photos:</label>
+    <input type="file" id="dish-photos" multiple required accept="image/*">
+    
+    <textarea id="bio" placeholder="Short description of your dishes" rows="3" required></textarea>
+
+    <div class="form-group">
+      <input type="checkbox" id="cook-terms" />
+      <label for="cook-terms">
+        I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and 
+        <a href="terms-cook.html" target="_blank">Cook Terms & Conditions</a>
+      </label>
+    </div>
+
+    <button type="submit">Apply</button>
+  </form>
 </div>
 
 <script>
-document.getElementById('cook-form').addEventListener('submit', e=>{
+document.getElementById('cook-form').addEventListener('submit', e => {
   e.preventDefault();
-  const name=document.getElementById('name').value;
-  const age=document.getElementById('age').value;
-  const nationality=document.getElementById('nationality').value;
-  const idpassport=document.getElementById('idpassport').value;
-  const bio=document.getElementById('bio').value;
-  const kitchenFiles=document.getElementById('kitchen-photos').files;
-  const dishFiles=document.getElementById('dish-photos').files;
 
-  if(kitchenFiles.length<3 || dishFiles.length<1){ alert('Please upload required photos!'); return; }
+  const name = document.getElementById('name').value.trim();
+  const age = document.getElementById('age').value.trim();
+  const nationality = document.getElementById('nationality').value.trim();
+  const idpassport = document.getElementById('idpassport').value.trim();
+  const bio = document.getElementById('bio').value.trim();
+  const kitchenFiles = document.getElementById('kitchen-photos').files;
+  const dishFiles = document.getElementById('dish-photos').files;
+  const termsChecked = document.getElementById('cook-terms').checked;
 
-  // Convert file list to URL strings for demo purposes
-  const kitchenPhotos=Array.from(kitchenFiles).map(f=>URL.createObjectURL(f));
-  const dishPhotos=Array.from(dishFiles).map(f=>URL.createObjectURL(f));
+  if (!termsChecked) {
+    alert('You must agree to the Privacy Policy and Cook Terms & Conditions.');
+    return;
+  }
 
-  const cooks=JSON.parse(localStorage.getItem('cooks')||'[]');
-  cooks.push({name,age,nationality,idpassport,bio,kitchenPhotos,dishPhotos});
-  localStorage.setItem('cooks',JSON.stringify(cooks));
+  if (kitchenFiles.length < 3 || dishFiles.length < 1) {
+    alert('Please upload the required number of photos!');
+    return;
+  }
+
+  // Convert file list to URL strings (for demo/localStorage purposes)
+  const kitchenPhotos = Array.from(kitchenFiles).map(f => URL.createObjectURL(f));
+  const dishPhotos = Array.from(dishFiles).map(f => URL.createObjectURL(f));
+
+  const cooks = JSON.parse(localStorage.getItem('cooks') || '[]');
+  cooks.push({ name, age, nationality, idpassport, bio, kitchenPhotos, dishPhotos });
+  localStorage.setItem('cooks', JSON.stringify(cooks));
+
   alert('Application submitted! You have 3 months free trial.');
   e.target.reset();
 });

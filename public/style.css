@@ -10,12 +10,11 @@
 
 .topbar-content {
   display: flex;
-  justify-content: flex-start; /* align all content to the left instead of space-between */
+  justify-content: flex-start;
   align-items: center;
   padding: 10px 25px;
-  gap: 20px; /* optional: spacing between left section (logo) and menu */
+  gap: 20px;
 }
-
 
 .left-section {
   display: flex;
@@ -73,19 +72,14 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Space for the fixed bar */
 body {
   padding-top: 60px;
-}
-
-body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: #e0e0e0; /* Light grey background */
-  color: #000; /* Black text */
+  background: #e0e0e0;
+  color: #000;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background: rgba(255, 255, 255, 0.85);
@@ -93,7 +87,7 @@ body {
   position: fixed;
   height: 100vh;
   top: 0;
-  left: -220px; /* hidden by default */
+  left: -220px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
   transition: left 0.3s ease;
   z-index: 1100;
@@ -121,7 +115,7 @@ body {
 
 .sidebar a:hover,
 .sidebar button:hover {
-  background: #ff6b6b; /* Mild red hover */
+  background: #ff6b6b;
   color: #fff;
 }
 
@@ -131,7 +125,6 @@ body {
   color: #fff;
 }
 
-/* Sidebar overlay */
 .overlay {
   position: fixed;
   inset: 0;
@@ -147,13 +140,11 @@ body {
   visibility: visible;
 }
 
-/* Main Content */
 .content {
   margin-left: 220px;
   flex: 1;
 }
 
-/* Header */
 header nav {
   display: flex;
   justify-content: space-between;
@@ -204,7 +195,7 @@ header nav {
   margin: 40px auto;
   padding: 40px 16px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.15); /* Transparent glass effect */
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -215,17 +206,15 @@ header nav {
 .section h2 {
   font-size: 2rem;
   margin-bottom: 24px;
-  color: black; /* “Welcome to RACII” in black */
+  color: black;
   font-weight: 700;
   text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
 .section p {
   font-size: 1.05rem;
-  max-width: 700px;
-  margin: auto 0 32px;
-  color: #f1f1f1; /* soft white for readability */
-  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  color: black; /* paragraph text black now */
+  text-shadow: none;
 }
 
 /* Book a Meal Section */
@@ -271,104 +260,6 @@ header nav {
   display: none;
 }
 
-/* Login Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  z-index: 1300;
-}
-
-.modal-content {
-  background: #fff;
-  border-radius: 16px;
-  max-width: 400px;
-  width: 80%;
-  margin: 0 auto;
-  padding: 32px;
-  position: relative;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content h2 {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.modal-content input {
-  width: 100%;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-.modal-content button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  background: #ff6b6b;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-.modal-content button:hover {
-  background: #e05555;
-}
-
-.close-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .sidebar {
-      width: 220px;
-      left: -220px;
-  }
-
-  .sidebar.show {
-      left: 0;
-  }
-
-  .content {
-      margin-left: 0;
-  }
-
-  header nav {
-      padding: 12px 30px;
-  }
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #ff6b6b;
-  border-radius: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-}
-
 /* Footer */
 footer {
   text-align: center;
@@ -379,108 +270,7 @@ footer {
   color: #000;
 }
 
-/* Utility classes */
-.text-center {
-  text-align: center;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-.mb-20 {
-  margin-bottom: 20px;
-}
-
-.p-16 {
-  padding: 16px;
-}
-
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-}
-
-/* Full-screen animated food background */
-.bg-slideshow {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1; /* Behind all content */
-  overflow: hidden;
-}
-
-.bg-slide {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  animation: fade 40s infinite;
-  transform: scale(1.1);
-}
-
-.bg-slide:nth-child(1) { background-image: url('https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=1600&q=80'); animation-delay: 0s; }
-.bg-slide:nth-child(2) { background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80'); animation-delay: 5s; }
-.bg-slide:nth-child(3) { background-image: url('https://images.unsplash.com/photo-1523983303399-e4e49b8de4b8?auto=format&fit=crop&w=1600&q=80'); animation-delay: 10s; }
-
-@keyframes fade {
-  0%   { opacity: 0; transform: scale(1.1); }
-  10%  { opacity: 1; transform: scale(1); }
-  25%  { opacity: 1; transform: scale(1); }
-  35%  { opacity: 0; transform: scale(1.1); }
-  100% { opacity: 0; transform: scale(1.1); }
-}
-
-/* Top menu adjustments - only this part changed */
-.right-section .top-menu {
-  display: flex;
-  gap: 15px;                /* space between links */
-  justify-content: center;   /* center all menu items horizontally */
-  flex-wrap: wrap;           /* wrap on smaller screens */
-  margin: 0 auto;            /* auto margin to center container */
-  padding-right: 20px;       /* optional padding from right edge */
-}
-
-.top-menu a,
-header nav button.login-btn {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #000 !important;   /* black text */
-  padding: 10px 18px;
-  border-radius: 16px;      /* rounded buttons */
-  transition: all 0.3s ease;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  background: #fff;         /* white background */
-  border: 2px solid #ff6b6b; /* subtle red border */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.top-menu a:hover,
-header nav button.login-btn:hover {
-  background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-}
-
-.top-menu button.login-btn {
-  margin-left: 0; /* keep login button with other links */
-}
-
-/* Mobile adjustments */
-@media(max-width:900px){
-  .right-section .top-menu {
-    gap: 12px;
-    justify-content: center; /* keep menu centered on mobile */
-    margin-left: 0;
-    margin-right: 0;
-    padding-right: 12px;
-  }
 }

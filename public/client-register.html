@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RACII | Client Register</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .form-group { display:flex; align-items:center; margin-bottom:16px; }
+    .form-group input[type="checkbox"] { margin-right:12px; }
+  </style>
 </head>
 <body>
 <header>
@@ -41,6 +45,14 @@
       <label for="password">Password</label>
       <input type="password" id="password" placeholder="Enter password" required>
 
+      <div class="form-group">
+        <input type="checkbox" id="client-terms" />
+        <label for="client-terms">
+          I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and 
+          <a href="terms-client.html" target="_blank">Terms & Conditions</a>
+        </label>
+      </div>
+
       <button type="submit" class="btn btn-primary">Register</button>
       <p class="login-link">Already have an account? <a href="client-login.html">Login here</a></p>
     </form>
@@ -51,7 +63,24 @@
 const clientForm = document.getElementById('client-register-form');
 clientForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  alert("Registration successful! (Connect backend to save data)");
+
+  const termsChecked = document.getElementById('client-terms').checked;
+  if (!termsChecked) {
+    alert("You must agree to the Privacy Policy and Terms & Conditions.");
+    return;
+  }
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const preferences = document.getElementById('preferences').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+  clients.push({ name, email, phone, preferences, password });
+  localStorage.setItem('clients', JSON.stringify(clients));
+
+  alert("Registration successful! (You have agreed to our terms)");
   clientForm.reset();
 });
 </script>
