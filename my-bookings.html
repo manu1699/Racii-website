@@ -6,11 +6,25 @@
 <title>My Bookings | RACII</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body {
+/* General Reset */
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+/* Body */
+body {
     font-family: 'Poppins', sans-serif;
     background: #e0e0e0;
     color: #000;
+    overflow-x: hidden;
+    transform-origin: top center;
+}
+@media (min-width: 1440px) {
+    body {
+        transform: scale(0.95);
+    }
 }
 
 /* Header */
@@ -18,12 +32,12 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 32px;
+    padding: 16px 40px;
     background: rgba(255,255,255,0.7);
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 100;
+    z-index: 1001;
     border-bottom: 1px solid #ddd;
     backdrop-filter: blur(6px);
 }
@@ -45,13 +59,25 @@ nav a:hover {
     color: #ff6b6b;
 }
 
-/* Main Container */
-.container {
-    max-width: 900px;
-    margin: 100px auto 60px;
-    padding: 16px;
+nav a.active {
+    color: #ff6b6b;
+    font-weight: 600;
 }
 
+/* Content Wrapper */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px 40px; /* top padding to avoid header overlap */
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Page Title */
 h2 {
     text-align: center;
     margin-bottom: 24px;
@@ -117,6 +143,29 @@ footer {
     border-top: 1px solid #ddd;
     color: #000;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    header nav {
+        padding: 10px 14px;
+    }
+
+    .content {
+        padding: 120px 16px 40px; /* more top padding for mobile */
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .booking-card p {
+        font-size: 0.9rem;
+    }
+
+    .booking-card button {
+        width: 100%;
+    }
+}
 </style>
 </head>
 <body>
@@ -127,14 +176,16 @@ footer {
         <div>
             <a href="index.html">Home</a>
             <a href="find-cook.html">Find Cook</a>
-            <a href="my-bookings.html" style="color:#ff6b6b; font-weight:600;">My Bookings</a>
+            <a href="my-bookings.html" class="active">My Bookings</a>
         </div>
     </nav>
 </header>
 
-<div class="container">
-    <h2>My Booked Meals</h2>
-    <div id="bookings-container"></div>
+<div class="content">
+    <div class="container">
+        <h2>My Booked Meals</h2>
+        <div id="bookings-container"></div>
+    </div>
 </div>
 
 <footer>
@@ -176,7 +227,6 @@ if (bookings.length === 0) {
 function cancelBooking(index){
     if(confirm('Are you sure you want to cancel this booking?')){
         bookings.splice(index, 1);
-        // Save back all bookings, including other type bookings
         let allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
         allBookings = allBookings.filter(b => b.type !== userType).concat(bookings);
         localStorage.setItem('bookings', JSON.stringify(allBookings));

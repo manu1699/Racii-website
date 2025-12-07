@@ -163,3 +163,14 @@ function searchCooks() {
   if (!city) { alert('Please select a city!'); return; }
   window.location.href = 'find-cook.html?city=' + encodeURIComponent(city);
 }
+// Sidebar toggle for mobile
+document.querySelector("header").addEventListener("click", function(e) {
+  if (e.target.tagName === "HEADER" || e.target === this) return;
+});
+
+document.querySelector("header").onclick = function(e) {
+  if (e.target === this) return;
+  if (e.target.textContent.includes("☰")) {
+    document.getElementById("sidebar").classList.toggle("show");
+  }
+};

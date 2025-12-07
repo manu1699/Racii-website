@@ -78,8 +78,11 @@ body {
   font-family: 'Poppins', sans-serif;
   background: #e0e0e0;
   color: #000;
+  transform-origin: top center; /* for zoom */
+  overflow-x: hidden;
 }
 
+/* Sidebar styling */
 .sidebar {
   width: 220px;
   background: rgba(255, 255, 255, 0.85);
@@ -145,12 +148,13 @@ body {
   flex: 1;
 }
 
+/* ====== UPDATED HEADER NAV ====== */
 header nav {
   display: flex;
   justify-content: space-between;
-  padding: 16px 40px;
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
+  padding: 12px 24px; /* adjusted for index page style */
+  background: rgba(255, 255, 255, 0.75); /* slightly transparent */
   position: fixed;
   width: 100%;
   top: 0;
@@ -213,7 +217,7 @@ header nav {
 
 .section p {
   font-size: 1.05rem;
-  color: black; /* paragraph text black now */
+  color: black;
   text-shadow: none;
 }
 
@@ -273,4 +277,89 @@ footer {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Make images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------------- MOBILE FIXES ---------------- */
+@media (max-width: 768px) {
+
+  /* Reduce header padding */
+  header {
+    padding: 10px 14px;
+  }
+
+  /* Hide big menu in mobile */
+  .top-menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* Make logo smaller */
+  .logo-container img {
+    height: 40px;
+  }
+
+  /* Enable sidebar hamburger button */
+  header::after {
+    content: "☰";
+    font-size: 26px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.55);
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    backdrop-filter: blur(5px);
+  }
+
+  header::after:hover {
+    background: #fff;
+  }
+
+  /* Make content fit properly */
+  .content {
+    max-width: 1200px;   /* or same as index page */
+    margin: 0 auto;       /* center content */
+    padding: 100px 20px 40px; /* top padding so header doesn't overlap */
+    transform-origin: top center;
+  }
+  
+
+  /* Responsive card spacing */
+  .section,
+  .book-meal-home {
+    padding: 26px 16px;
+    margin: 24px 0;
+  }
+
+  .section h2 { font-size: 1.7rem; }
+  .section p { font-size: 1rem; }
+
+  .book-meal-home h3 { font-size: 1.3rem; }
+
+  select, button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+}
+
+/* ====== ZOOM FOR LARGE SCREENS ====== */
+@media (min-width: 1440px) {
+  body {
+    transform: scale(0.95);
+  }
 }

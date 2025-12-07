@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>RACII — Home Cooked Meals in Italy | Home</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,6 +17,14 @@ body {
   position:relative;
   min-height:100vh;
   background:#e0e0e0;
+  transform-origin: top center; /* for zoom */
+}
+
+/* Zoom out slightly for large screens to fit content */
+@media (min-width: 1440px) {
+  body {
+    transform: scale(0.95);
+  }
 }
 
 /* Background slideshow */
@@ -58,6 +66,7 @@ header {
   display:flex;
   align-items:center;
   gap:16px;
+  flex-wrap: wrap; /* allow wrapping */
 }
 .top-menu a,
 .login-btn{
@@ -153,6 +162,13 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
 }
 .close{position:absolute;right:14px;top:10px;font-size:20px;cursor:pointer}
 
+/* Responsive tweaks */
+@media (max-width: 1200px) {
+  .top-menu {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}
 </style>
 
 <!-- SEO -->
