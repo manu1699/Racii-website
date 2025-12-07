@@ -35,17 +35,15 @@ nav a {
     font-weight:500;
 }
 
-/* Container - aligned with header */
+/* Container - always centered */
 .container {
     max-width:1100px;
-    margin:0 auto 32px; /* remove top margin */
+    margin:120px auto 32px; /* top margin for header */
     padding:16px;
-    padding-top:72px; /* header height */
-    text-align:center;
 }
 
 h2 {
-    margin-top:0; /* remove extra margin */
+    text-align:center;
     margin-bottom:24px;
 }
 
@@ -139,21 +137,29 @@ h2 {
 }
 .image-gallery img:hover { transform:scale(1.1); }
 
-/* Responsive adjustments for mobile */
+/* ---------------- MOBILE FIXES ---------------- */
 @media (max-width: 768px) {
-    .container { 
-        padding:12px;
-        padding-top:72px; /* header height */
-        margin:0 auto 32px;
+    /* Stack nav vertically */
+    header nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
     }
-    header nav { padding:12px 16px; }
-    .cook-card img { height:150px; }
-    h2 { font-size:1.5rem; }
-}
+    header nav a {
+        margin: 4px 0;
+        text-align: center;
+        width: 100%;
+    }
 
-/* Optional: slight zoom for very large screens */
-@media (min-width: 1440px) {
-    body { transform: scale(0.95); }
+    /* Adjust container and cards */
+    .container {
+        padding:12px;
+        margin:140px auto 32px; /* more top margin for mobile header */
+    }
+    .cook-card img {
+        height:150px;
+    }
 }
 </style>
 </head>
