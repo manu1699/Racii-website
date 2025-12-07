@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>RACII — Home Cooked Meals in Italy | Home</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,23 +17,13 @@ body {
   position:relative;
   min-height:100vh;
   background:#e0e0e0;
-  transform-origin: top center; /* for zoom */
+  transform-origin: top center;
 }
 
-/* Zoom out slightly for large screens to fit content */
+/* Zoom out slightly for large screens */
 @media (min-width: 1440px) {
-  body {
-    transform: scale(0.95);
-  }
+  body { transform: scale(0.95); }
 }
-
-/* Background slideshow */
-.bg-slideshow{position:fixed;inset:0;z-index:-2;overflow:hidden}
-.bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.1);animation:fade 36s infinite}
-.bg-slide:nth-child(1){background-image:url('images/comfort-food.webp');animation-delay:0s}
-.bg-slide:nth-child(2){background-image:url('images/image food1.jpg');animation-delay:6s}
-.bg-slide:nth-child(3){background-image:url('images/image food2.jpg');animation-delay:12s}
-@keyframes fade{0%{opacity:0;transform:scale(1.1)}10%{opacity:1;transform:scale(1)}25%{opacity:1}35%{opacity:0;transform:scale(1.1)}100%{opacity:0}}
 
 /* Header */
 header {
@@ -50,7 +40,6 @@ header {
   backdrop-filter:blur(6px);
 }
 
-/* LOGO styling added */
 .logo-container img {
   height:48px;
   width:auto;
@@ -66,7 +55,7 @@ header {
   display:flex;
   align-items:center;
   gap:16px;
-  flex-wrap: wrap; /* allow wrapping */
+  flex-wrap: wrap;
 }
 .top-menu a,
 .login-btn{
@@ -95,10 +84,32 @@ header {
 }
 
 /* Sidebar */
-.sidebar{width:220px;background:rgba(255,255,255,0.95);padding-top:80px;position:fixed;height:100vh;left:-260px;top:0;box-shadow:2px 0 10px rgba(0,0,0,.08);transition:left .28s;z-index:1002}
+.sidebar{
+  width:220px;
+  background:rgba(255,255,255,0.95);
+  padding-top:80px;
+  position:fixed;
+  height:100vh;
+  left:-260px;
+  top:0;
+  box-shadow:2px 0 10px rgba(0,0,0,.08);
+  transition:left .28s;
+  z-index:1002;
+}
 .sidebar.show{left:0}
 .sidebar button{
-  display:block;width:100%;padding:12px 20px;border:0;text-align:left;color:#000;font-weight:500;border-radius:12px;cursor:pointer;background:none;transition:all 0.3s}
+  display:block;
+  width:100%;
+  padding:12px 20px;
+  border:0;
+  text-align:left;
+  color:#000;
+  font-weight:500;
+  border-radius:12px;
+  cursor:pointer;
+  background:none;
+  transition:all 0.3s;
+}
 .sidebar button:hover{
   background:linear-gradient(90deg, var(--accent), #ff3b3b);
   color:#fff;
@@ -111,9 +122,15 @@ header {
 
 /* Glass section */
 .section{
-  max-width:880px;margin:40px auto;padding:40px 18px;text-align:center;
-  background:rgba(255,255,255,0.15);border-radius:16px;backdrop-filter:blur(10px);
-  color:#fff;box-shadow:0 6px 30px rgba(0,0,0,0.12);
+  max-width:880px;
+  margin:40px auto;
+  padding:40px 18px;
+  text-align:center;
+  background:rgba(255,255,255,0.15);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+  color:#fff;
+  box-shadow:0 6px 30px rgba(0,0,0,0.12);
 }
 .section h2{font-size:2rem;margin-bottom:12px;color:black;font-weight:700}
 .section p{font-size:1.05rem;color:black}
@@ -146,38 +163,39 @@ header {
 /* Footer */
 footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-top:1px solid #ddd;margin-top:40px}
 
-/* Auth Modal */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10010;align-items:center;justify-content:center}
-.modal.show{display:flex}
+/* Background slideshow */
+.bg-slideshow{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.1);animation:fade 36s infinite}
+.bg-slide:nth-child(1){background-image:url('images/comfort-food.webp');animation-delay:0s}
+.bg-slide:nth-child(2){background-image:url('images/image food1.jpg');animation-delay:6s}
+.bg-slide:nth-child(3){background-image:url('images/image food2.jpg');animation-delay:12s}
+@keyframes fade{0%{opacity:0;transform:scale(1.1)}10%{opacity:1;transform:scale(1)}25%{opacity:1}35%{opacity:0;transform:scale(1.1)}100%{opacity:0}}
 
-.modal-content{
-  background:rgba(255,255,255,0.95);
-  padding:26px;
-  border-radius:12px;
-  width:360px;
-  max-width:92%;
-  box-shadow:0 12px 40px rgba(0,0,0,.35);
-  position:relative;
-  text-align:center;
-}
-.close{position:absolute;right:14px;top:10px;font-size:20px;cursor:pointer}
+/* ---------------- MOBILE OPTIMIZATION ---------------- */
+@media (max-width: 768px) {
+    /* Header adjustments */
+    header { padding:8px 12px; }
+    .logo-container img { height:40px; }
+    .top-menu { flex-direction:column; gap:6px; align-items:center; }
+    .top-menu a, .login-btn { font-size:0.95rem; padding:6px 12px; width:100%; text-align:center; }
 
-/* Responsive tweaks */
-@media (max-width: 1200px) {
-  .top-menu {
-    justify-content: flex-end;
-    gap: 8px;
-  }
+    /* Main container */
+    .content { padding:120px 12px 24px 12px; }
+
+    /* Glass sections */
+    .section { padding:28px 12px; margin:24px auto; max-width:95%; }
+    .section h2 { font-size:1.5rem; }
+    .section p { font-size:1rem; }
+
+    /* Book a Meal */
+    .book-meal-home { padding:24px 12px; margin:24px auto; max-width:95%; }
+    .book-meal-home h3 { font-size:1.3rem; }
+    .book-meal-home select, .book-meal-home button { width:100%; max-width:100%; font-size:0.95rem; }
+
+    /* Footer */
+    footer { padding:16px 12px; font-size:0.95rem; }
 }
 </style>
-
-<!-- SEO -->
-<meta name="description" content="RACII connects clients with local cooks across Italy. Book fresh homemade meals near you.">
-<link rel="canonical" href="https://racii.org/">
-
-<!-- APP ICONS -->
-<link rel="icon" type="image/png" href="images/racii-logo.png">
-<link rel="apple-touch-icon" href="images/racii-logo.png">
 
 </head>
 <body>
@@ -191,8 +209,6 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
 
 <!-- Header -->
 <header>
-
-  <!-- 🔥 Added your logo here -->
   <div class="logo-container">
     <a href="index.html">
       <img src="images/racii-logo.png" alt="RACII Logo">
@@ -207,17 +223,7 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
     <a href="my-bookings.html">My Bookings</a>
     <button id="open-auth" type="button" class="login-btn">Login / Signup</button>
   </nav>
-
 </header>
-
-<!-- SIDEBAR -->
-<div id="sidebar" class="sidebar">
-  <button onclick="location.href='index.html#book-meal-section'">Book a Meal</button>
-  <button onclick="location.href='cook-register.html'">Apply as Cook</button>
-  <button onclick="location.href='find-cook.html'">Find a Cook</button>
-  <button onclick="location.href='my-bookings.html'">My Bookings</button>
-  <button id="open-auth">Login / Signup</button>
-</div>
 
 <main class="content">
   <section class="section">
@@ -250,9 +256,8 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
 
 <footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
 
-<!-- Modal Logic + JS Same -->
 <script>
-// same JS unchanged...
+// Your existing JS for search, auth, sidebar etc. remains unchanged
 </script>
 
 </body>

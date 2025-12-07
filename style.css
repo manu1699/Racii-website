@@ -363,3 +363,67 @@ img {
     transform: scale(0.95);
   }
 }
+/* ---------------- MOBILE OPTIMIZATION ---------------- */
+@media (max-width: 768px) {
+  /* Header adjustments */
+  header nav {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 16px;
+  }
+  nav .logo {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+  }
+  nav div a {
+      margin: 6px 8px 0 8px;
+      font-size: 0.95rem;
+  }
+
+  /* Main container adjustments */
+  .container {
+      padding: 100px 12px 24px;
+      margin: 0 auto;
+  }
+
+  /* Sections & Cards */
+  .section, .book-meal-home, .booking-card, .cook-card {
+      padding: 20px 12px;
+      margin: 16px 0;
+  }
+
+  /* Headings */
+  h2 {
+      font-size: 1.5rem;
+  }
+  .section h2, .book-meal-home h3 {
+      font-size: 1.3rem;
+  }
+
+  /* Cook card layout */
+  .cook-grid {
+      grid-template-columns: 1fr; /* single column in mobile */
+      gap: 14px;
+  }
+
+  /* Buttons & Inputs full width */
+  .btn, .book-meal-home input, .book-meal-home select, .book-meal-home button {
+      width: 100%;
+      max-width: 100%;
+  }
+
+  /* Modal adjustments */
+  .modal-content {
+      width: 95%;
+      padding: 16px;
+  }
+  .image-gallery img {
+      width: 100px;
+      height: 80px;
+  }
+
+  /* Footer */
+  footer {
+      padding: 16px 12px;
+  }
+}

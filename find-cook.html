@@ -6,146 +6,155 @@
 <title>RACII — Find a Cook</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body { 
-    font-family:'Poppins',sans-serif; 
-    margin:0; 
-    background:#e0e0e0; 
-    color:#4a352c; 
+body {
+    font-family:'Poppins',sans-serif;
+    margin:0;
+    background:#e0e0e0;
+    color:#4a352c;
     transform-origin: top center;
-}
-@media (min-width: 1440px) {
-  body { transform: scale(0.95); }
 }
 
 /* Header */
-header nav { 
-    display:flex; 
-    justify-content:space-between; 
-    padding:16px 32px; 
-    background: rgba(128,128,128,0.5); 
-    position:fixed; 
-    width:100%; 
-    top:0; 
-    z-index:100; 
-    border-bottom:1px solid #ddd; 
+header nav {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 32px;
+    background: rgba(128,128,128,0.5);
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid #ddd;
 }
 
-/* Navigation links */
-nav a { 
-    margin-left:16px; 
-    text-decoration:none; 
-    color:#4a352c; 
-    font-weight:500; 
+nav a {
+    margin-left:16px;
+    text-decoration:none;
+    color:#4a352c;
+    font-weight:500;
 }
 
-/* Container */
-.container { 
-    max-width:1100px; 
-    margin:auto; 
-    padding:140px 16px 32px; 
+/* Container - aligned with header */
+.container {
+    max-width:1100px;
+    margin:0 auto 32px; /* remove top margin */
+    padding:16px;
+    padding-top:72px; /* header height */
+    text-align:center;
 }
 
-/* Title block like booking page */
-.container h2 {
-    background: rgba(255,255,255,0.9);
-    padding: 16px 24px;
-    border-radius: 12px;
-    max-width: 600px;
-    margin: 0 auto 24px;
-    text-align: center;
-    color: #000;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+h2 {
+    margin-top:0; /* remove extra margin */
+    margin-bottom:24px;
 }
 
 /* Cook Grid */
-.cook-grid { 
-    display:grid; 
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); 
-    gap:18px; 
+.cook-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
 }
 
-/* Cook Card */
-.cook-card { 
-    background: rgba(255,255,255,0.9); 
-    border-radius:16px; 
-    padding:16px; 
-    box-shadow:0 8px 24px rgba(0,0,0,0.08); 
-    display:flex; 
-    flex-direction:column; 
-    cursor:pointer; 
-    transition: transform 220ms ease, box-shadow 220ms ease; 
+.cook-card {
+    background: rgba(255,255,255,0.9);
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    display:flex;
+    flex-direction:column;
+    cursor:pointer;
+    transition: transform 220ms ease, box-shadow 220ms ease;
 }
-.cook-card:hover { 
-    transform:translateY(-6px); 
+
+.cook-card:hover {
+    transform:translateY(-6px);
     box-shadow:0 18px 36px rgba(0,0,0,0.12);
 }
-.cook-card img { 
-    width:100%; 
-    border-radius:12px; 
-    height:180px; 
-    object-fit:cover; 
-    margin-bottom:12px; 
+
+.cook-card img {
+    width:100%;
+    border-radius:12px;
+    height:180px;
+    object-fit:cover;
+    margin-bottom:12px;
 }
+
 .cook-name { font-weight:700; margin-bottom:4px; font-size:1.1rem; }
 .cook-nation { font-size:0.95rem; color:#7a6e65; margin-bottom:8px; }
 .cook-bio { font-size:0.95rem; color:#2b2b2b; margin-bottom:12px; flex:1; }
 
-/* Buttons */
-.btn { 
-    padding:10px 20px; 
-    border:none; 
-    border-radius:12px; 
-    cursor:pointer; 
-    font-weight:500; 
-    transition:0.25s; 
-    text-decoration:none; 
-    text-align:center; 
+.btn {
+    padding:10px 20px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.25s;
+    text-decoration:none;
+    text-align:center;
 }
+
 .btn-primary { background:#ff7f50; color:#fff; }
 .btn-primary:hover { background:#e56b3e; }
 
 /* Modal Styles */
-.modal { 
-    display:none; 
-    position:fixed; 
-    top:0; left:0; 
-    width:100%; 
-    height:100%; 
-    background:rgba(0,0,0,0.6); 
-    justify-content:center; 
-    align-items:center; 
-    z-index:1000; 
+.modal {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
 }
-.modal-content { 
-    background:#fff; 
-    border-radius:16px; 
-    max-width:700px; 
-    width:90%; 
-    padding:24px; 
-    position:relative; 
-    max-height:90vh; 
-    overflow-y:auto; 
+
+.modal-content {
+    background:#fff;
+    border-radius:16px;
+    max-width:700px;
+    width:90%;
+    padding:24px;
+    position:relative;
+    max-height:90vh;
+    overflow-y:auto;
     box-shadow:0 16px 36px rgba(0,0,0,0.2);
 }
+
 .modal-content h3 { margin-top:0; }
 .close-btn { position:absolute; top:16px; right:16px; font-size:1.5rem; cursor:pointer; }
+
 .image-gallery { display:flex; gap:12px; overflow-x:auto; margin-bottom:12px; }
-.image-gallery img { width:120px; height:100px; object-fit:cover; border-radius:10px; flex-shrink:0; cursor:pointer; transition: transform 0.2s; }
+.image-gallery img {
+    width:120px;
+    height:100px;
+    object-fit:cover;
+    border-radius:10px;
+    flex-shrink:0;
+    cursor:pointer;
+    transition: transform 0.2s;
+}
 .image-gallery img:hover { transform:scale(1.1); }
 
-/* Footer */
-footer { 
-    text-align: center; 
-    padding: 24px 16px; 
-    background: rgba(255,255,255,0.85); 
-    margin-top: 40px; 
-    border-top: 1px solid #ddd; 
-    color: #000; 
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .container { 
+        padding:12px;
+        padding-top:72px; /* header height */
+        margin:0 auto 32px;
+    }
+    header nav { padding:12px 16px; }
+    .cook-card img { height:150px; }
+    h2 { font-size:1.5rem; }
 }
 
-/* Prevent horizontal scrolling */
-body { overflow-x: hidden; }
-
+/* Optional: slight zoom for very large screens */
+@media (min-width: 1440px) {
+    body { transform: scale(0.95); }
+}
 </style>
 </head>
 <body>
@@ -190,7 +199,6 @@ if(!localStorage.getItem('cooks') || JSON.parse(localStorage.getItem('cooks')).l
       nationality:"Italy",
       region:"Lombardy",
       city:"Milan",
-      idpassport:"IT123456",
       bio:"Homemade Pasta & Tiramisu",
       kitchenPhotos:["https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?auto=format&fit=crop&w=800&q=80"],
       dishPhotos:["https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80"]
@@ -201,7 +209,6 @@ if(!localStorage.getItem('cooks') || JSON.parse(localStorage.getItem('cooks')).l
       nationality:"India",
       region:"Maharashtra",
       city:"Mumbai",
-      idpassport:"IN654321",
       bio:"Butter Chicken & Paneer Dishes",
       kitchenPhotos:["https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80"],
       dishPhotos:["https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80"]
@@ -222,22 +229,10 @@ const dishGallery = document.getElementById('dish-gallery');
 const closeBtn = document.querySelector('.close-btn');
 const bookBtnModal = document.getElementById('book-btn-modal');
 
-// Read city/country from query params (from homepage)
-const params = new URLSearchParams(window.location.search);
-const searchCity = params.get('city')?.toLowerCase() || "";
-const searchRegion = params.get('region')?.toLowerCase() || "";
-
-// Render cook cards filtered by city/region if provided
+// Render cook cards
 function renderCooks() {
   cookGrid.innerHTML = '';
-  const filteredCooks = cooks.filter(cook => {
-    return (searchCity ? cook.city.toLowerCase()===searchCity : true) &&
-           (searchRegion ? cook.region.toLowerCase()===searchRegion : true);
-  });
-
-  const displayCooks = filteredCooks.length ? filteredCooks : cooks; // fallback to all cooks
-
-  displayCooks.forEach(cook => {
+  cooks.forEach(cook => {
     const card = document.createElement('div');
     card.className = 'cook-card';
     card.innerHTML = `
@@ -279,10 +274,6 @@ bookBtnModal.addEventListener('click', ()=>{
 // Initial render
 renderCooks();
 </script>
-
-<footer>
-  © 2025 RACII | Connecting Cooks & Clients Globally 🌍
-</footer>
 
 </body>
 </html>
