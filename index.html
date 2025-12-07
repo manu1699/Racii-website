@@ -17,12 +17,7 @@ body {
   position:relative;
   min-height:100vh;
   background:#e0e0e0;
-  transform-origin: top center; /* for zoom */
-}
-
-/* Zoom out slightly for large screens to fit content */
-@media (min-width: 1440px) {
-  body { transform: scale(0.95); }
+  transform-origin: top center;
 }
 
 /* Header */
@@ -50,59 +45,90 @@ header {
   transform:scale(1.05);
 }
 
-/* Top Menu */
-.top-menu{
+/* Top Menu - desktop */
+.top-menu {
   display:flex;
   align-items:center;
   gap:16px;
-  flex-wrap: wrap;
 }
-.top-menu a,
-.login-btn{
-  font-family:'Poppins',sans-serif;
+.top-menu a, .login-btn {
   font-weight:600;
-  font-size:1rem;
   text-transform:uppercase;
   letter-spacing:1px;
-  color:#000 !important;
   text-decoration:none;
   padding:8px 14px;
   border-radius:12px;
+  color:#000;
   transition:all 0.3s;
 }
-.top-menu a:hover,
-.login-btn:hover{
+.top-menu a:hover, .login-btn:hover {
   background:linear-gradient(90deg, var(--accent), #ff3b3b);
-  color:#fff !important;
+  color:#fff;
   transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
-.login-btn{
+
+/* Login button */
+.login-btn {
   background:none;
   border:1px solid var(--accent);
   cursor:pointer;
 }
 
-/* Sidebar */
-.sidebar{width:220px;background:rgba(255,255,255,0.95);padding-top:80px;position:fixed;height:100vh;left:-260px;top:0;box-shadow:2px 0 10px rgba(0,0,0,.08);transition:left .28s;z-index:1002}
-.sidebar.show{left:0}
-.sidebar button{
-  display:block;width:100%;padding:12px 20px;border:0;text-align:left;color:#000;font-weight:500;border-radius:12px;cursor:pointer;background:none;transition:all 0.3s}
-.sidebar button:hover{
-  background:linear-gradient(90deg, var(--accent), #ff3b3b);
-  color:#fff;
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+/* Hamburger (mobile) */
+.hamburger {
+  display:none;
+  font-size:28px;
+  cursor:pointer;
 }
 
-/* Main content */
-.content{margin-left:0;padding:96px 18px 32px 18px;position:relative;z-index:100}
+/* Sidebar for mobile */
+.sidebar {
+  width:220px;
+  background:rgba(255,255,255,0.95);
+  padding-top:80px;
+  position:fixed;
+  height:100vh;
+  left:-260px;
+  top:0;
+  box-shadow:2px 0 10px rgba(0,0,0,.08);
+  transition:left .28s;
+  z-index:1002;
+}
+.sidebar.show { left:0; }
+.sidebar button, .sidebar a {
+  display:block;
+  width:100%;
+  padding:14px 20px;
+  text-align:left;
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-weight:500;
+  margin-bottom:4px;
+  border-radius:8px;
+  transition:0.25s;
+}
+.sidebar button:hover, .sidebar a:hover { background:linear-gradient(90deg, var(--accent), #ff3b3b); color:#fff; }
 
-/* Glass section */
+/* Main content */
+.content {
+  margin-left:0;
+  padding:96px 18px 32px 18px;
+  position:relative;
+  z-index:100;
+}
+
+/* Sections */
 .section{
-  max-width:880px;margin:40px auto;padding:40px 18px;text-align:center;
-  background:rgba(255,255,255,0.15);border-radius:16px;backdrop-filter:blur(10px);
-  color:#fff;box-shadow:0 6px 30px rgba(0,0,0,0.12);
+  max-width:880px;
+  margin:40px auto;
+  padding:40px 18px;
+  text-align:center;
+  background:rgba(255,255,255,0.15);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+  color:#fff;
+  box-shadow:0 6px 30px rgba(0,0,0,0.12);
 }
 .section h2{font-size:2rem;margin-bottom:12px;color:black;font-weight:700}
 .section p{font-size:1.05rem;color:black}
@@ -133,70 +159,38 @@ header {
 }
 
 /* Footer */
-footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-top:1px solid #ddd;margin-top:40px}
-
-/* Auth Modal */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10010;align-items:center;justify-content:center}
-.modal.show{display:flex}
-
-.modal-content{
-  background:rgba(255,255,255,0.95);
-  padding:26px;
-  border-radius:12px;
-  width:360px;
-  max-width:92%;
-  box-shadow:0 12px 40px rgba(0,0,0,.35);
-  position:relative;
+footer{
   text-align:center;
+  padding:20px;
+  background:rgba(255,255,255,0.85);
+  border-top:1px solid #ddd;
+  margin-top:40px;
 }
-.close{position:absolute;right:14px;top:10px;font-size:20px;cursor:pointer}
 
 /* ---------------- MOBILE FIXES ---------------- */
 @media (max-width: 768px) {
-    /* Stack top menu vertically and center items */
-    header nav.top-menu {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 16px;
-    }
+  .top-menu { display:none; }
+  .hamburger { display:block; }
 
-    header nav.top-menu a,
-    header nav.top-menu button.login-btn {
-        width: 100%;
-        text-align: center;
-        margin: 4px 0;
-    }
-
-    /* Adjust main sections */
-    .container, .book-meal-home, .section {
-        padding: 100px 12px 24px;
-        margin: 0 auto;
-    }
-
-    h2 { font-size: 1.5rem; }
-    .section h2, .book-meal-home h3 { font-size: 1.3rem; }
-    .book-meal-home input, .book-meal-home select, .book-meal-home button { width: 100%; }
+  .container, .book-meal-home, .section {
+      padding:100px 12px 24px;
+      margin: 0 auto;
+  }
+  h2 { font-size: 1.5rem; }
+  .section h2, .book-meal-home h3 { font-size: 1.3rem; }
+  .book-meal-home input, .book-meal-home select, .book-meal-home button { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- Background slideshow -->
-<div class="bg-slideshow">
-  <div class="bg-slide"></div>
-  <div class="bg-slide"></div>
-  <div class="bg-slide"></div>
-</div>
-
 <!-- Header -->
 <header>
   <div class="logo-container">
-    <a href="index.html">
-      <img src="images/racii-logo.png" alt="RACII Logo">
-    </a>
+    <a href="index.html"><img src="images/racii-logo.png" alt="RACII Logo"></a>
   </div>
 
+  <!-- Desktop Menu -->
   <nav class="top-menu">
     <a href="index.html">Home</a>
     <a href="#book-meal-section">Book a Meal</a>
@@ -205,15 +199,19 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
     <a href="my-bookings.html">My Bookings</a>
     <button id="open-auth" type="button" class="login-btn">Login / Signup</button>
   </nav>
+
+  <!-- Hamburger Icon -->
+  <div class="hamburger" id="hamburger">☰</div>
 </header>
 
-<!-- SIDEBAR (Optional) -->
+<!-- Sidebar -->
 <div id="sidebar" class="sidebar">
-  <button onclick="location.href='index.html#book-meal-section'">Book a Meal</button>
-  <button onclick="location.href='cook-register.html'">Apply as Cook</button>
-  <button onclick="location.href='find-cook.html'">Find a Cook</button>
-  <button onclick="location.href='my-bookings.html'">My Bookings</button>
-  <button id="open-auth">Login / Signup</button>
+  <a href="index.html">Home</a>
+  <a href="#book-meal-section">Book a Meal</a>
+  <a href="find-cook.html">Find a Cook</a>
+  <a href="cook-register.html">Apply as Cook</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <button id="open-auth-sidebar">Login / Signup</button>
 </div>
 
 <main class="content">
@@ -235,12 +233,9 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
       <option value="piemonte">Piemonte</option>
       <option value="campania">Campania</option>
       <option value="emilia-romagna">Emilia-Romagna</option>
-    </select>
-    <br>
-
+    </select><br>
     <label>Select City</label><br>
     <select id="city"><option value="">Select City</option></select>
-
     <button onclick="searchCooks()">Find Cooks Near You</button>
   </section>
 </main>
@@ -248,7 +243,10 @@ footer{text-align:center;padding:20px;background:rgba(255,255,255,0.85);border-t
 <footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
 
 <script>
-// your existing JS for modal and search...
+// Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('sidebar');
+hamburger.addEventListener('click', ()=> sidebar.classList.toggle('show'));
 </script>
 
 </body>
