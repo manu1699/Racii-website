@@ -5,19 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RACII — Find a Cook</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 body {
     font-family:'Poppins',sans-serif;
     margin:0;
     background:#e0e0e0;
     color:#4a352c;
-    transform-origin: top center;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Header */
 header nav {
     display:flex;
-    justify-content:space-between;
+    justify-content:flex-start; /* changed from space-between */
     align-items:center;
     padding:16px 32px;
     background: rgba(128,128,128,0.5);
@@ -26,20 +28,25 @@ header nav {
     top:0;
     z-index:100;
     border-bottom:1px solid #ddd;
+    gap:20px; /* spacing between logo and home */
 }
 
 nav a {
-    margin-left:16px;
     text-decoration:none;
     color:#4a352c;
     font-weight:500;
 }
 
-/* Container - always centered */
+/* Container */
 .container {
-    max-width:1100px;
-    margin:120px auto 32px; /* top margin for header */
+    max-width:1200px;
+    margin:120px auto 32px;
     padding:16px;
+    width:100%;
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 h2 {
@@ -52,6 +59,8 @@ h2 {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:18px;
+    width:100%;
+    justify-items:center;
 }
 
 .cook-card {
@@ -63,6 +72,8 @@ h2 {
     flex-direction:column;
     cursor:pointer;
     transition: transform 220ms ease, box-shadow 220ms ease;
+    max-width:300px;
+    width:100%;
 }
 
 .cook-card:hover {
@@ -96,7 +107,7 @@ h2 {
 .btn-primary { background:#ff7f50; color:#fff; }
 .btn-primary:hover { background:#e56b3e; }
 
-/* Modal Styles */
+/* Modal */
 .modal {
     display:none;
     position:fixed;
@@ -125,7 +136,13 @@ h2 {
 .modal-content h3 { margin-top:0; }
 .close-btn { position:absolute; top:16px; right:16px; font-size:1.5rem; cursor:pointer; }
 
-.image-gallery { display:flex; gap:12px; overflow-x:auto; margin-bottom:12px; }
+.image-gallery {
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    margin-bottom:12px;
+}
+
 .image-gallery img {
     width:120px;
     height:100px;
@@ -135,28 +152,30 @@ h2 {
     cursor:pointer;
     transition: transform 0.2s;
 }
+
 .image-gallery img:hover { transform:scale(1.1); }
 
 /* ---------------- MOBILE FIXES ---------------- */
 @media (max-width: 768px) {
-    /* Stack nav vertically */
     header nav {
         flex-direction: column;
         align-items: center;
         gap: 8px;
         padding: 12px 16px;
     }
+
     header nav a {
         margin: 4px 0;
         text-align: center;
         width: 100%;
     }
 
-    /* Adjust container and cards */
     .container {
-        padding:12px;
-        margin:140px auto 32px; /* more top margin for mobile header */
+        margin-top: 150px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
+
     .cook-card img {
         height:150px;
     }
@@ -168,10 +187,7 @@ h2 {
 <header>
   <nav>
     <div class="logo">🍳 RACII</div>
-    <div>
-      <a href="index.html">Home</a>
-      <a href="cook-register.html">Apply as Cook</a>
-    </div>
+    <a href="index.html">Home</a>
   </nav>
 </header>
 
@@ -196,7 +212,7 @@ h2 {
 </div>
 
 <script>
-// Sample cooks initialization
+// SAMPLE cooks
 if(!localStorage.getItem('cooks') || JSON.parse(localStorage.getItem('cooks')).length===0){
   const sampleCooks = [
     {
@@ -223,7 +239,7 @@ if(!localStorage.getItem('cooks') || JSON.parse(localStorage.getItem('cooks')).l
   localStorage.setItem('cooks', JSON.stringify(sampleCooks));
 }
 
-// DOM Elements
+// DOM
 const cooks = JSON.parse(localStorage.getItem('cooks'));
 const cookGrid = document.getElementById('cook-grid');
 const modal = document.getElementById('cook-modal');
@@ -235,7 +251,7 @@ const dishGallery = document.getElementById('dish-gallery');
 const closeBtn = document.querySelector('.close-btn');
 const bookBtnModal = document.getElementById('book-btn-modal');
 
-// Render cook cards
+// Render cooks
 function renderCooks() {
   cookGrid.innerHTML = '';
   cooks.forEach(cook => {
@@ -248,6 +264,7 @@ function renderCooks() {
       <div class="cook-bio">${cook.bio}</div>
       <button class="btn btn-primary book-btn">Book a Meal</button>
     `;
+
     card.querySelector('.book-btn').addEventListener('click', () => {
       modal.style.display='flex';
       modalName.textContent = cook.name;
@@ -255,20 +272,28 @@ function renderCooks() {
       modalBio.textContent = cook.bio;
 
       kitchenGallery.innerHTML='';
-      cook.kitchenPhotos.forEach(photo=>{ const img=document.createElement('img'); img.src=photo; kitchenGallery.appendChild(img); });
+      cook.kitchenPhotos.forEach(photo=>{
+        const img=document.createElement('img');
+        img.src=photo;
+        kitchenGallery.appendChild(img);
+      });
 
       dishGallery.innerHTML='';
-      cook.dishPhotos.forEach(photo=>{ const img=document.createElement('img'); img.src=photo; dishGallery.appendChild(img); });
+      cook.dishPhotos.forEach(photo=>{
+        const img=document.createElement('img');
+        img.src=photo;
+        dishGallery.appendChild(img);
+      });
     });
+
     cookGrid.appendChild(card);
   });
 }
 
-// Modal events
+// Close modal
 closeBtn.addEventListener('click', ()=> modal.style.display='none');
 window.addEventListener('click', e => { if(e.target==modal) modal.style.display='none'; });
 
-// Book button inside modal
 bookBtnModal.addEventListener('click', ()=>{
     localStorage.setItem('selectedCook', JSON.stringify({
         name: modalName.textContent,
@@ -277,7 +302,7 @@ bookBtnModal.addEventListener('click', ()=>{
     window.location.href = 'book-meal.html';
 });
 
-// Initial render
+// Start
 renderCooks();
 </script>
 

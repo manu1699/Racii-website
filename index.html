@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>RACII — Home Cooked Meals in Italy | Home</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +18,11 @@ body {
   min-height:100vh;
   background:#e0e0e0;
   transform-origin: top center;
+}
+
+/* Zoom out slightly for large screens */
+@media (min-width: 1440px) {
+  body { transform: scale(0.95); }
 }
 
 /* Header */
@@ -45,45 +50,56 @@ header {
   transform:scale(1.05);
 }
 
-/* Top Menu - desktop */
-.top-menu {
+/* Top Menu */
+.top-menu{
   display:flex;
   align-items:center;
   gap:16px;
+  flex-wrap:wrap;
 }
-.top-menu a, .login-btn {
+.top-menu a,
+.login-btn{
+  font-family:'Poppins',sans-serif;
   font-weight:600;
+  font-size:1rem;
   text-transform:uppercase;
   letter-spacing:1px;
+  color:#000 !important;
   text-decoration:none;
   padding:8px 14px;
   border-radius:12px;
-  color:#000;
   transition:all 0.3s;
 }
-.top-menu a:hover, .login-btn:hover {
+.top-menu a:hover,
+.login-btn:hover{
   background:linear-gradient(90deg, var(--accent), #ff3b3b);
-  color:#fff;
+  color:#fff !important;
   transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
-
-/* Login button */
-.login-btn {
+.login-btn{
   background:none;
   border:1px solid var(--accent);
   cursor:pointer;
 }
 
-/* Hamburger (mobile) */
+/* HAMBURGER */
 .hamburger {
   display:none;
-  font-size:28px;
+  flex-direction:column;
+  gap:4px;
   cursor:pointer;
 }
+.hamburger div {
+  width:26px;
+  height:3px;
+  background:black;
+  border-radius:2px;
+}
 
-/* Sidebar for mobile */
-.sidebar {
-  width:220px;
+/* Sidebar */
+.sidebar{
+  width:240px;
   background:rgba(255,255,255,0.95);
   padding-top:80px;
   position:fixed;
@@ -94,31 +110,36 @@ header {
   transition:left .28s;
   z-index:1002;
 }
-.sidebar.show { left:0; }
-.sidebar button, .sidebar a {
+.sidebar.show{left:0}
+.sidebar button{
   display:block;
   width:100%;
   padding:14px 20px;
+  border:0;
   text-align:left;
-  border:none;
-  background:none;
+  color:#000;
+  font-weight:600;
+  border-radius:12px;
   cursor:pointer;
-  font-weight:500;
-  margin-bottom:4px;
-  border-radius:8px;
-  transition:0.25s;
+  background:none;
+  transition:0.3s;
 }
-.sidebar button:hover, .sidebar a:hover { background:linear-gradient(90deg, var(--accent), #ff3b3b); color:#fff; }
+.sidebar button:hover{
+  background:linear-gradient(90deg, var(--accent), #ff3b3b);
+  color:#fff;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
 
 /* Main content */
-.content {
+.content{
   margin-left:0;
   padding:96px 18px 32px 18px;
   position:relative;
   z-index:100;
 }
 
-/* Sections */
+/* Glass section */
 .section{
   max-width:880px;
   margin:40px auto;
@@ -167,30 +188,77 @@ footer{
   margin-top:40px;
 }
 
-/* ---------------- MOBILE FIXES ---------------- */
-@media (max-width: 768px) {
-  .top-menu { display:none; }
-  .hamburger { display:block; }
+/* Background slideshow */
+.bg-slideshow{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bg-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.1);animation:fade 36s infinite}
+.bg-slide:nth-child(1){background-image:url('images/comfort-food.webp');animation-delay:0s}
+.bg-slide:nth-child(2){background-image:url('images/image food1.jpg');animation-delay:6s}
+.bg-slide:nth-child(3){background-image:url('images/image food2.jpg');animation-delay:12s}
 
-  .container, .book-meal-home, .section {
-      padding:100px 12px 24px;
-      margin: 0 auto;
-  }
-  h2 { font-size: 1.5rem; }
-  .section h2, .book-meal-home h3 { font-size: 1.3rem; }
-  .book-meal-home input, .book-meal-home select, .book-meal-home button { width: 100%; }
+@keyframes fade{
+ 0%{opacity:0;transform:scale(1.1)}
+ 10%{opacity:1;transform:scale(1)}
+ 25%{opacity:1}
+ 35%{opacity:0;transform:scale(1.1)}
+ 100%{opacity:0}
+}
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 768px) {
+    .top-menu { display:none; }
+    .hamburger { display:flex; }
+
+    header { padding:10px 14px; }
+    .logo-container img { height:42px; }
+
+    .content { padding:120px 12px 24px 12px; }
+
+    .section { padding:28px 12px; margin:24px auto; max-width:95%; }
+    .section h2 { font-size:1.55rem; }
+
+    .book-meal-home { padding:24px 12px; max-width:95%; }
+    .book-meal-home button,
+    .book-meal-home select { width:100%; font-size:1rem; }
+
+    footer { padding:16px; font-size:0.95rem; }
 }
 </style>
+
 </head>
 <body>
+
+<!-- Background slideshow -->
+<div class="bg-slideshow">
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+  <div class="bg-slide"></div>
+</div>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+  <button onclick="location.href='index.html'">Home</button>
+  <button onclick="location.href='index.html#book-meal-section'">Book a Meal</button>
+  <button onclick="location.href='find-cook.html'">Find a Cook</button>
+  <button onclick="location.href='cook-register.html'">Apply as Cook</button>
+  <button onclick="location.href='my-bookings.html'">My Bookings</button>
+  <button onclick="document.getElementById('open-auth').click()">Login / Signup</button>
+</div>
 
 <!-- Header -->
 <header>
   <div class="logo-container">
-    <a href="index.html"><img src="images/racii-logo.png" alt="RACII Logo"></a>
+    <a href="index.html">
+      <img src="images/racii-logo.png" alt="RACII Logo">
+    </a>
   </div>
 
-  <!-- Desktop Menu -->
+  <!-- Hamburger -->
+  <div class="hamburger" onclick="toggleSidebar()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
   <nav class="top-menu">
     <a href="index.html">Home</a>
     <a href="#book-meal-section">Book a Meal</a>
@@ -199,20 +267,7 @@ footer{
     <a href="my-bookings.html">My Bookings</a>
     <button id="open-auth" type="button" class="login-btn">Login / Signup</button>
   </nav>
-
-  <!-- Hamburger Icon -->
-  <div class="hamburger" id="hamburger">☰</div>
 </header>
-
-<!-- Sidebar -->
-<div id="sidebar" class="sidebar">
-  <a href="index.html">Home</a>
-  <a href="#book-meal-section">Book a Meal</a>
-  <a href="find-cook.html">Find a Cook</a>
-  <a href="cook-register.html">Apply as Cook</a>
-  <a href="my-bookings.html">My Bookings</a>
-  <button id="open-auth-sidebar">Login / Signup</button>
-</div>
 
 <main class="content">
   <section class="section">
@@ -233,9 +288,12 @@ footer{
       <option value="piemonte">Piemonte</option>
       <option value="campania">Campania</option>
       <option value="emilia-romagna">Emilia-Romagna</option>
-    </select><br>
+    </select>
+
+    <br>
     <label>Select City</label><br>
     <select id="city"><option value="">Select City</option></select>
+
     <button onclick="searchCooks()">Find Cooks Near You</button>
   </section>
 </main>
@@ -243,10 +301,9 @@ footer{
 <footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
 
 <script>
-// Hamburger toggle
-const hamburger = document.getElementById('hamburger');
-const sidebar = document.getElementById('sidebar');
-hamburger.addEventListener('click', ()=> sidebar.classList.toggle('show'));
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('show');
+}
 </script>
 
 </body>
