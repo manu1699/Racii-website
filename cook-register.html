@@ -3,84 +3,199 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RACII | Apply as Cook</title>
+<title>RACII | Cook Application</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Poppins',sans-serif; background:#e0e0e0; color:#000; }
-.container { max-width:700px; margin:80px auto; background:rgba(255,255,255,0.85); padding:40px 24px; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin-bottom:24px; }
-input, select, textarea { width:100%; padding:12px 16px; margin-bottom:16px; border-radius:10px; border:1px solid #ccc; font-size:1rem; }
-button { padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; background:#ff6b6b; color:#fff; transition:0.25s; }
-button:hover { background:#e05555; }
-.form-group { display:flex; align-items:center; margin-bottom:16px; }
-.form-group input[type="checkbox"] { margin-right:12px; }
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #e0e0e0;
+    color: #4a352c;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background: rgba(128,128,128,0.5);
+    border-bottom: 1px solid #ddd;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+nav a {
+    margin-left: 16px;
+    text-decoration: none;
+    color: #4a352c;
+    font-weight: 500;
+}
+
+/* Main card */
+main {
+    margin: 100px auto 40px auto;
+    max-width: 700px;
+    background: #fff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+form label {
+    font-weight: 500;
+}
+
+form input[type="text"],
+form textarea,
+form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Custom checkbox container */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Buttons */
+form button.btn {
+    background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 16px;
+    transition: 0.3s;
+}
+
+form button.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Links inside form */
+form a {
+    color: #ff3b3b;
+    text-decoration: none;
+}
+form a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    main {
+        margin: 120px 16px 32px 16px;
+        padding: 24px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    nav a {
+        margin-left: 0;
+        margin-bottom: 8px;
+    }
+}
 </style>
 </head>
 <body>
+<header>
+  <div class="logo">🍳 RACII</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="booking.html">Book a Meal</a>
+  </nav>
+</header>
 
-<div class="container">
-  <h2>Apply as a Cook</h2>
-  <form id="cook-form">
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="number" id="age" placeholder="Age" required>
-    <input type="text" id="nationality" placeholder="Nationality" required>
-    <input type="text" id="idpassport" placeholder="ID / Passport Number" required>
-    
-    <label>Upload Kitchen Photos (3-4):</label>
-    <input type="file" id="kitchen-photos" multiple required accept="image/*">
-    
-    <label>Upload Dish Photos:</label>
-    <input type="file" id="dish-photos" multiple required accept="image/*">
-    
-    <textarea id="bio" placeholder="Short description of your dishes" rows="3" required></textarea>
+<main>
+<h1>Apply as a Cook</h1>
+<p>One time payment for 5 euros to stay in the app.</p>
 
-    <div class="form-group">
-      <input type="checkbox" id="cook-terms" />
-      <label for="cook-terms">
-        I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and 
-        <a href="terms-cook.html" target="_blank">Cook Terms & Conditions</a>
-      </label>
-    </div>
+<form id="cook-application">
+  <label>Cook Name:</label><br>
+  <input type="text" id="cook-name-input" required><br><br>
 
-    <button type="submit">Apply</button>
-  </form>
-</div>
+  <label>Short Bio:</label><br>
+  <textarea id="cook-bio-input" required></textarea><br><br>
 
-<script>
-document.getElementById('cook-form').addEventListener('submit', e => {
-  e.preventDefault();
+  <label>Upload Kitchen Pictures:</label><br>
+  <input type="file" id="kitchen-pics" multiple accept="image/*"><br><br>
 
-  const name = document.getElementById('name').value.trim();
-  const age = document.getElementById('age').value.trim();
-  const nationality = document.getElementById('nationality').value.trim();
-  const idpassport = document.getElementById('idpassport').value.trim();
-  const bio = document.getElementById('bio').value.trim();
-  const kitchenFiles = document.getElementById('kitchen-photos').files;
-  const dishFiles = document.getElementById('dish-photos').files;
-  const termsChecked = document.getElementById('cook-terms').checked;
+  <label>Upload Example Dishes & Short Description:</label><br>
+  <input type="file" id="dish-pics" multiple accept="image/*"><br><br>
 
-  if (!termsChecked) {
-    alert('You must agree to the Privacy Policy and Cook Terms & Conditions.');
-    return;
-  }
+  <label>Upload a valid ID Proof:</label><br>
+  <input type="file" id="id-proof" accept="image/*,.pdf" required><br><br>
 
-  if (kitchenFiles.length < 3 || dishFiles.length < 1) {
-    alert('Please upload the required number of photos!');
-    return;
-  }
+  <div class="checkbox-container">
+    <input type="checkbox" id="join-cooking">
+    <label for="join-cooking">Guests can join while I cook</label>
+  </div>
 
-  // Convert file list to URL strings (for demo/localStorage purposes)
-  const kitchenPhotos = Array.from(kitchenFiles).map(f => URL.createObjectURL(f));
-  const dishPhotos = Array.from(dishFiles).map(f => URL.createObjectURL(f));
+  <div class="checkbox-container">
+    <input type="checkbox" id="allow-drinks">
+    <label for="allow-drinks">I allow drinks during cooking sessions</label>
+  </div>
 
-  const cooks = JSON.parse(localStorage.getItem('cooks') || '[]');
-  cooks.push({ name, age, nationality, idpassport, bio, kitchenPhotos, dishPhotos });
-  localStorage.setItem('cooks', JSON.stringify(cooks));
+  <div class="checkbox-container">
+    <input type="checkbox" id="learn-cooking">
+    <label for="learn-cooking">Guests can learn to cook with me</label>
+  </div>
 
-  alert('Application submitted! You have 3 months free trial.');
-  e.target.reset();
-});
-</script>
+  <div class="checkbox-container">
+    <input type="checkbox" id="eat-with-me">
+    <label for="eat-with-me">Guests can eat with me (optional)</label>
+  </div>
 
+  <div class="checkbox-container">
+    <input type="checkbox" id="terms" required>
+    <label for="terms">I agree to the <a href="terms.html">Terms & Conditions</a></label>
+  </div>
+
+  <button type="submit" class="btn">Submit Application</button>
+</form>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
