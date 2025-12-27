@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cook Dashboard | RACII</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- AUTH -->
+<script src="../js/auth.js"></script>
+
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background:#f4f4f4;
+  margin:0;
+}
+
+header {
+  background:#fff;
+  padding:16px 24px;
+  border-bottom:1px solid #ddd;
+}
+
+.container {
+  padding:24px;
+  max-width:900px;
+  margin:auto;
+}
+
+.card {
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-top:0;
+}
+
+.order {
+  padding:12px;
+  border-bottom:1px solid #eee;
+}
+
+.order:last-child {
+  border-bottom:none;
+}
+
+button {
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  background:#ff6b6b;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+}
+
+button:hover {
+  background:#e05555;
+}
+
+a {
+  color:#ff6b6b;
+  font-weight:600;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+  requireCook();
+</script>
+
+<header>
+  <h2>👨‍🍳 RACII Cook Dashboard</h2>
+</header>
+
+<div class="container">
+
+  <!-- PROFILE -->
+  <div class="card">
+    <h3>My Profile</h3>
+    <p>Update your bio, cuisines, and availability.</p>
+    <a href="profile.html">Go to Profile →</a>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="card">
+    <h3>Orders</h3>
+    <div id="orders"></div>
+  </div>
+
+  <!-- EARNINGS -->
+  <div class="card">
+    <h3>Earnings</h3>
+    <p id="earnings">€0.00</p>
+  </div>
+
+  <button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+const ordersDiv = document.getElementById("orders");
+const earningsDiv = document.getElementById("earnings");
+
+const bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
+
+let totalEarnings = 0;
+
+if (bookings.length === 0) {
+  ordersDiv.innerHTML = "<p>No orders yet.</p>";
+} else {
+  bookings.forEach((b, index) => {
+    totalEarnings += 20; // demo earning per booking
+
+    ordersDiv.innerHTML += `
+      <div class="order">
+        <strong>Order #${index + 1}</strong><br>
+        Client booking<br>
+        Date: ${b.date}<br>
+        Time: ${b.time}
+      </div>
+    `;
+  });
+}
+
+earningsDiv.innerText = "€" + totalEarnings.toFixed(2);
+</script>
+
+</body>
+</html>

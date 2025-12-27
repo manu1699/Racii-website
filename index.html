@@ -303,6 +303,21 @@ footer{
 <script>
 function toggleSidebar(){
   document.getElementById('sidebar').classList.toggle('show');
+
+
+  document.getElementById('login-submit').addEventListener('click', ()=>{
+  const email = document.getElementById('login-email').value;
+
+  // TEMP logic for MVP
+  if (email.includes("cook")) {
+    localStorage.setItem("userRole", "cook");
+    window.location.href = "/cook/dashboard.html";
+  } else {
+    localStorage.setItem("userRole", "client");
+    window.location.href = "/index.html";
+  }
+});
+
 }
 </script>
 

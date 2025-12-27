@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Bookings | RACII</title>
+
+<!-- Auth -->
+<script src="auth.js"></script>
+
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 /* General Reset */
 * {
@@ -55,33 +62,27 @@ nav a {
     transition: 0.3s;
 }
 
-nav a:hover {
-    color: #ff6b6b;
-}
-
+nav a:hover,
 nav a.active {
     color: #ff6b6b;
     font-weight: 600;
 }
 
-/* Content Wrapper */
+/* Content */
 .content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 100px 20px 40px; /* top padding to avoid header overlap */
+    padding: 100px 20px 40px;
 }
 
-/* Container */
 .container {
     max-width: 900px;
     margin: 0 auto;
 }
 
-/* Page Title */
 h2 {
     text-align: center;
     margin-bottom: 24px;
-    color: #000;
 }
 
 /* Booking Cards */
@@ -91,23 +92,6 @@ h2 {
     padding: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     margin-bottom: 20px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.booking-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-}
-
-.booking-card h3 {
-    margin: 0 0 8px;
-    color: #000;
-}
-
-.booking-card p {
-    margin: 6px 0;
-    font-size: 0.95rem;
-    color: #333;
 }
 
 .booking-card button {
@@ -119,14 +103,8 @@ h2 {
     color: #fff;
     cursor: pointer;
     font-weight: 600;
-    transition: 0.25s;
 }
 
-.booking-card button:hover {
-    background: #e05555;
-}
-
-/* No Bookings */
 .no-bookings {
     text-align: center;
     font-size: 1.1rem;
@@ -137,71 +115,48 @@ h2 {
 /* Footer */
 footer {
     text-align: center;
-    padding: 24px 16px;
+    padding: 24px;
     background: rgba(255,255,255,0.85);
-    margin-top: 40px;
     border-top: 1px solid #ddd;
-    color: #000;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    header nav {
-        padding: 10px 14px;
-    }
-
-    .content {
-        padding: 120px 16px 40px; /* more top padding for mobile */
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .booking-card p {
-        font-size: 0.9rem;
-    }
-
-    .booking-card button {
-        width: 100%;
-    }
 }
 </style>
 </head>
+
 <body>
 
+<!-- 🔐 AUTH CHECK (MUST BE FIRST) -->
+<script>
+  requireClient();
+</script>
+
 <header>
-    <nav>
-        <div class="logo">🍳 RACII</div>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="find-cook.html">Find Cook</a>
-            <a href="my-bookings.html" class="active">My Bookings</a>
-        </div>
-    </nav>
+<nav>
+    <div class="logo">🍳 RACII</div>
+    <div>
+        <a href="index.html">Home</a>
+        <a href="find-cook.html">Find Cook</a>
+        <a href="my-bookings.html" class="active">My Bookings</a>
+    </div>
+</nav>
 </header>
 
 <div class="content">
-    <div class="container">
-        <h2>My Booked Meals</h2>
-        <div id="bookings-container"></div>
-    </div>
+<div class="container">
+    <h2>My Booked Meals</h2>
+    <div id="bookings-container"></div>
+</div>
 </div>
 
 <footer>
-    © 2025 RACII | Connecting Cooks & Clients Globally 🌍
+© 2025 RACII | Connecting Cooks & Clients Globally 🌍
 </footer>
 
 <script>
 const bookingsContainer = document.getElementById('bookings-container');
 
-// Get user type from localStorage (set during login)
-const userType = localStorage.getItem('userType') || 'client'; // default to client
-
-// Fetch bookings from localStorage
+const userType = localStorage.getItem('userType') || 'client';
 let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
 
-// Filter bookings based on user type
 bookings = bookings.filter(b => b.type === userType);
 
 if (bookings.length === 0) {
@@ -223,7 +178,6 @@ if (bookings.length === 0) {
     });
 }
 
-// Cancel a booking
 function cancelBooking(index){
     if(confirm('Are you sure you want to cancel this booking?')){
         bookings.splice(index, 1);
