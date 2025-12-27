@@ -26,6 +26,7 @@ body { font-family:'Poppins',sans-serif; margin:0; padding:0; background:#f4f4f4
 .btn-primary:hover { background:var(--accent-dark); }
 .btn-add { background:#fff; border:1px solid var(--accent); color:var(--accent); }
 .btn-add:hover { background:var(--accent); color:#fff; }
+.editable { border:1px dashed #ccc; padding:2px 4px; border-radius:4px; display:inline-block; }
 
 @media(max-width:768px){
   .profile-header { flex-direction:column; align-items:center; text-align:center; }
@@ -70,9 +71,12 @@ function loadProfile() {
     <div class="profile-header">
       <img id="profile-photo" src="${cook.dishPhotos[0] || 'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
       <div class="profile-info">
-        <h2>${cook.name}</h2>
-        <p>Nationality: ${cook.nationality}</p>
-        <p>Short Bio: ${cook.bio}</p>
+        <h2 contenteditable="true" id="cook-name">${cook.name}</h2>
+        <p>Nationality: <span contenteditable="true" id="cook-nationality">${cook.nationality || ''}</span></p>
+        <p>Short Bio: <span contenteditable="true" id="cook-bio">${cook.bio || ''}</span></p>
+        <p>Region: <span contenteditable="true" id="cook-region">${cook.region || ''}</span></p>
+        <p>City: <span contenteditable="true" id="cook-city">${cook.city || ''}</span></p>
+        <p>Address: <span contenteditable="true" id="cook-address">${cook.address || ''}</span></p>
       </div>
     </div>
 
@@ -93,7 +97,24 @@ function loadProfile() {
       <input type="file" id="kitchen-upload" accept="image/*" multiple style="margin-top:12px;">
       <button class="btn btn-add" onclick="addKitchenPhotos()">Add Kitchen Photo</button>
     </div>
+
+    <button class="btn btn-primary" style="margin:24px 0;" onclick="saveProfile()">Save Profile</button>
   `;
+
+  function saveProfile(){
+    cook.name = document.getElementById('cook-name').innerText;
+    cook.nationality = document.getElementById('cook-nationality').innerText;
+    cook.bio = document.getElementById('cook-bio').innerText;
+    cook.region = document.getElementById('cook-region').innerText;
+    cook.city = document.getElementById('cook-city').innerText;
+    cook.address = document.getElementById('cook-address').innerText;
+    
+    const allCooks = JSON.parse(localStorage.getItem('cooks')||'[]');
+    const index = allCooks.findIndex(c=>c.id===cookId);
+    allCooks[index] = cook;
+    localStorage.setItem('cooks', JSON.stringify(allCooks));
+    alert("Profile updated successfully!");
+  }
 }
 
 // Dish photo functions
