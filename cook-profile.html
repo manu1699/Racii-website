@@ -6,142 +6,48 @@
 <title>RACII — Cook Profile</title>
 <link rel="stylesheet" href="style.css">
 <style>
-:root {
-  --accent:#ff6b6b;
-  --accent-dark:#e05555;
-  --muted:#666;
-}
+:root {--accent:#ff6b6b; --accent-dark:#e05555; --muted:#555;}
 
-body {
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#e0e0e0;
-  min-height:100vh;
-  padding-top:70px;
-}
+body { font-family:'Poppins',sans-serif; margin:0; padding:0; background:#f4f4f4; }
+.header { background:#fff; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); position:fixed; width:100%; top:0; z-index:1000; }
+.header .logo { font-size:1.5rem; font-weight:700; }
+.header nav a { margin-left:16px; text-decoration:none; color:#000; font-weight:600; }
+.profile-container { max-width:900px; margin:100px auto 40px auto; padding:0 16px; background:#fff; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+.profile-header { display:flex; flex-wrap:wrap; align-items:center; gap:20px; padding:24px; border-bottom:1px solid #ddd; }
+.profile-header img { width:120px; height:120px; border-radius:12px; object-fit:cover; }
+.profile-info h2 { margin:0 0 8px 0; }
+.profile-info p { color:var(--muted); margin:4px 0; }
+.photos-section { padding:24px; }
+.photos-section h3 { margin-bottom:12px; }
+.photos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:12px; }
+.photos-grid img { width:100%; height:100px; object-fit:cover; border-radius:10px; }
+.btn { padding:10px 16px; border:none; border-radius:10px; cursor:pointer; font-weight:600; transition:0.25s; }
+.btn-primary { background:var(--accent); color:#fff; }
+.btn-primary:hover { background:var(--accent-dark); }
+.btn-add { background:#fff; border:1px solid var(--accent); color:var(--accent); }
+.btn-add:hover { background:var(--accent); color:#fff; }
 
-.header {
-  background:rgba(255,255,255,0.95);
-  position:fixed;
-  top:0;
-  width:100%;
-  z-index:1000;
-  border-bottom:1px solid #ddd;
-  padding:12px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.nav .logo {
-  font-size:1.5rem;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.nav-links a {
-  margin-left:16px;
-  text-decoration:none;
-  font-weight:600;
-  color:#000;
-}
-
-.profile-container {
-  max-width:900px;
-  margin:0 auto;
-  background:rgba(255,255,255,0.95);
-  border-radius:16px;
-  padding:24px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.12);
-}
-
-.profile-header {
-  display:flex;
-  align-items:center;
-  gap:16px;
-  margin-bottom:24px;
-}
-
-.profile-header img {
-  width:120px;
-  height:120px;
-  border-radius:12px;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-.profile-info input, .profile-info textarea {
-  width:100%;
-  padding:8px;
-  margin-bottom:8px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  font-size:1rem;
-}
-
-.photos-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
-  gap:10px;
-  margin-top:12px;
-}
-
-.photos-grid img {
-  width:100%;
-  height:100px;
-  object-fit:cover;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.btn {
-  background:var(--accent);
-  color:#fff;
-  border:none;
-  padding:12px;
-  border-radius:10px;
-  cursor:pointer;
-  margin-top:16px;
-  transition:0.25s ease;
-}
-.btn:hover {
-  background:var(--accent-dark);
-}
-
-footer {
-  text-align:center;
-  padding:16px;
-  margin-top:40px;
-  background:rgba(255,255,255,0.85);
-  border-top:1px solid #ddd;
-}
-
-/* MOBILE */
-@media (max-width:768px){
-  .profile-header { flex-direction:column; align-items:center; text-align:center;}
-  .profile-info input, .profile-info textarea { font-size:0.95rem; }
+@media(max-width:768px){
+  .profile-header { flex-direction:column; align-items:center; text-align:center; }
+  .profile-info h2 { font-size:1.5rem; }
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="nav container">
-    <div class="logo">🍳 RACII</div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="find-cook.html">Back to List</a>
-    </nav>
-  </div>
+  <div class="logo">🍳 RACII</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="find-cook.html">Back to List</a>
+  </nav>
 </div>
 
 <main class="profile-container">
   <div id="profile"></div>
 </main>
 
-<footer>
-  © 2025 RACII — Share food, share culture.
-</footer>
+<footer style="text-align:center; padding:16px; color:#555;">© 2025 RACII — Share food, share culture.</footer>
 
 <script>
 function getCookId() {
@@ -162,78 +68,77 @@ function loadProfile() {
 
   container.innerHTML = `
     <div class="profile-header">
-      <div>
-        <img id="profile-photo" src="${cook.profilePhoto || 'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
-        <input type="file" id="upload-profile" style="margin-top:8px">
-      </div>
+      <img id="profile-photo" src="${cook.dishPhotos[0] || 'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
       <div class="profile-info">
-        <input type="text" id="name" value="${cook.name}" placeholder="Full Name">
-        <input type="text" id="nationality" value="${cook.nationality}" placeholder="Nationality">
-        <textarea id="bio" placeholder="Short Bio">${cook.bio}</textarea>
+        <h2>${cook.name}</h2>
+        <p>Nationality: ${cook.nationality}</p>
+        <p>Short Bio: ${cook.bio}</p>
       </div>
     </div>
 
-    <h3>Dish Photos</h3>
-    <input type="file" id="upload-dish" multiple>
-    <div class="photos-grid" id="dish-photos">
-      ${cook.dishPhotos.map(d=>`<img src="${d}">`).join('')}
+    <div class="photos-section">
+      <h3>Dish Photos</h3>
+      <div class="photos-grid" id="dish-photos">
+        ${cook.dishPhotos.map(d=>`<div style="position:relative;"><img src="${d}"><button onclick="removeDishPhoto('${d}')" style="position:absolute;top:4px;right:4px;padding:2px 6px;font-size:0.8rem;border:none;border-radius:4px;background:red;color:#fff;cursor:pointer;">x</button></div>`).join('')}
+      </div>
+      <input type="file" id="dish-upload" accept="image/*" multiple style="margin-top:12px;">
+      <button class="btn btn-add" onclick="addDishPhotos()">Add Dish Photo</button>
     </div>
 
-    <h3 style="margin-top:18px;">Kitchen Photos</h3>
-    <input type="file" id="upload-kitchen" multiple>
-    <div class="photos-grid" id="kitchen-photos">
-      ${cook.kitchenPhotos.map(k=>`<img src="${k}">`).join('')}
+    <div class="photos-section">
+      <h3>Kitchen Photos</h3>
+      <div class="photos-grid" id="kitchen-photos">
+        ${cook.kitchenPhotos.map(k=>`<img src="${k}">`).join('')}
+      </div>
+      <input type="file" id="kitchen-upload" accept="image/*" multiple style="margin-top:12px;">
+      <button class="btn btn-add" onclick="addKitchenPhotos()">Add Kitchen Photo</button>
     </div>
-
-    <button class="btn" id="save-profile">Save Changes</button>
   `;
+}
 
-  // Upload profile photo
-  document.getElementById('upload-profile').onchange = function(e){
+// Dish photo functions
+function addDishPhotos() {
+  const cookId = getCookId();
+  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
+  const cook = cooks.find(c=>c.id===cookId);
+  const files = document.getElementById('dish-upload').files;
+  if(!files.length) return alert('Select images first!');
+  Array.from(files).forEach(f=>{
     const reader = new FileReader();
-    reader.onload = ()=>{ 
-      document.getElementById('profile-photo').src = reader.result;
-      cook.profilePhoto = reader.result;
-    }
-    reader.readAsDataURL(e.target.files[0]);
-  }
+    reader.onload = e=>{
+      cook.dishPhotos.push(e.target.result);
+      localStorage.setItem('cooks', JSON.stringify(cooks));
+      loadProfile();
+    };
+    reader.readAsDataURL(f);
+  });
+}
 
-  // Upload dish photos
-  document.getElementById('upload-dish').onchange = function(e){
-    Array.from(e.target.files).forEach(file=>{
-      const reader = new FileReader();
-      reader.onload = ()=>{ 
-        cook.dishPhotos.push(reader.result);
-        const img = document.createElement('img');
-        img.src = reader.result;
-        document.getElementById('dish-photos').appendChild(img);
-      }
-      reader.readAsDataURL(file);
-    });
-  }
+function removeDishPhoto(url) {
+  const cookId = getCookId();
+  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
+  const cook = cooks.find(c=>c.id===cookId);
+  cook.dishPhotos = cook.dishPhotos.filter(d=>d!==url);
+  localStorage.setItem('cooks', JSON.stringify(cooks));
+  loadProfile();
+}
 
-  // Upload kitchen photos
-  document.getElementById('upload-kitchen').onchange = function(e){
-    Array.from(e.target.files).forEach(file=>{
-      const reader = new FileReader();
-      reader.onload = ()=>{ 
-        cook.kitchenPhotos.push(reader.result);
-        const img = document.createElement('img');
-        img.src = reader.result;
-        document.getElementById('kitchen-photos').appendChild(img);
-      }
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // Save changes
-  document.getElementById('save-profile').onclick = function(){
-    cook.name = document.getElementById('name').value;
-    cook.nationality = document.getElementById('nationality').value;
-    cook.bio = document.getElementById('bio').value;
-    localStorage.setItem('cooks', JSON.stringify(cooks));
-    alert('Profile saved successfully!');
-  }
+// Kitchen photo functions
+function addKitchenPhotos() {
+  const cookId = getCookId();
+  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
+  const cook = cooks.find(c=>c.id===cookId);
+  const files = document.getElementById('kitchen-upload').files;
+  if(!files.length) return alert('Select images first!');
+  Array.from(files).forEach(f=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      cook.kitchenPhotos.push(e.target.result);
+      localStorage.setItem('cooks', JSON.stringify(cooks));
+      loadProfile();
+    };
+    reader.readAsDataURL(f);
+  });
 }
 
 window.addEventListener('DOMContentLoaded', loadProfile);
