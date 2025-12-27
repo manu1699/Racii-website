@@ -308,7 +308,51 @@ footer{
     const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('show');
   }
+
+  // Populate cities based on selected region
+  const regionCities = {
+    lombardy: ['Milan','Pavia','lecco', 'Bergamo', 'Brescia', 'Como'],
+    lazio: ['Rome', 'Latina', 'Frosinone', 'Viterbo'],
+    tuscany: ['Florence', 'Pisa', 'Siena', 'Lucca'],
+    sicily: ['Palermo', 'Catania', 'Messina', 'Trapani'],
+    veneto: ['Venice', 'Verona', 'Padua', 'Vicenza'],
+    piemonte: ['Turin', 'Alessandria', 'Novara', 'Cuneo'],
+    campania: ['Naples', 'Salerno', 'Caserta', 'Avellino'],
+    'emilia-romagna': ['Bologna', 'Modena', 'Parma', 'Ravenna']
+  };
+
+  function populateCities() {
+    const regionSelect = document.getElementById('region');
+    const citySelect = document.getElementById('city');
+    const selectedRegion = regionSelect.value;
+
+    citySelect.innerHTML = '<option value="">Select City</option>'; // reset
+
+    if (selectedRegion && regionCities[selectedRegion]) {
+      regionCities[selectedRegion].forEach(city => {
+        const option = document.createElement('option');
+        option.value = city.toLowerCase().replace(/\s+/g, '-');
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    }
+  }
+
+  // Example function for finding cooks (demo)
+  function searchCooks() {
+    const region = document.getElementById('region').value;
+    const city = document.getElementById('city').value;
+
+    if (!region || !city) {
+      alert('Please select both region and city.');
+      return;
+    }
+
+    // For now just demo alert, later link to results page
+    alert(`Searching cooks in ${city.replace(/-/g, ' ')} (${region})...`);
+  }
 </script>
+
 
 </body>
 </html>
