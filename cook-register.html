@@ -12,8 +12,6 @@ body {
     background: #e0e0e0;
     color: #4a352c;
 }
-
-/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -22,119 +20,24 @@ header {
     background: rgba(128,128,128,0.5);
     border-bottom: 1px solid #ddd;
 }
-
-header .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-nav a {
-    margin-left: 16px;
-    text-decoration: none;
-    color: #4a352c;
-    font-weight: 500;
-}
-
-/* Main card */
-main {
-    margin: 100px auto 40px auto;
-    max-width: 700px;
-    background: #fff;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    box-sizing: border-box;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-p {
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-form label {
-    font-weight: 500;
-}
-
-form input[type="text"],
-form textarea,
-form input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 4px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-form textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-/* Custom checkbox container */
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 8px 0;
-    font-size: 0.95rem;
-}
-
-.checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-/* Buttons */
-form button.btn {
-    background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 16px;
-    transition: 0.3s;
-}
-
-form button.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-}
-
-/* Links inside form */
-form a {
-    color: #ff3b3b;
-    text-decoration: none;
-}
-form a:hover {
-    text-decoration: underline;
-}
-
+header .logo { font-size: 1.5rem; font-weight: 700; }
+nav a { margin-left: 16px; text-decoration: none; color: #4a352c; font-weight: 500; }
+main { margin: 100px auto 40px auto; max-width: 700px; background: #fff; padding: 32px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); box-sizing: border-box; }
+h1 { text-align: center; margin-bottom: 16px; }
+p { text-align: center; margin-bottom: 24px; }
+form label { font-weight: 500; }
+form input[type="text"], form textarea, form input[type="file"], form select { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+form textarea { min-height: 100px; resize: vertical; }
+.checkbox-container { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 0.95rem; }
+.checkbox-container input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+form button.btn { background: linear-gradient(90deg, #ff6b6b, #ff3b3b); color: #fff; font-weight: 600; border: none; border-radius: 12px; padding: 12px 20px; cursor: pointer; width: 100%; margin-top: 16px; transition: 0.3s; }
+form button.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.18); }
+form a { color: #ff3b3b; text-decoration: none; }
+form a:hover { text-decoration: underline; }
 @media (max-width: 768px) {
-    main {
-        margin: 120px 16px 32px 16px;
-        padding: 24px;
-    }
-
-    header {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    nav a {
-        margin-left: 0;
-        margin-bottom: 8px;
-    }
+    main { margin: 120px 16px 32px 16px; padding: 24px; }
+    header { flex-direction: column; gap: 8px; }
+    nav a { margin-left: 0; margin-bottom: 8px; }
 }
 </style>
 </head>
@@ -158,35 +61,50 @@ form a:hover {
   <label>Short Bio:</label><br>
   <textarea id="cook-bio-input" required></textarea><br><br>
 
+  <!-- LOCATION FIELDS -->
+  <label>Region:</label><br>
+  <select id="region" required>
+    <option value="">Select Region</option>
+    <option value="lombardy">Lombardy</option>
+    <option value="lazio">Lazio</option>
+    <option value="tuscany">Tuscany</option>
+    <option value="sicily">Sicily</option>
+    <option value="veneto">Veneto</option>
+    <option value="piemonte">Piemonte</option>
+    <option value="campania">Campania</option>
+    <option value="emilia-romagna">Emilia-Romagna</option>
+  </select><br><br>
+
+  <label>City:</label><br>
+  <select id="city" required>
+    <option value="">Select City</option>
+  </select><br><br>
+
   <label>Upload Kitchen Pictures:</label><br>
   <input type="file" id="kitchen-pics" multiple accept="image/*"><br><br>
 
-  <label>Upload Example Dishes & Short Description:</label><br>
+  <label>Upload Example Dishes:</label><br>
   <input type="file" id="dish-pics" multiple accept="image/*"><br><br>
 
-  <label>Upload a valid ID Proof:</label><br>
+  <label>Upload ID Proof:</label><br>
   <input type="file" id="id-proof" accept="image/*,.pdf" required><br><br>
 
   <div class="checkbox-container">
     <input type="checkbox" id="join-cooking">
     <label for="join-cooking">Guests can join while I cook</label>
   </div>
-
   <div class="checkbox-container">
     <input type="checkbox" id="allow-drinks">
     <label for="allow-drinks">I allow drinks during cooking sessions</label>
   </div>
-
   <div class="checkbox-container">
     <input type="checkbox" id="learn-cooking">
     <label for="learn-cooking">Guests can learn to cook with me</label>
   </div>
-
   <div class="checkbox-container">
     <input type="checkbox" id="eat-with-me">
-    <label for="eat-with-me">Guests can eat with me (optional)</label>
+    <label for="eat-with-me">Guests can eat with me</label>
   </div>
-
   <div class="checkbox-container">
     <input type="checkbox" id="terms" required>
     <label for="terms">I agree to the <a href="terms.html">Terms & Conditions</a></label>
@@ -196,6 +114,84 @@ form a:hover {
 </form>
 </main>
 
-<script src="script.js"></script>
+<script>
+// REGION -> CITY
+const regionCities = {
+  "lombardy":["Milan","Pavia","Bergamo","Brescia","Como"],
+  "lazio":["Rome","Latina","Frosinone","Viterbo"],
+  "tuscany":["Florence","Siena","Pisa","Lucca"],
+  "sicily":["Palermo","Catania","Messina","Syracuse"],
+  "veneto":["Venice","Verona","Padua","Vicenza"],
+  "piemonte":["Turin","Alessandria","Novara","Cuneo"],
+  "campania":["Naples","Salerno","Caserta","Avellino"],
+  "emilia-romagna":["Bologna","Parma","Modena","Ravenna"]
+};
+const regionSelect=document.getElementById('region');
+const citySelect=document.getElementById('city');
+regionSelect.addEventListener('change', ()=>{
+  const cities=regionCities[regionSelect.value]||[];
+  citySelect.innerHTML='<option value="">Select City</option>';
+  cities.forEach(city=>{
+    const opt=document.createElement('option');
+    opt.value=city;
+    opt.textContent=city;
+    citySelect.appendChild(opt);
+  });
+});
+
+// FORM SUBMISSION WITH IMAGE HANDLING
+document.getElementById('cook-application').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const cookName=document.getElementById('cook-name-input').value;
+  const cookBio=document.getElementById('cook-bio-input').value;
+  const region=document.getElementById('region').value;
+  const city=document.getElementById('city').value;
+  const joinCooking=document.getElementById('join-cooking').checked;
+  const allowDrinks=document.getElementById('allow-drinks').checked;
+  const learnCooking=document.getElementById('learn-cooking').checked;
+  const eatWithMe=document.getElementById('eat-with-me').checked;
+
+  // Function to convert selected files to base64
+  function filesToBase64(input){
+    return new Promise(resolve=>{
+      const files=input.files;
+      const arr=[];
+      if(!files.length){ resolve(arr); return; }
+      let loaded=0;
+      for(let i=0;i<files.length;i++){
+        const reader=new FileReader();
+        reader.onload=(e)=>{ arr.push(e.target.result); loaded++; if(loaded===files.length) resolve(arr); }
+        reader.readAsDataURL(files[i]);
+      }
+    });
+  }
+
+  Promise.all([
+    filesToBase64(document.getElementById('kitchen-pics')),
+    filesToBase64(document.getElementById('dish-pics'))
+  ]).then(([kitchenPhotos,dishPhotos])=>{
+    const cook={
+      id:Date.now().toString(),
+      name:cookName,
+      bio:cookBio,
+      region,
+      city,
+      kitchenPhotos,
+      dishPhotos,
+      joinCooking,
+      allowDrinks,
+      learnCooking,
+      eatWithMe
+    };
+    const cooks=JSON.parse(localStorage.getItem('cooks')||'[]');
+    cooks.push(cook);
+    localStorage.setItem('cooks', JSON.stringify(cooks));
+
+    alert("Cook registered successfully! You can now see your profile.");
+    window.location.href="cook-dashboard.html";
+  });
+});
+</script>
 </body>
 </html>
