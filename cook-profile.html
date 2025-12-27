@@ -4,157 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RACII — Cook Profile</title>
+<link rel="stylesheet" href="style.css">
 <style>
 :root {
   --accent:#ff6b6b;
   --accent-dark:#e05555;
-  --muted:#555;
+  --muted:#666;
 }
 
-/* General */
-*, *::before, *::after { box-sizing:border-box; }
-body { 
-  margin:0; 
-  font-family:'Poppins',sans-serif; 
-  background:#f2f2f2; 
-  color:#000; 
-  display:flex; 
-  flex-direction:column; 
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#e0e0e0;
+  min-height:100vh;
+  padding-top:70px;
+}
+
+.header {
+  background:rgba(255,255,255,0.95);
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:1000;
+  border-bottom:1px solid #ddd;
+  padding:12px 24px;
+  display:flex;
+  justify-content:space-between;
   align-items:center;
 }
 
-/* Header */
-.header { 
-  background:rgba(255,255,255,0.95); 
-  padding:12px 16px; 
-  box-shadow:0 2px 6px rgba(0,0,0,0.1); 
-  width:100%; 
-  max-width:100%; 
-  position:fixed; 
-  top:0; 
-  z-index:100; 
-  display:flex; 
-  flex-wrap:wrap; 
-  justify-content:space-between; 
-  align-items:center; 
+.nav .logo {
+  font-size:1.5rem;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.header .logo { font-size:1.5rem; font-weight:700; }
-.nav-links { display:flex; flex-wrap:wrap; gap:12px; }
-.nav-links a { text-decoration:none; color:#000; font-weight:600; padding:4px 8px; border-radius:6px; }
-.nav-links a:hover { color:var(--accent); background:rgba(255,107,107,0.1); }
+.nav-links a {
+  margin-left:16px;
+  text-decoration:none;
+  font-weight:600;
+  color:#000;
+}
 
-/* Profile container */
-.profile-container { 
-  width:100%; 
-  max-width:900px; 
-  margin:120px auto 60px auto; 
-  padding:0 16px; 
-  display:flex; 
-  flex-direction:column; 
+.profile-container {
+  max-width:900px;
+  margin:0 auto;
+  background:rgba(255,255,255,0.95);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.12);
+}
+
+.profile-header {
+  display:flex;
   align-items:center;
+  gap:16px;
+  margin-bottom:24px;
 }
 
-/* Profile header */
-.profile-header { 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
-  gap:16px; 
-  width:100%; 
-  margin-bottom:24px; 
-  background:#fff; 
-  padding:16px; 
-  border-radius:12px; 
-  box-shadow:0 4px 12px rgba(0,0,0,0.08); 
+.profile-header img {
+  width:120px;
+  height:120px;
+  border-radius:12px;
+  object-fit:cover;
+  cursor:pointer;
 }
 
-.profile-header img { 
-  width:150px; 
-  height:150px; 
-  border-radius:12px; 
-  object-fit:cover; 
-  cursor:pointer; 
-  border:2px solid var(--accent); 
+.profile-info input, .profile-info textarea {
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:1rem;
 }
 
-.profile-info { 
-  width:100%; 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
+.photos-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  gap:10px;
+  margin-top:12px;
 }
 
-.profile-info input, .profile-info textarea { 
-  width:100%; 
-  max-width:400px; 
-  padding:8px; 
-  margin:6px 0; 
-  border-radius:8px; 
-  border:1px solid #ccc; 
-  font-family:Poppins; 
-  font-size:0.95rem; 
+.photos-grid img {
+  width:100%;
+  height:100px;
+  object-fit:cover;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-.profile-info textarea { resize:vertical; min-height:60px; }
-
-/* Buttons */
-.btn-book, .btn-save, .btn-add-photo { 
-  background:var(--accent); 
-  color:#fff; 
-  border:none; 
-  padding:12px; 
-  border-radius:10px; 
-  cursor:pointer; 
-  margin-top:12px; 
-  transition:0.25s ease; 
-  font-size:1rem; 
-  width:100%; 
-  max-width:400px; 
+.btn {
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-top:16px;
+  transition:0.25s ease;
+}
+.btn:hover {
+  background:var(--accent-dark);
 }
 
-.btn-book:hover, .btn-save:hover, .btn-add-photo:hover { background:var(--accent-dark); }
-
-/* Photos grid */
-.photos-grid { 
-  display:grid; 
-  grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); 
-  gap:10px; 
-  margin-top:12px; 
-  width:100%; 
+footer {
+  text-align:center;
+  padding:16px;
+  margin-top:40px;
+  background:rgba(255,255,255,0.85);
+  border-top:1px solid #ddd;
 }
 
-.photos-grid img { 
-  width:100%; 
-  height:100px; 
-  object-fit:cover; 
-  border-radius:10px; 
-  cursor:pointer; 
-  transition:0.2s; 
-}
-
-.photos-grid img:hover { transform:scale(1.05); }
-
-label { font-weight:600; margin-top:12px; display:block; }
-
-footer { text-align:center; padding:20px; margin-top:40px; background:#fff; border-top:1px solid #ddd; font-size:0.9rem; }
-
-/* Mobile adjustments */
-@media(max-width:600px){
-  .profile-header img { width:120px; height:120px; }
-  .profile-info input, .profile-info textarea { font-size:0.9rem; }
-  .btn-book, .btn-save, .btn-add-photo { padding:10px; font-size:0.9rem; }
-  .nav-links { width:100%; justify-content:center; margin-top:8px; }
+/* MOBILE */
+@media (max-width:768px){
+  .profile-header { flex-direction:column; align-items:center; text-align:center;}
+  .profile-info input, .profile-info textarea { font-size:0.95rem; }
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">🍳 RACII</div>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="find-cook.html">Back to List</a>
+  <div class="nav container">
+    <div class="logo">🍳 RACII</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="find-cook.html">Back to List</a>
+    </nav>
   </div>
 </div>
 
@@ -167,119 +144,96 @@ footer { text-align:center; padding:20px; margin-top:40px; background:#fff; bord
 </footer>
 
 <script>
-// ---------- Helpers ----------
 function getCookId() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
 }
 
-function saveCooks(cooks){ localStorage.setItem('cooks', JSON.stringify(cooks)); }
-
-function fileToBase64(file, callback){
-  const reader = new FileReader();
-  reader.onload = function(e){ callback(e.target.result); };
-  reader.readAsDataURL(file);
-}
-
-// ---------- Load Profile ----------
-function loadProfile(){
+function loadProfile() {
   const cookId = getCookId();
   const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
   const cook = cooks.find(c=>c.id===cookId);
   const container = document.getElementById('profile');
 
-  if(!cook){ container.innerHTML='<p style="text-align:center; color:var(--muted)">Cook not found.</p>'; return; }
+  if(!cook){
+    container.innerHTML = '<p style="text-align:center; color:var(--muted)">Cook not found.</p>';
+    return;
+  }
 
   container.innerHTML = `
     <div class="profile-header">
-      <img id="profile-pic" src="${cook.profilePhoto||'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
+      <div>
+        <img id="profile-photo" src="${cook.profilePhoto || 'https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80'}" alt="Cook">
+        <input type="file" id="upload-profile" style="margin-top:8px">
+      </div>
       <div class="profile-info">
-        <input type="text" id="cook-name" value="${cook.name}" placeholder="Name">
-        <input type="text" id="cook-nationality" value="${cook.nationality}" placeholder="Nationality">
-        <textarea id="cook-bio" placeholder="Short Bio">${cook.bio}</textarea>
-        <label>Change Profile Picture:</label>
-        <input type="file" id="profile-upload" accept="image/*">
-        <button class="btn-save" onclick="saveProfile('${cookId}')">Save Profile</button>
+        <input type="text" id="name" value="${cook.name}" placeholder="Full Name">
+        <input type="text" id="nationality" value="${cook.nationality}" placeholder="Nationality">
+        <textarea id="bio" placeholder="Short Bio">${cook.bio}</textarea>
       </div>
     </div>
 
     <h3>Dish Photos</h3>
+    <input type="file" id="upload-dish" multiple>
     <div class="photos-grid" id="dish-photos">
-      ${cook.dishPhotos.map((d,i)=>`<img src="${d}" onclick="removePhoto('${cookId}','dish',${i})">`).join('')}
+      ${cook.dishPhotos.map(d=>`<img src="${d}">`).join('')}
     </div>
-    <label>Add Dish Photo:</label>
-    <input type="file" id="new-dish-photo" accept="image/*">
-    <button class="btn-add-photo" onclick="addPhoto('${cookId}','dish')">Add Dish Photo</button>
 
     <h3 style="margin-top:18px;">Kitchen Photos</h3>
+    <input type="file" id="upload-kitchen" multiple>
     <div class="photos-grid" id="kitchen-photos">
-      ${cook.kitchenPhotos.map((k,i)=>`<img src="${k}" onclick="removePhoto('${cookId}','kitchen',${i})">`).join('')}
+      ${cook.kitchenPhotos.map(k=>`<img src="${k}">`).join('')}
     </div>
-    <label>Add Kitchen Photo:</label>
-    <input type="file" id="new-kitchen-photo" accept="image/*">
-    <button class="btn-add-photo" onclick="addPhoto('${cookId}','kitchen')">Add Kitchen Photo</button>
 
-    <button class="btn-book" onclick="alert('Booking feature coming soon!')">Book Now</button>
+    <button class="btn" id="save-profile">Save Changes</button>
   `;
 
-  document.getElementById('profile-upload').addEventListener('change', function(){
-    const file = this.files[0];
-    if(file){ fileToBase64(file, base64=>document.getElementById('profile-pic').src=base64); }
-  });
-}
-
-// ---------- Save Profile ----------
-function saveProfile(cookId){
-  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
-  const cook = cooks.find(c=>c.id===cookId);
-  if(!cook) return;
-
-  cook.name = document.getElementById('cook-name').value;
-  cook.nationality = document.getElementById('cook-nationality').value;
-  cook.bio = document.getElementById('cook-bio').value;
-
-  const profileFile = document.getElementById('profile-upload').files[0];
-  if(profileFile){
-    fileToBase64(profileFile, base64=>{
-      cook.profilePhoto = base64;
-      saveCooks(cooks);
-      alert('Profile saved successfully!');
-      loadProfile();
-    });
-  } else {
-    saveCooks(cooks);
-    alert('Profile saved successfully!');
-    loadProfile();
+  // Upload profile photo
+  document.getElementById('upload-profile').onchange = function(e){
+    const reader = new FileReader();
+    reader.onload = ()=>{ 
+      document.getElementById('profile-photo').src = reader.result;
+      cook.profilePhoto = reader.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
   }
-}
 
-// ---------- Add / Remove Photos ----------
-function addPhoto(cookId,type){
-  const fileInput = document.getElementById(type==='dish'?'new-dish-photo':'new-kitchen-photo');
-  const file = fileInput.files[0];
-  if(!file) return alert('Please select a photo');
+  // Upload dish photos
+  document.getElementById('upload-dish').onchange = function(e){
+    Array.from(e.target.files).forEach(file=>{
+      const reader = new FileReader();
+      reader.onload = ()=>{ 
+        cook.dishPhotos.push(reader.result);
+        const img = document.createElement('img');
+        img.src = reader.result;
+        document.getElementById('dish-photos').appendChild(img);
+      }
+      reader.readAsDataURL(file);
+    });
+  }
 
-  fileToBase64(file, base64=>{
-    const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
-    const cook = cooks.find(c=>c.id===cookId);
-    if(!cook) return;
-    if(type==='dish') cook.dishPhotos.push(base64);
-    else cook.kitchenPhotos.push(base64);
-    saveCooks(cooks);
-    fileInput.value='';
-    loadProfile();
-  });
-}
+  // Upload kitchen photos
+  document.getElementById('upload-kitchen').onchange = function(e){
+    Array.from(e.target.files).forEach(file=>{
+      const reader = new FileReader();
+      reader.onload = ()=>{ 
+        cook.kitchenPhotos.push(reader.result);
+        const img = document.createElement('img');
+        img.src = reader.result;
+        document.getElementById('kitchen-photos').appendChild(img);
+      }
+      reader.readAsDataURL(file);
+    });
+  }
 
-function removePhoto(cookId,type,index){
-  if(!confirm('Remove this photo?')) return;
-  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
-  const cook = cooks.find(c=>c.id===cookId);
-  if(!cook) return;
-  if(type==='dish') cook.dishPhotos.splice(index,1);
-  else cook.kitchenPhotos.splice(index,1);
-  saveCooks(cooks);
-  loadProfile();
+  // Save changes
+  document.getElementById('save-profile').onclick = function(){
+    cook.name = document.getElementById('name').value;
+    cook.nationality = document.getElementById('nationality').value;
+    cook.bio = document.getElementById('bio').value;
+    localStorage.setItem('cooks', JSON.stringify(cooks));
+    alert('Profile saved successfully!');
+  }
 }
 
 window.addEventListener('DOMContentLoaded', loadProfile);
