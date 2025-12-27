@@ -241,7 +241,8 @@ footer{
   <button onclick="location.href='find-cook.html'">Find a Cook</button>
   <button onclick="location.href='cook-register.html'">Apply as Cook</button>
   <button onclick="location.href='my-bookings.html'">My Bookings</button>
-  <button onclick="document.getElementById('open-auth').click()">Login / Signup</button>
+  <!-- FIXED Login -->
+  <button onclick="location.href='login.html'">Login / Signup</button>
 </div>
 
 <!-- Header -->
@@ -265,7 +266,8 @@ footer{
     <a href="find-cook.html">Find a Cook</a>
     <a href="cook-register.html">Apply as Cook</a>
     <a href="my-bookings.html">My Bookings</a>
-    <button id="open-auth" type="button" class="login-btn">Login / Signup</button>
+    <!-- FIXED Login -->
+    <button class="login-btn" onclick="location.href='login.html'">Login / Signup</button>
   </nav>
 </header>
 
@@ -301,24 +303,11 @@ footer{
 <footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
 
 <script>
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('show');
-
-
-  document.getElementById('login-submit').addEventListener('click', ()=>{
-  const email = document.getElementById('login-email').value;
-
-  // TEMP logic for MVP
-  if (email.includes("cook")) {
-    localStorage.setItem("userRole", "cook");
-    window.location.href = "/cook/dashboard.html";
-  } else {
-    localStorage.setItem("userRole", "client");
-    window.location.href = "/index.html";
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('show');
   }
-});
-
-}
 </script>
 
 </body>
