@@ -214,31 +214,9 @@ h2 {
 </div>
 
 <script>
-// SAMPLE cooks
-if(!localStorage.getItem('cooks') || JSON.parse(localStorage.getItem('cooks')).length===0){
-  const sampleCooks = [
-    {
-      id:1,
-      name:"Maria Rossi",
-      nationality:"Italy",
-      region:"Lombardy",
-      city:"Milan",
-      bio:"Homemade Pasta & Tiramisu",
-      kitchenPhotos:["https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?auto=format&fit=crop&w=800&q=80"],
-      dishPhotos:["https://images.unsplash.com/photo-1604908177266-2f06c3a20a8a?auto=format&fit=crop&w=800&q=80"]
-    },
-    {
-      id:2,
-      name:"Arjun Mehta",
-      nationality:"India",
-      region:"Maharashtra",
-      city:"Mumbai",
-      bio:"Butter Chicken & Paneer Dishes",
-      kitchenPhotos:["https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80"],
-      dishPhotos:["https://images.unsplash.com/photo-1562967916-eb82221dfb36?auto=format&fit=crop&w=800&q=80"]
-    }
-  ];
-  localStorage.setItem('cooks', JSON.stringify(sampleCooks));
+// Initialize cooks array if empty
+if(!localStorage.getItem('cooks')) {
+    localStorage.setItem('cooks', JSON.stringify([]));
 }
 
 // DOM
@@ -260,9 +238,12 @@ function renderCooks() {
     const card = document.createElement('div');
     card.className = 'cook-card';
     card.innerHTML = `
-      <img src="${cook.dishPhotos[0]}" alt="Dish">
+      <img src="${cook.dishPhotos[0] || 'https://via.placeholder.com/300x180?text=No+Dish'}" alt="Dish">
       <div class="cook-name">${cook.name}</div>
       <div class="cook-nation">${cook.nationality}</div>
+      <div class="cook-region">Region: ${cook.region || '-'}</div>
+      <div class="cook-city">City: ${cook.city || '-'}</div>
+      <div class="cook-address">Address: ${cook.address || '-'}</div>
       <div class="cook-bio">${cook.bio}</div>
       <button class="btn btn-primary book-btn">Book a Meal</button>
     `;
@@ -270,18 +251,18 @@ function renderCooks() {
     card.querySelector('.book-btn').addEventListener('click', () => {
       modal.style.display='flex';
       modalName.textContent = cook.name;
-      modalNation.textContent = cook.nationality;
-      modalBio.textContent = cook.bio;
+      modalNation.textContent = `${cook.nationality} — ${cook.region || '-'}, ${cook.city || '-'}`;
+      modalBio.textContent = `${cook.bio} \nAddress: ${cook.address || '-'}`;
 
       kitchenGallery.innerHTML='';
-      cook.kitchenPhotos.forEach(photo=>{
+      (cook.kitchenPhotos || []).forEach(photo=>{
         const img=document.createElement('img');
         img.src=photo;
         kitchenGallery.appendChild(img);
       });
 
       dishGallery.innerHTML='';
-      cook.dishPhotos.forEach(photo=>{
+      (cook.dishPhotos || []).forEach(photo=>{
         const img=document.createElement('img');
         img.src=photo;
         dishGallery.appendChild(img);
@@ -307,6 +288,3 @@ bookBtnModal.addEventListener('click', ()=>{
 // Start
 renderCooks();
 </script>
-
-</body>
-</html>

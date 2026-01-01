@@ -32,41 +32,75 @@ button:hover { background:#e05555; }
 
 <script>
 // Load cooks
-const cooks=JSON.parse(localStorage.getItem('cooks')||'[]');
-const cookSelect=document.getElementById('cook-select');
-cooks.forEach(cook=>{
-  const option=document.createElement('option');
-  option.value=cook.name;
-  option.textContent=`${cook.name} (${cook.nationality})`;
+const cooks = JSON.parse(localStorage.getItem('cooks') || '[]');
+const cookSelect = document.getElementById('cook-select');
+
+// Check if a cook was selected from Find a Cook page
+const selectedCook = JSON.parse(localStorage.getItem('selectedCook') || '{}');
+
+cooks.forEach(cook => {
+  const option = document.createElement('option');
+  option.value = cook.id; // store cook ID
+  option.textContent = `${cook.name} (${cook.city}, ${cook.region})`;
+  if (selectedCook.id && cook.id === selectedCook.id) {
+    option.selected = true; // pre-select the cook if coming from modal
+  }
   cookSelect.appendChild(option);
 });
 
 // Booking
-document.getElementById('book-now').addEventListener('click', ()=>{
-  const selectedCook=cookSelect.value;
-  const date=document.getElementById('meal-date').value;
-  const time=document.getElementById('meal-time').value;
-  const guests=document.getElementById('guests').value;
-  const requests=document.getElementById('requests').value;
-  if(!selectedCook || !date || !time || !guests){ alert('Please fill all required fields!'); return; }
+document.getElementById('book-now').addEventListener('click', () => {
+  const selectedCookId = cookSelect.value;
+  const date = document.getElementById('meal-date').value;
+  const time = document.getElementById('meal-time').value;
+  const guests = document.getElementById('guests').value;
+  const requests = document.getElementById('requests').value;
 
-  const bookings=JSON.parse(localStorage.getItem('bookings')||'[]');
-  bookings.push({ cookName:selectedCook,date,time,guests,requests });
-  localStorage.setItem('bookings',JSON.stringify(bookings));
-  alert('Your meal has been booked successfully!');
+  if (!selectedCookId || !date || !time || !guests) {
+    alert('Please fill all required fields!');
+    return;
+  }
+
+  // Get the cook info
+  const cook = cooks.find(c => c.id == selectedCookId);
+  if (!cook) {
+    alert('Selected cook not found!');
+    return;
+  }
+
+  // Save booking
+  const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+  bookings.push({
+    cookId: cook.id,
+    cookName: cook.name,
+    nationality: cook.nationality,
+    region: cook.region,
+    city: cook.city,
+    address: cook.address,
+    date,
+    time,
+    guests,
+    requests
+  });
+  localStorage.setItem('bookings', JSON.stringify(bookings));
+
+  alert(`Your meal with ${cook.name} has been booked successfully!`);
   renderBookings();
 });
 
 // Show bookings
-function renderBookings(){
-  const bookingList=document.getElementById('booking-list');
-  const bookings=JSON.parse(localStorage.getItem('bookings')||'[]');
-  bookingList.innerHTML='';
-  if(bookings.length===0){ bookingList.innerHTML='<p>No bookings yet.</p>'; return; }
-  bookings.forEach(b=>{
-    const div=document.createElement('div');
-    div.className='booking-item';
-    div.innerHTML=`<strong>${b.cookName}</strong> — ${b.date} at ${b.time}, Guests: ${b.guests} <br> Requests: ${b.requests || '-'}`;
+function renderBookings() {
+  const bookingList = document.getElementById('booking-list');
+  const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+  bookingList.innerHTML = '';
+  if (bookings.length === 0) {
+    bookingList.innerHTML = '<p>No bookings yet.</p>';
+    return;
+  }
+  bookings.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'booking-item';
+    div.innerHTML = `<strong>${b.cookName}</strong> — ${b.date} at ${b.time}, Guests: ${b.guests} <br> Location: ${b.address} <br> Requests: ${b.requests || '-'}`;
     bookingList.appendChild(div);
   });
 }

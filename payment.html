@@ -3,61 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RACII | Payments Dashboard</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>RACII | Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; font-family:'Poppins',sans-serif; background:#f4f4f4; }
+.container { max-width:600px; margin:100px auto; background:#fff; padding:32px; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+h2 { text-align:center; color:#00796b; margin-bottom:24px; }
+p { font-size:1rem; margin-bottom:12px; }
+label { display:block; margin:12px 0 4px; font-weight:500; }
+input[type=text], input[type=number], input[type=email] { width:100%; padding:12px; border-radius:8px; border:1px solid #ccc; margin-bottom:16px; box-sizing:border-box; }
+button { padding:12px 24px; border:none; border-radius:12px; cursor:pointer; font-weight:600; background:#ff6b6b; color:#fff; transition:0.25s; width:100%; margin-top:12px; }
+button:hover { background:#e05555; }
+.payment-methods { display:flex; justify-content:space-between; margin-bottom:16px; gap:12px; }
+.payment-methods button { flex:1; background:#00796b; }
+.payment-methods button.active { background:#004d40; }
+</style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <div class="logo">🍳 RACII</div>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="payments.html" class="active">Payments</a>
-    </div>
-  </nav>
-</header>
+<div class="container">
+  <h2>Payment</h2>
+  <div id="booking-info"></div>
 
-<section class="form-section">
-<div class="form-container">
-  <h2>Payments & Dashboard</h2>
-
-  <div class="summary-cards">
-    <div class="summary-card">
-      <h3>Total Payments</h3>
-      <p>€3800</p>
-    </div>
-    <div class="summary-card">
-      <h3>Pending Payments</h3>
-      <p>€450</p>
-    </div>
-    <div class="summary-card">
-      <h3>Active Cooks</h3>
-      <p>25</p>
-    </div>
+  <h3>Select Payment Method:</h3>
+  <div class="payment-methods">
+    <button id="card-btn" class="active">Credit/Debit Card</button>
+    <button id="paypal-btn">PayPal</button>
   </div>
 
-  <div class="chart-container">
-    <canvas id="paymentsChart"></canvas>
+  <div id="payment-form">
+    <label>Card Number</label>
+    <input type="text" placeholder="1234 5678 9012 3456" id="card-number">
+    <label>Expiry</label>
+    <input type="text" placeholder="MM/YY" id="expiry">
+    <label>CVV</label>
+    <input type="number" placeholder="123" id="cvv">
+    <label>Name on Card</label>
+    <input type="text" placeholder="John Doe" id="card-name">
   </div>
+
+  <button id="pay-btn">Pay €5</button>
 </div>
-</section>
 
 <script>
-const paymentsCtx = document.getElementById('paymentsChart').getContext('2d');
-new Chart(paymentsCtx, {
-  type:'pie',
-  data:{
-    labels:['Paid','Pending'],
-    datasets:[{
-      data:[3800,450],
-      backgroundColor:['#f5e0d3','#fce8d5'],
-      borderColor:['#e6cbb7','#f5d7b0'],
-      borderWidth:2
-    }]
-  },
-  options:{responsive:true, plugins:{legend:{position:'bottom'}}}
+// Get selected cook from localStorage
+const selectedCook = JSON.parse(localStorage.getItem('selectedCook')||'{}');
+const bookingInfo = document.getElementById('booking-info');
+if(selectedCook.name){
+  bookingInfo.innerHTML = `
+    <p><strong>Cook:</strong> ${selectedCook.name}</p>
+    <p><strong>Nationality:</strong> ${selectedCook.nationality}</p>
+    <p><strong>Price:</strong> €5 (Demo)</p>
+  `;
+}else{
+  bookingInfo.innerHTML = '<p>No cook selected. Go back and select a cook first.</p>';
+}
+
+// Payment method toggle
+const cardBtn = document.getElementById('card-btn');
+const paypalBtn = document.getElementById('paypal-btn');
+const paymentForm = document.getElementById('payment-form');
+
+cardBtn.addEventListener('click', ()=>{
+  cardBtn.classList.add('active');
+  paypalBtn.classList.remove('active');
+  paymentForm.innerHTML = `
+    <label>Card Number</label>
+    <input type="text" placeholder="1234 5678 9012 3456" id="card-number">
+    <label>Expiry</label>
+    <input type="text" placeholder="MM/YY" id="expiry">
+    <label>CVV</label>
+    <input type="number" placeholder="123" id="cvv">
+    <label>Name on Card</label>
+    <input type="text" placeholder="John Doe" id="card-name">
+  `;
+});
+
+paypalBtn.addEventListener('click', ()=>{
+  paypalBtn.classList.add('active');
+  cardBtn.classList.remove('active');
+  paymentForm.innerHTML = `<p>PayPal Payment (Demo) — click Pay to continue</p>`;
+});
+
+// Fake payment process
+document.getElementById('pay-btn').addEventListener('click', ()=>{
+  alert('Payment successful! (Demo)');
+  // Save the booking (already in localStorage) and redirect
+  window.location.href = 'booking-confirmation.html';
 });
 </script>
 

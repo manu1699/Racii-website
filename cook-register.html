@@ -271,6 +271,22 @@ document.getElementById('cook-application').addEventListener('submit', function(
   alert("Cook application submitted successfully!");
   this.reset();
 });
+
+{
+  const newCook = {
+  id: "",              // will be generated dynamically (example: cook_169999999)
+  name: "",
+  bio: "",
+  region: "",
+  city: "",
+  address: "",
+  dishPhotos: [],      // array of base64 images
+  kitchenPhotos: [],   // array of base64 images
+  createdAt: ""        // optional (date)
+};
+
+}
+
 </script>
 
 </body>
