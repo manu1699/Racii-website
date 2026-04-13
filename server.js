@@ -114,7 +114,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // --------- SPA catch-all --------- //
-app.get('*', (req, res) => {
+app.get('/:path(.*)', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
