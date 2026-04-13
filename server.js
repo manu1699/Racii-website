@@ -19,11 +19,11 @@ async function initDB() {
 }
 initDB();
 
-// Middleware - CORS with specific origin
+// Middleware - CORS
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500', 'https://racii.org', 'https://www.racii.org', 'https://racii-website.up.railway.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
+  origin: '*',  // Allow all origins for now (we'll restrict later)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: false,
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
