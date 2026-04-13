@@ -17,12 +17,6 @@ body {
   position:relative;
   min-height:100vh;
   background:#e0e0e0;
-  transform-origin: top center;
-}
-
-/* Zoom out slightly for large screens */
-@media (min-width: 1440px) {
-  body { transform: scale(0.95); }
 }
 
 /* Header */
@@ -163,6 +157,30 @@ header {
   max-width:700px;
   box-shadow:0 6px 20px rgba(0,0,0,0.12);
 }
+.book-meal-home select,
+.book-meal-home label{
+  display:block;
+  width:100%;
+  margin-bottom:12px;
+  text-align:left;
+  font-weight:500;
+}
+.book-meal-home select{
+  padding:10px 12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-family:'Poppins',sans-serif;
+  font-size:0.95rem;
+  background:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+.book-meal-home select:hover,
+.book-meal-home select:focus{
+  border-color:var(--accent);
+  outline:none;
+  box-shadow:0 0 6px rgba(255,107,107,0.2);
+}
 .book-meal-home button{
   background:linear-gradient(90deg, var(--accent), #ff3b3b);
   color:#fff;
@@ -279,7 +297,7 @@ footer{
 
   <section class="book-meal-home" id="book-meal-section">
     <h3>Book a Meal</h3>
-    <label>Select Region</label><br>
+    <label for="region">Select Region</label>
     <select id="region" onchange="populateCities()">
       <option value="">Select Region</option>
       <option value="lombardy">Lombardy</option>
@@ -292,8 +310,7 @@ footer{
       <option value="emilia-romagna">Emilia-Romagna</option>
     </select>
 
-    <br>
-    <label>Select City</label><br>
+    <label for="city">Select City</label>
     <select id="city"><option value="">Select City</option></select>
 
     <button onclick="searchCooks()">Find Cooks Near You</button>
@@ -311,7 +328,7 @@ footer{
 
   // Populate cities based on selected region
   const regionCities = {
-    lombardy: ['Milan','Pavia','lecco', 'Bergamo', 'Brescia', 'Como'],
+    lombardy: ['Milan','Pavia','Lecco', 'Bergamo', 'Brescia', 'Como'],
     lazio: ['Rome', 'Latina', 'Frosinone', 'Viterbo'],
     tuscany: ['Florence', 'Pisa', 'Siena', 'Lucca'],
     sicily: ['Palermo', 'Catania', 'Messina', 'Trapani'],
@@ -338,7 +355,7 @@ footer{
     }
   }
 
-  // Example function for finding cooks (demo)
+  // Search for cooks and navigate to results
   function searchCooks() {
     const region = document.getElementById('region').value;
     const city = document.getElementById('city').value;
@@ -348,9 +365,19 @@ footer{
       return;
     }
 
-    // For now just demo alert, later link to results page
-    alert(`Searching cooks in ${city.replace(/-/g, ' ')} (${region})...`);
+    // Navigate to find-cook page with search parameters
+    window.location.href = `find-cook.html?region=${region}&city=${city}`;
   }
+
+  // Close sidebar when clicking a sidebar button on mobile
+  document.querySelectorAll('.sidebar button').forEach(button => {
+    button.addEventListener('click', function() {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+    });
+  });
 </script>
 
 

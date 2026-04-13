@@ -216,7 +216,19 @@ h2 {
 <script>
 // Initialize cooks array if empty
 if(!localStorage.getItem('cooks')) {
-    localStorage.setItem('cooks', JSON.stringify([]));
+    localStorage.setItem('cooks', JSON.stringify([
+      {
+        id: 1,
+        name: 'Marco Rossi',
+        nationality: 'Italian',
+        region: 'lazio',
+        city: 'Rome',
+        address: 'Via Roma 123, Rome',
+        bio: 'Professional chef with 10 years experience in traditional Italian cuisine',
+        dishPhotos: ['https://via.placeholder.com/300x180?text=Pasta'],
+        kitchenPhotos: ['https://via.placeholder.com/300x180?text=Kitchen']
+      }
+    ]));
 }
 
 // DOM
@@ -231,22 +243,101 @@ const dishGallery = document.getElementById('dish-gallery');
 const closeBtn = document.querySelector('.close-btn');
 const bookBtnModal = document.getElementById('book-btn-modal');
 
+// Get search params from URL
+function getSearchParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    region: params.get('region'),
+    city: params.get('city')
+  };
+}
+
+// Filter cooks by region and city
+function getFilteredCooks() {
+  const { region, city } = getSearchParams();
+  if (!region || !city) return cooks;
+  return cooks.filter(c => c.region === region && c.city.toLowerCase() === city.toLowerCase());
+}
+
 // Render cooks
 function renderCooks() {
   cookGrid.innerHTML = '';
-  cooks.forEach(cook => {
+  const filtered = getFilteredCooks();
+  
+  if (filtered.length === 0) {
+    cookGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No cooks found in this area.</p>';
+    return;
+  }
+  
+  filtered.forEach(cook => {
     const card = document.createElement('div');
     card.className = 'cook-card';
     card.innerHTML = `
-      <img src="${cook.dishPhotos[0] || 'https://via.placeholder.com/300x180?text=No+Dish'}" alt="Dish">
+      <img src="${cook.dishPhotos?.[0] || 'https://via.placeholder.com/300x180?text=Dish'}" alt="Dish">
       <div class="cook-name">${cook.name}</div>
       <div class="cook-nation">${cook.nationality}</div>
-      <div class="cook-region">Region: ${cook.region || '-'}</div>
-      <div class="cook-city">City: ${cook.city || '-'}</div>
-      <div class="cook-address">Address: ${cook.address || '-'}</div>
+      <div style="font-size:0.9rem; color:#7a6e65;">📍 ${cook.city}, ${cook.region}</div>
       <div class="cook-bio">${cook.bio}</div>
       <button class="btn btn-primary book-btn">Book a Meal</button>
     `;
+    
+    card.querySelector('.book-btn').addEventListener('click', () => {
+      openModal(cook);
+    });
+    
+    cookGrid.appendChild(card);
+  });
+}
+
+// Open modal
+function openModal(cook) {
+  modalName.textContent = cook.name;
+  modalNation.textContent = `🌍 ${cook.nationality}`;
+  modalBio.textContent = cook.bio;
+  
+  // Load photos
+  kitchenGallery.innerHTML = '';
+  dishGallery.innerHTML = '';
+  
+  (cook.kitchenPhotos || []).forEach(photo => {
+    const img = document.createElement('img');
+    img.src = photo;
+    img.alt = 'Kitchen';
+    kitchenGallery.appendChild(img);
+  });
+  
+  (cook.dishPhotos || []).forEach(photo => {
+    const img = document.createElement('img');
+    img.src = photo;
+    img.alt = 'Dish';
+    dishGallery.appendChild(img);
+  });
+  
+  bookBtnModal.onclick = () => {
+    localStorage.setItem('selectedCook', JSON.stringify(cook));
+    window.location.href = 'book-meal.html';
+  };
+  
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+// Close modal
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+
+// Initial render
+renderCooks();
+
 
     card.querySelector('.book-btn').addEventListener('click', () => {
       modal.style.display='flex';

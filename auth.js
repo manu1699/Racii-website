@@ -9,7 +9,11 @@ function loginUser(user) {
 
 // Get logged user
 function getUser() {
-  return JSON.parse(localStorage.getItem("raciiUser"));
+  try {
+    return JSON.parse(localStorage.getItem("raciiUser"));
+  } catch (err) {
+    return null;
+  }
 }
 
 // Logout
@@ -23,8 +27,9 @@ function requireLogin() {
   const user = getUser();
   if (!user) {
     alert("Please login first");
-    window.location.href = "/index.html";
+    window.location.href = "/login.html";
   }
+  return user;
 }
 
 // Require client role
@@ -34,6 +39,7 @@ function requireClient() {
     alert("Client access only");
     window.location.href = "/index.html";
   }
+  return user;
 }
 
 // Require cook role
@@ -43,50 +49,14 @@ function requireCook() {
     alert("Cook access only");
     window.location.href = "/index.html";
   }
+  return user;
 }
 
-// =======================
-// LOGIN / SIGNUP
-// =======================
-
-// Signup
-function signup(name, email, password, role) {
-  const users = JSON.parse(localStorage.getItem("raciiUsers") || "[]");
-
-  if (users.find(u => u.email === email)) {
-    alert("User already exists");
-    return;
+// Get API base URL
+function getApiUrl() {
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:3000';
   }
-
-  const user = { name, email, password, role };
-  users.push(user);
-  localStorage.setItem("raciiUsers", JSON.stringify(users));
-
-  loginUser(user);
-  redirectAfterLogin(user);
+  return window.location.origin;
 }
 
-// Login
-function login(email, password) {
-  const users = JSON.parse(localStorage.getItem("raciiUsers") || "[]");
-  const user = users.find(
-    u => u.email === email && u.password === password
-  );
-
-  if (!user) {
-    alert("Invalid email or password");
-    return;
-  }
-
-  loginUser(user);
-  redirectAfterLogin(user);
-}
-
-// Redirect based on role
-function redirectAfterLogin(user) {
-  if (user.role === "cook") {
-    window.location.href = "/cook/dashboard.html";
-  } else {
-    window.location.href = "/index.html";
-  }
-}

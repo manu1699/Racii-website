@@ -1,98 +1,16 @@
-/* Top white strip bar */
-.topbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.topbar-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 25px;
-  gap: 20px;
-}
-
-.left-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: black;
-  cursor: pointer;
-  user-select: none;
-}
-
-.menu-icon {
-  font-size: 24px;
-  cursor: pointer;
-  color: black;
-  user-select: none;
-}
-
-.right-section p {
-  font-size: 18px;
-  color: black;
-  margin: 0;
-  font-weight: 500;
-}
-
 /* Sidebar (slides in from left) */
 .sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
+  width: 240px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
-  overflow-x: hidden;
-  transition: 0.4s;
-  padding-top: 70px;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-}
-
-.sidebar a {
-  padding: 12px 24px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #333;
-  display: block;
-  transition: 0.3s;
-}
-
-.sidebar a:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-body {
-  padding-top: 60px;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #e0e0e0;
-  color: #000;
-  transform-origin: top center; /* for zoom */
-  overflow-x: hidden;
-}
-
-/* Sidebar styling */
-.sidebar {
-  width: 220px;
-  background: rgba(255, 255, 255, 0.85);
-  padding-top: 80px;
   position: fixed;
   height: 100vh;
   top: 0;
-  left: -220px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+  left: -240px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  overflow-x: hidden;
   transition: left 0.3s ease;
+  padding-top: 70px;
   z-index: 1100;
 }
 
@@ -102,14 +20,12 @@ body {
 
 .sidebar a,
 .sidebar button {
-  display: block;
-  padding: 14px 20px;
+  padding: 12px 24px;
   text-decoration: none;
-  color: #000;
-  font-weight: 500;
-  margin-bottom: 4px;
-  border-radius: 8px;
-  transition: 0.25s;
+  font-size: 16px;
+  color: #333;
+  display: block;
+  transition: 0.3s;
   background: none;
   border: none;
   text-align: left;
@@ -118,15 +34,11 @@ body {
 
 .sidebar a:hover,
 .sidebar button:hover {
-  background: #ff6b6b;
-  color: #fff;
+  background-color: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
 }
 
-.sidebar a.active,
-.sidebar button.active {
-  background: #ff6b6b;
-  color: #fff;
-}
+
 
 .overlay {
   position: fixed;

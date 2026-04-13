@@ -2,11 +2,12 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const bcryptjs = require('bcryptjs');
 const { Low, JSONFile } = require('lowdb');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Setup JSON database
 const file = path.join(__dirname, 'db.json');
@@ -16,14 +17,21 @@ const db = new Low(adapter);
 // Initialize default data
 async function initDB() {
   await db.read();
-  db.data ||= { users: [] }; // default empty users array
+  db.data ||= { users: [] };
   await db.write();
 }
 initDB();
 
-// Middleware
-app.use(cors());
+// Middleware - CORS with specific origin
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve frontend files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,172 +40,93 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Signup route
 app.post('/api/signup', async (req, res) => {
-  const { name, email, password, type } = req.body;
+  try {
+    const { name, email, password, type } = req.body;
 
-  if (!name || !email || !password || !type) {
-    return res.status(400).json({ error: 'All fields are required' });
+    // Validate input
+    if (!name || !email || !password || !type) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    if (!email.includes('@')) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    await db.read();
+    const userExists = db.data.users.find(u => u.email === email);
+    if (userExists) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
+
+    // Hash password
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    
+    const newUser = { 
+      id: Date.now(),
+      name, 
+      email, 
+      password: hashedPassword,
+      type,
+      createdAt: new Date().toISOString()
+    };
+    
+    db.data.users.push(newUser);
+    await db.write();
+
+    res.status(201).json({ user: { name, type, id: newUser.id } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
-
-  await db.read();
-  const userExists = db.data.users.find(u => u.email === email);
-  if (userExists) {
-    return res.status(400).json({ error: 'User already exists' });
-  }
-
-  const newUser = { name, email, password, type };
-  db.data.users.push(newUser);
-  await db.write();
-
-  res.json({ user: { name, type } });
 });
 
 // Login route
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password, type } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password required' });
+    }
+
+    await db.read();
+    const user = db.data.users.find(u => u.email === email);
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Compare hashed password
+    const validPassword = await bcryptjs.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    res.json({ user: { name: user.name, type: user.type, id: user.id } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
+});
 
-  await db.read();
-  const user = db.data.users.find(u => u.email === email && u.password === password);
-
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid email or password' });
-  }
-
-  res.json({ user: { name: user.name, type: user.type } });
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running' });
 });
 
 // --------- SPA catch-all --------- //
-// Serve index.html for any other route (after API routes)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`RACII Server running on http://localhost:${PORT}`);
 });
-/* Sidebar toggle */
-const sidebar = document.getElementById('sidebar');
-document.querySelectorAll('.top-menu a, .sidebar button').forEach(el => {
-  el.addEventListener('click', () => { sidebar.classList.remove('show'); });
-});
-
-/* Auth modal handlers */
-const authModal = document.getElementById('auth-modal');
-const openAuthBtns = document.querySelectorAll('#open-auth, .open-auth-sidebar');
-const authClose = document.getElementById('auth-close');
-const signinForm = document.getElementById('signin-form');
-const signupForm = document.getElementById('signup-form');
-const toSignup = document.getElementById('to-signup');
-const toSignin = document.getElementById('to-signin');
-
-function lockScroll() { document.body.style.overflow = 'hidden'; }
-function unlockScroll() { document.body.style.overflow = ''; }
-
-function openAuthModal() { 
-  authModal.classList.add('show'); 
-  authModal.setAttribute('aria-hidden', 'false'); 
-  showSignIn(); 
-  lockScroll(); 
-}
-
-function closeAuthModal() { 
-  authModal.classList.remove('show'); 
-  authModal.setAttribute('aria-hidden', 'true'); 
-  unlockScroll(); 
-}
-
-function showSignUp() { 
-  signinForm.style.display = 'none'; 
-  signupForm.style.display = 'block'; 
-  document.getElementById('auth-title').innerText = 'Create your RACII account'; 
-}
-
-function showSignIn() { 
-  signupForm.style.display = 'none'; 
-  signinForm.style.display = 'block'; 
-  document.getElementById('auth-title').innerText = 'Login to RACII'; 
-}
-
-openAuthBtns.forEach(btn => btn.addEventListener('click', e => { 
-  e.stopPropagation(); 
-  openAuthModal(); 
-}));
-
-authClose.addEventListener('click', closeAuthModal);
-toSignup.addEventListener('click', e => { e.preventDefault(); showSignUp(); });
-toSignin.addEventListener('click', e => { e.preventDefault(); showSignIn(); });
-authModal.addEventListener('click', e => { if (e.target === authModal) closeAuthModal(); });
-
-/* Login integration */
-document.getElementById('login-submit').addEventListener('click', async () => {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value.trim();
-
-  if (!email || !password) {
-    alert('Please enter email and password');
-    return;
-  }
-
-  try {
-    const response = await fetch('http://localhost:3000/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      alert('Login successful! Welcome ' + data.user.name);
-      localStorage.setItem('userType', data.user.type);
-      localStorage.setItem('userName', data.user.name);
-      closeAuthModal();
-      window.location.href = 'dashboard.html';
-    } else {
-      alert('Error: ' + data.error);
-    }
-  } catch (err) {
-    console.error(err);
-    alert('Something went wrong. Try again later.');
-  }
-});
-
-/* Signup integration */
-document.getElementById('signup-submit').addEventListener('click', async () => {
-  const name = document.getElementById('signup-name').value.trim();
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value.trim();
-  const userType = document.getElementById('signup-type').value; // dropdown for 'client' or 'cook'
-
-  if (!name || !email || !password || !userType) {
-    alert('Please fill all fields and select user type');
-    return;
-  }
-
-  try {
-    const response = await fetch('http://localhost:3000/api/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, type: userType })
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      alert('Signup successful! Welcome ' + data.user.name);
-      localStorage.setItem('userType', userType);
-      localStorage.setItem('userName', data.user.name);
-      closeAuthModal();
-      window.location.href = 'dashboard.html';
-    } else {
-      alert('Error: ' + data.error);
-    }
-  } catch (err) {
-    console.error(err);
     alert('Something went wrong. Try again later.');
   }
 });

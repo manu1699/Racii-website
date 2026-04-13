@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../cook"
+		},
+		{
+			"path": "../css"
+		},
+		{
+			"path": "../images"
+		},
+		{
+			"path": "../js"
+		},
+		{
+			"path": "../node_modules"
+		},
+		{
+			"path": "../public"
+		}
+	]
+}
