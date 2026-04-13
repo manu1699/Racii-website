@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcryptjs = require('bcryptjs');
-const { Low, JSONFile } = require('lowdb');
+const { JSONFilePreset } = require('lowdb/node');
 const path = require('path');
 
 const app = express();
@@ -11,14 +11,11 @@ const PORT = process.env.PORT || 3000;
 
 // Setup JSON database
 const file = path.join(__dirname, 'db.json');
-const adapter = new JSONFile(file);
-const db = new Low(adapter);
+let db;
 
 // Initialize default data
 async function initDB() {
-  await db.read();
-  db.data ||= { users: [] };
-  await db.write();
+  db = await JSONFilePreset(file, { users: [] });
 }
 initDB();
 
@@ -56,7 +53,6 @@ app.post('/api/signup', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email format' });
     }
 
-    await db.read();
     const userExists = db.data.users.find(u => u.email === email);
     if (userExists) {
       return res.status(400).json({ error: 'User already exists' });
@@ -93,7 +89,6 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password required' });
     }
 
-    await db.read();
     const user = db.data.users.find(u => u.email === email);
 
     if (!user) {
