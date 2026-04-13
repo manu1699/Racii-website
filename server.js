@@ -30,9 +30,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve frontend files from root directory
-app.use(express.static(path.join(__dirname)));
-
 // --------- API ROUTES --------- //
 
 // Signup route
@@ -113,8 +110,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
+// Serve frontend files from root directory (after API routes)
+app.use(express.static(path.join(__dirname)));
+
 // --------- SPA catch-all --------- //
+// Only applies to non-API routes to avoid masking API errors
 app.use((req, res) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
