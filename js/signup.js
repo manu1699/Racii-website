@@ -35,7 +35,7 @@ async function handleSignup(event) {
   
   try {
     // Call backend API
-    const response = await fetch("/api/signup", {
+    const response = await fetch("https://racii-website.up.railway.app/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
