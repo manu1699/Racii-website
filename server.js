@@ -30,8 +30,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve frontend files
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve frontend files from root directory
+app.use(express.static(path.join(__dirname)));
 
 // --------- API ROUTES --------- //
 
@@ -114,8 +114,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // --------- SPA catch-all --------- //
-app.get('/:path(.*)', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start server
