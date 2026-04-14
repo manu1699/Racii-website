@@ -57,7 +57,8 @@ function requireCook() {
 // =======================
 
 function getApiUrl() {
-  const host = window.location.hostname;
+  return "http://localhost:3000";
+}
 
   // Local development
   if (host === "localhost" || host === "127.0.0.1") {
