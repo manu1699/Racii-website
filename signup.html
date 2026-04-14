@@ -107,29 +107,24 @@ async function handleSignup(e) {
   const confirmPassword = document.getElementById("confirmPassword").value.trim();
   const type = document.getElementById("role").value;
 
-  const errorBox = document.getElementById("errorBox");
-  const successBox = document.getElementById("successBox");
-
-  errorBox.style.display = "none";
-  successBox.style.display = "none";
-
-  // validation
-  if (!name || !email || !password || !confirmPassword || !type) {
-    errorBox.textContent = "All fields are required";
-    errorBox.style.display = "block";
+  if (!name || !email || !password || !type) {
+    alert("All fields required");
     return;
   }
 
   if (password !== confirmPassword) {
-    errorBox.textContent = "Passwords do not match";
-    errorBox.style.display = "block";
+    alert("Passwords do not match");
     return;
   }
 
   try {
-    const res = await fetch(`${getApiUrl()}/api/signup`, {
+    console.log("🚀 Sending signup request...");
+
+    const res = await fetch("http://localhost:3000/api/signup", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         name,
         email,
@@ -141,31 +136,15 @@ async function handleSignup(e) {
     const data = await res.json();
 
     if (!res.ok) {
-      errorBox.textContent = data.error || "Signup failed";
-      errorBox.style.display = "block";
+      alert(data.error || "Signup failed");
       return;
     }
 
-    // ✅ FIX: use auth system (IMPORTANT)
-    loginUser({
-      id: data.user.id,
-      name: data.user.name,
-      type: data.user.type || type
-    });
-
-    successBox.textContent = "Account created successfully!";
-    successBox.style.display = "block";
-
-    setTimeout(() => {
-      window.location.href = type === "cook"
-        ? "cook-register.html"
-        : "index.html";
-    }, 1200);
+    console.log("✅ SUCCESS:", data);
+    alert("Signup successful!");
 
   } catch (err) {
-    console.error(err);
-    errorBox.textContent = "Connection error. Please try again.";
-    errorBox.style.display = "block";
+    console.log("❌ ERROR:", err);
+    alert("Connection error");
   }
 }
-</script>

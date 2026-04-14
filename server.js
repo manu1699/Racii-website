@@ -10,11 +10,18 @@ const PORT = process.env.PORT || 3000;
 
 const file = path.join(__dirname, 'db.json');
 
-let db;
+let db = null;
 
-// ---------- INIT DB SAFELY ----------
+// ---------- INIT DB ----------
 async function initDB() {
   db = await JSONFilePreset(file, { users: [] });
+
+  // safety fix (VERY IMPORTANT)
+  if (!db.data.users) {
+    db.data.users = [];
+    await db.write();
+  }
+
   console.log("DB initialized");
 }
 initDB();
@@ -29,16 +36,23 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Wait middleware (prevents crash if DB not ready)
+// Wait until DB is ready
 app.use((req, res, next) => {
-  if (!db) {
+  if (!db || !db.data) {
     return res.status(503).json({ error: "Database not ready yet" });
   }
   next();
 });
 
+// ---------- HEALTH ----------
+app.get('/api/health', (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // ---------- SIGNUP ----------
 app.post('/api/signup', async (req, res) => {
+  console.log("🔥 SIGNUP REQUEST RECEIVED");
+
   try {
     const { name, email, password, type } = req.body;
 
@@ -74,7 +88,7 @@ app.post('/api/signup', async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Signup error:", err);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -105,14 +119,9 @@ app.post('/api/login', async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Login error:", err);
     res.status(500).json({ error: 'Server error' });
   }
-});
-
-// ---------- HEALTH ----------
-app.get('/api/health', (req, res) => {
-  res.json({ status: "ok" });
 });
 
 // ---------- STATIC FRONTEND ----------
