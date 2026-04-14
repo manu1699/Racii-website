@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RACII | Cook Application</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 body {
     font-family: 'Poppins', sans-serif;
@@ -13,7 +14,6 @@ body {
     color: #4a352c;
 }
 
-/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -35,7 +35,6 @@ nav a {
     font-weight: 500;
 }
 
-/* Main card */
 main {
     margin: 100px auto 40px auto;
     max-width: 700px;
@@ -43,104 +42,44 @@ main {
     padding: 32px;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    box-sizing: border-box;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 16px;
-}
+h1 { text-align: center; }
+p { text-align: center; }
 
-p {
-    text-align: center;
-    margin-bottom: 24px;
-}
+form label { font-weight: 500; }
 
-form label {
-    font-weight: 500;
-}
-
-form input[type="text"],
-form input[type="number"],
+form input,
 form textarea,
-form input[type="file"],
 form select {
     width: 100%;
     padding: 10px;
     margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
-form textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-/* Custom checkbox container */
 .checkbox-container {
     display: flex;
     align-items: center;
     gap: 8px;
     margin: 8px 0;
-    font-size: 0.95rem;
 }
 
-.checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-/* Buttons */
-form button.btn {
+button.btn {
     background: linear-gradient(90deg, #ff6b6b, #ff3b3b);
-    color: #fff;
-    font-weight: 600;
+    color: white;
     border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    cursor: pointer;
+    padding: 12px;
     width: 100%;
-    margin-top: 16px;
-    transition: 0.3s;
-}
-
-form button.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-}
-
-/* Links inside form */
-form a {
-    color: #ff3b3b;
-    text-decoration: none;
-}
-form a:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    main {
-        margin: 120px 16px 32px 16px;
-        padding: 24px;
-    }
-
-    header {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    nav a {
-        margin-left: 0;
-        margin-bottom: 8px;
-    }
+    border-radius: 12px;
+    cursor: pointer;
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">🍳 RACII</div>
   <nav>
@@ -154,134 +93,106 @@ form a:hover {
 <p>One time payment for 5 euros to stay in the app.</p>
 
 <form id="cook-application">
+
   <label>Cook Name:</label>
   <input type="text" id="cook-name-input" required>
 
   <label>Short Bio:</label>
   <textarea id="cook-bio-input" required></textarea>
 
-  <label>Select Region:</label>
+  <label>Region:</label>
   <select id="cook-region" required>
     <option value="">Select Region</option>
     <option value="lombardy">Lombardy</option>
     <option value="lazio">Lazio</option>
     <option value="tuscany">Tuscany</option>
     <option value="sicily">Sicily</option>
-    <option value="veneto">Veneto</option>
-    <option value="piemonte">Piemonte</option>
-    <option value="campania">Campania</option>
-    <option value="emilia-romagna">Emilia-Romagna</option>
   </select>
 
-  <label>Select City:</label>
-  <select id="cook-city" required>
-    <option value="">Select City</option>
-  </select>
+  <label>City:</label>
+  <select id="cook-city" required></select>
 
-  <label>Full Address:</label>
-  <input type="text" id="cook-address" placeholder="Street, Building, Area..." required>
+  <label>Address:</label>
+  <input type="text" id="cook-address" required>
 
-  <label>Upload Kitchen Pictures:</label>
-  <input type="file" id="kitchen-pics" multiple accept="image/*">
+  <label>Kitchen Photos:</label>
+  <input type="file" id="kitchen-pics" multiple>
 
-  <label>Upload Example Dishes & Short Description:</label>
-  <input type="file" id="dish-pics" multiple accept="image/*">
+  <label>Dishes Photos:</label>
+  <input type="file" id="dish-pics" multiple>
 
-  <label>Upload a valid ID Proof:</label>
-  <input type="file" id="id-proof" accept="image/*,.pdf" required>
+  <label>ID Proof:</label>
+  <input type="file" id="id-proof">
 
   <div class="checkbox-container">
     <input type="checkbox" id="join-cooking">
-    <label for="join-cooking">Guests can join while I cook</label>
+    <label>Guests can join while I cook</label>
   </div>
 
   <div class="checkbox-container">
     <input type="checkbox" id="allow-drinks">
-    <label for="allow-drinks">I allow drinks during cooking sessions</label>
+    <label>Drinks allowed</label>
   </div>
 
   <div class="checkbox-container">
     <input type="checkbox" id="learn-cooking">
-    <label for="learn-cooking">Guests can learn to cook with me</label>
+    <label>Guests can learn cooking</label>
   </div>
 
   <div class="checkbox-container">
     <input type="checkbox" id="eat-with-me">
-    <label for="eat-with-me">Guests can eat with me (optional)</label>
-  </div>
-
-  <div class="checkbox-container">
-    <input type="checkbox" id="terms" required>
-    <label for="terms">I agree to the <a href="terms.html">Terms & Conditions</a></label>
+    <label>Eat together option</label>
   </div>
 
   <button type="submit" class="btn">Submit Application</button>
+
 </form>
 </main>
 
 <script src="js/auth.js"></script>
 
 <script>
-// Cities per region
+// Cities
 const regionCities = {
-  lombardy: ["Milan","Bergamo","Brescia","Como"],
-  lazio: ["Rome","Latina","Frosinone","Viterbo"],
-  tuscany: ["Florence","Siena","Pisa","Lucca"],
-  sicily: ["Palermo","Catania","Messina","Siracusa"],
-  veneto: ["Venice","Verona","Padua","Vicenza"],
-  piemonte: ["Turin","Novara","Alessandria","Cuneo"],
-  campania: ["Naples","Salerno","Avellino","Caserta"],
-  "emilia-romagna": ["Bologna","Parma","Modena","Ravenna"]
+  lombardy: ["Milan","Bergamo"],
+  lazio: ["Rome","Latina"],
+  tuscany: ["Florence","Pisa"],
+  sicily: ["Palermo","Catania"]
 };
 
-// Populate cities
 document.getElementById('cook-region').addEventListener('change', function() {
-  const region = this.value;
   const citySelect = document.getElementById('cook-city');
-  citySelect.innerHTML = '<option value="">Select City</option>';
+  citySelect.innerHTML = "";
 
-  if(region && regionCities[region]){
-    regionCities[region].forEach(city=>{
-      const option = document.createElement('option');
-      option.value = city;
-      option.textContent = city;
-      citySelect.appendChild(option);
+  if(regionCities[this.value]){
+    regionCities[this.value].forEach(city=>{
+      const opt = document.createElement("option");
+      opt.value = city;
+      opt.textContent = city;
+      citySelect.appendChild(opt);
     });
   }
 });
 
-// Submit cook application → BACKEND
+// Submit
 document.getElementById('cook-application').addEventListener('submit', async function(e){
   e.preventDefault();
 
-  const kitchenFiles = document.getElementById('kitchen-pics').files;
-  const dishFiles = document.getElementById('dish-pics').files;
-
-  const kitchenPhotos = await Promise.all(
-    Array.from(kitchenFiles).map(file => convertToBase64(file))
-  );
-
-  const dishPhotos = await Promise.all(
-    Array.from(dishFiles).map(file => convertToBase64(file))
-  );
-
   const cook = {
-    name: document.getElementById('cook-name-input').value,
-    bio: document.getElementById('cook-bio-input').value,
+    name: document.getElementById('cook-name-input').value.trim(),
+    bio: document.getElementById('cook-bio-input').value.trim(),
     region: document.getElementById('cook-region').value,
     city: document.getElementById('cook-city').value,
-    address: document.getElementById('cook-address').value,
-    kitchenPhotos,
-    dishPhotos,
-    idProof: document.getElementById('id-proof').files[0]?.name || "",
+    address: document.getElementById('cook-address').value.trim(),
     joinCooking: document.getElementById('join-cooking').checked,
     allowDrinks: document.getElementById('allow-drinks').checked,
     learnCooking: document.getElementById('learn-cooking').checked,
-    eatWithMe: document.getElementById('eat-with-me').checked
+    eatWithMe: document.getElementById('eat-with-me').checked,
+    type: "cook"
   };
 
   try {
-    const res = await fetch(`${getApiUrl()}/api/cooks`, {
+    const res = await fetch("http://localhost:3000/api/cooks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cook)
@@ -299,17 +210,10 @@ document.getElementById('cook-application').addEventListener('submit', async fun
 
   } catch (err) {
     console.error(err);
-    alert("Connection error. Please try again.");
+    alert("Connection error");
   }
 });
-
-// Convert file → base64
-function convertToBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
 </script>
+
+</body>
+</html>

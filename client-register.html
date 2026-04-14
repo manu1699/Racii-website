@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RACII | Client Register</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
     .form-group { display:flex; align-items:center; margin-bottom:16px; }
     .form-group input[type="checkbox"] { margin-right:12px; }
+    .error { color:red; margin-top:10px; display:none; }
+    .success { color:green; margin-top:10px; display:none; }
   </style>
 </head>
+
 <body>
+
 <header>
   <nav class="nav-bar">
     <div class="logo">🍳 RACII</div>
@@ -29,59 +34,97 @@
   <div class="form-container">
     <h2>Client Registration</h2>
     <p>Create your account to find and book amazing cooks!</p>
+
     <form id="client-register-form">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" placeholder="Enter your full name" required>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Enter your email" required>
+      <label>Full Name</label>
+      <input type="text" id="name" required>
 
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" placeholder="Enter your phone number" required>
+      <label>Email</label>
+      <input type="email" id="email" required>
 
-      <label for="preferences">Food Preferences</label>
-      <input type="text" id="preferences" placeholder="E.g., Vegan, Italian, Spicy" required>
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Enter password" required>
+      <label>Food Preferences</label>
+      <input type="text" id="preferences" required>
+
+      <label>Password</label>
+      <input type="password" id="password" required>
 
       <div class="form-group">
-        <input type="checkbox" id="client-terms" />
-        <label for="client-terms">
-          I agree to the <a href="privacy.html" target="_blank">Privacy Policy</a> and 
-          <a href="terms-client.html" target="_blank">Terms & Conditions</a>
+        <input type="checkbox" id="terms">
+        <label for="terms">
+          I agree to Terms & Conditions
         </label>
       </div>
 
-      <button type="submit" class="btn btn-primary">Register</button>
-      <p class="login-link">Already have an account? <a href="client-login.html">Login here</a></p>
+      <button type="submit">Register</button>
+
+      <div class="error" id="errorBox"></div>
+      <div class="success" id="successBox"></div>
+
     </form>
   </div>
 </section>
 
 <script>
-const clientForm = document.getElementById('client-register-form');
-clientForm.addEventListener('submit', (e) => {
+document.getElementById("client-register-form").addEventListener("submit", async function(e) {
   e.preventDefault();
 
-  const termsChecked = document.getElementById('client-terms').checked;
-  if (!termsChecked) {
-    alert("You must agree to the Privacy Policy and Terms & Conditions.");
+  const errorBox = document.getElementById("errorBox");
+  const successBox = document.getElementById("successBox");
+
+  errorBox.style.display = "none";
+  successBox.style.display = "none";
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const preferences = document.getElementById("preferences").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const terms = document.getElementById("terms").checked;
+
+  if (!terms) {
+    errorBox.textContent = "Please accept terms";
+    errorBox.style.display = "block";
     return;
   }
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const preferences = document.getElementById('preferences').value.trim();
-  const password = document.getElementById('password').value.trim();
+  try {
+    const res = await fetch("http://localhost:3000/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        type: "client"   // 👈 IMPORTANT FIX
+      })
+    });
 
-  const clients = JSON.parse(localStorage.getItem('clients') || '[]');
-  clients.push({ name, email, phone, preferences, password });
-  localStorage.setItem('clients', JSON.stringify(clients));
+    const data = await res.json();
 
-  alert("Registration successful! (You have agreed to our terms)");
-  clientForm.reset();
+    if (!res.ok) {
+      errorBox.textContent = data.error || "Registration failed";
+      errorBox.style.display = "block";
+      return;
+    }
+
+    successBox.textContent = "Registration successful!";
+    successBox.style.display = "block";
+
+    setTimeout(() => {
+      window.location.href = "client-login.html";
+    }, 1200);
+
+  } catch (err) {
+    console.error(err);
+    errorBox.textContent = "Connection error";
+    errorBox.style.display = "block";
+  }
 });
 </script>
 
