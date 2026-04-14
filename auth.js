@@ -35,7 +35,7 @@ function requireLogin() {
 // Require client role
 function requireClient() {
   const user = getUser();
-  if (!user || user.role !== "client") {
+  if (!user || user.type !== "client") {
     alert("Client access only");
     window.location.href = "/index.html";
   }
@@ -45,18 +45,26 @@ function requireClient() {
 // Require cook role
 function requireCook() {
   const user = getUser();
-  if (!user || user.role !== "cook") {
+  if (!user || user.type !== "cook") {
     alert("Cook access only");
     window.location.href = "/index.html";
   }
   return user;
 }
 
-// Get API base URL
-function getApiUrl() {
-  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:3000';
-  }
-  return window.location.origin;
-}
+// =======================
+// API CONFIG
+// =======================
 
+function getApiUrl() {
+  // Local development
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  ) {
+    return "http://localhost:3000";
+  }
+
+  // ✅ Your Railway backend
+  return "https://racii-website.up.railway.app";
+}
