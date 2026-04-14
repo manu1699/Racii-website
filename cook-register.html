@@ -219,6 +219,8 @@ form a:hover {
 </form>
 </main>
 
+<script src="js/auth.js"></script>
+
 <script>
 // Cities per region
 const regionCities = {
@@ -232,11 +234,12 @@ const regionCities = {
   "emilia-romagna": ["Bologna","Parma","Modena","Ravenna"]
 };
 
-// Populate cities when region changes
+// Populate cities
 document.getElementById('cook-region').addEventListener('change', function() {
   const region = this.value;
   const citySelect = document.getElementById('cook-city');
   citySelect.innerHTML = '<option value="">Select City</option>';
+
   if(region && regionCities[region]){
     regionCities[region].forEach(city=>{
       const option = document.createElement('option');
@@ -247,47 +250,66 @@ document.getElementById('cook-region').addEventListener('change', function() {
   }
 });
 
-// Handle form submission
-document.getElementById('cook-application').addEventListener('submit', function(e){
+// Submit cook application → BACKEND
+document.getElementById('cook-application').addEventListener('submit', async function(e){
   e.preventDefault();
+
+  const kitchenFiles = document.getElementById('kitchen-pics').files;
+  const dishFiles = document.getElementById('dish-pics').files;
+
+  const kitchenPhotos = await Promise.all(
+    Array.from(kitchenFiles).map(file => convertToBase64(file))
+  );
+
+  const dishPhotos = await Promise.all(
+    Array.from(dishFiles).map(file => convertToBase64(file))
+  );
+
   const cook = {
-    id: Date.now().toString(),
     name: document.getElementById('cook-name-input').value,
     bio: document.getElementById('cook-bio-input').value,
     region: document.getElementById('cook-region').value,
     city: document.getElementById('cook-city').value,
     address: document.getElementById('cook-address').value,
-    kitchenPhotos: Array.from(document.getElementById('kitchen-pics').files).map(f=>URL.createObjectURL(f)),
-    dishPhotos: Array.from(document.getElementById('dish-pics').files).map(f=>URL.createObjectURL(f)),
+    kitchenPhotos,
+    dishPhotos,
     idProof: document.getElementById('id-proof').files[0]?.name || "",
     joinCooking: document.getElementById('join-cooking').checked,
     allowDrinks: document.getElementById('allow-drinks').checked,
     learnCooking: document.getElementById('learn-cooking').checked,
     eatWithMe: document.getElementById('eat-with-me').checked
   };
-  const cooks = JSON.parse(localStorage.getItem('cooks')||'[]');
-  cooks.push(cook);
-  localStorage.setItem('cooks', JSON.stringify(cooks));
-  alert("Cook application submitted successfully!");
-  this.reset();
+
+  try {
+    const res = await fetch(`${getApiUrl()}/api/cooks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cook)
+    });
+
+    const data = await res.json();
+
+    if(!res.ok){
+      alert(data.error || "Failed to submit cook");
+      return;
+    }
+
+    alert("Cook application submitted successfully!");
+    this.reset();
+
+  } catch (err) {
+    console.error(err);
+    alert("Connection error. Please try again.");
+  }
 });
 
-{
-  const newCook = {
-  id: "",              // will be generated dynamically (example: cook_169999999)
-  name: "",
-  bio: "",
-  region: "",
-  city: "",
-  address: "",
-  dishPhotos: [],      // array of base64 images
-  kitchenPhotos: [],   // array of base64 images
-  createdAt: ""        // optional (date)
-};
-
+// Convert file → base64
+function convertToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
-
 </script>
-
-</body>
-</html>

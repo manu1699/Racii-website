@@ -57,14 +57,13 @@ function requireCook() {
 // =======================
 
 function getApiUrl() {
+  const host = window.location.hostname;
+
   // Local development
-  if (
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-  ) {
+  if (host === "localhost" || host === "127.0.0.1") {
     return "http://localhost:3000";
   }
 
-  // ✅ Your Railway backend
+  // Railway production backend
   return "https://racii-website.up.railway.app";
 }

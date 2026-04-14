@@ -134,7 +134,7 @@ async function handleSignup(e) {
         name,
         email,
         password,
-        type   // IMPORTANT: matches your backend
+        type
       })
     });
 
@@ -146,15 +146,19 @@ async function handleSignup(e) {
       return;
     }
 
-    // save session
-    localStorage.setItem("raciiUser", JSON.stringify(data.user));
+    // ✅ FIX: use auth system (IMPORTANT)
+    loginUser({
+      id: data.user.id,
+      name: data.user.name,
+      type: data.user.type || type
+    });
 
     successBox.textContent = "Account created successfully!";
     successBox.style.display = "block";
 
     setTimeout(() => {
       window.location.href = type === "cook"
-        ? "cook-dashboard.html"
+        ? "cook-register.html"
         : "index.html";
     }, 1200);
 
@@ -165,6 +169,3 @@ async function handleSignup(e) {
   }
 }
 </script>
-
-</body>
-</html>
