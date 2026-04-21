@@ -85,8 +85,14 @@ document.getElementById("client-register-form").addEventListener("submit", async
   const password = document.getElementById("password").value.trim();
   const terms = document.getElementById("terms").checked;
 
+  if (!name || !email || !phone || !preferences || !password) {
+    errorBox.textContent = "All fields are required";
+    errorBox.style.display = "block";
+    return;
+  }
+
   if (!terms) {
-    errorBox.textContent = "Please accept terms";
+    errorBox.textContent = "Please accept Terms & Conditions";
     errorBox.style.display = "block";
     return;
   }
@@ -101,7 +107,9 @@ document.getElementById("client-register-form").addEventListener("submit", async
         name,
         email,
         password,
-        type: "client"   // 👈 IMPORTANT FIX
+        type: "client",
+        phone,
+        preferences
       })
     });
 
@@ -127,6 +135,3 @@ document.getElementById("client-register-form").addEventListener("submit", async
   }
 });
 </script>
-
-</body>
-</html>

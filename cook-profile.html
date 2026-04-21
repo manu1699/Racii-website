@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RACII — Cook Profile</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root {--accent:#ff6b6b; --accent-dark:#e05555; --muted:#555;}
+:root {--accent:#ff6b6b; --muted:#555;}
 
 body {
   font-family:'Poppins',sans-serif;
@@ -64,24 +66,6 @@ body {
   object-fit:cover;
   border-radius:10px;
 }
-
-.btn {
-  padding:10px 14px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.btn-primary {
-  background:var(--accent);
-  color:white;
-}
-
-.btn-add {
-  background:white;
-  border:1px solid var(--accent);
-  color:var(--accent);
-}
 </style>
 </head>
 
@@ -99,25 +83,30 @@ body {
   <div id="profile">Loading...</div>
 </main>
 
-<script src="js/auth.js"></script>
-
 <script>
 function getCookId(){
   const params = new URLSearchParams(window.location.search);
   return params.get("id");
 }
 
-// 🔥 NOW READY FOR BACKEND
+// ✅ FIXED SAFE VERSION
 async function loadProfile(){
 
   const id = getCookId();
   const container = document.getElementById("profile");
 
-  try {
-    const res = await fetch(`http://localhost:3000/api/cooks/${id}`);
-    const cook = await res.json();
+  if(!id){
+    container.innerHTML = "<p>Invalid cook ID</p>";
+    return;
+  }
 
-    if(!res.ok){
+  try {
+    const res = await fetch("http://localhost:3000/api/cooks");
+    const cooks = await res.json();
+
+    const cook = cooks.find(c => c.id == id);
+
+    if(!cook){
       container.innerHTML = "<p>Cook not found</p>";
       return;
     }
@@ -128,10 +117,10 @@ async function loadProfile(){
 
         <div>
           <h2>${cook.name}</h2>
-          <p><b>Bio:</b> ${cook.bio}</p>
-          <p><b>Region:</b> ${cook.region}</p>
-          <p><b>City:</b> ${cook.city}</p>
-          <p><b>Address:</b> ${cook.address}</p>
+          <p><b>Bio:</b> ${cook.bio || ""}</p>
+          <p><b>Region:</b> ${cook.region || ""}</p>
+          <p><b>City:</b> ${cook.city || ""}</p>
+          <p><b>Address:</b> ${cook.address || ""}</p>
         </div>
       </div>
 
