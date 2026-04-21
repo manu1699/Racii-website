@@ -6,7 +6,6 @@
 <title>RACII — Find a Cook</title>
 
 <script src="js/auth.js"></script>
-<script>requireClient();</script>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -16,14 +15,12 @@ body {
     margin:0;
     background:#e0e0e0;
     color:#4a352c;
-    max-width: 100%;
-    overflow-x: hidden;
+    overflow-x:hidden;
 }
 
 /* Header */
 header nav {
     display:flex;
-    justify-content:flex-start;
     align-items:center;
     padding:16px 32px;
     background: rgba(128,128,128,0.5);
@@ -31,8 +28,8 @@ header nav {
     width:100%;
     top:0;
     z-index:100;
-    border-bottom:1px solid #ddd;
     gap:20px;
+    border-bottom:1px solid #ddd;
 }
 
 nav a {
@@ -45,11 +42,6 @@ nav a {
     max-width:1200px;
     margin:120px auto 32px;
     padding:16px;
-    width:100%;
-    box-sizing:border-box;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
 }
 
 h2 {
@@ -62,92 +54,24 @@ h2 {
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:18px;
     width:100%;
-    justify-items:center;
 }
 
 .cook-card {
-    background: rgba(255,255,255,0.9);
+    background:#fff;
     border-radius:16px;
     padding:16px;
     box-shadow:0 8px 24px rgba(0,0,0,0.08);
-    display:flex;
-    flex-direction:column;
-    cursor:pointer;
-    transition: transform 220ms ease, box-shadow 220ms ease;
-    max-width:300px;
-    width:100%;
+    transition:0.2s;
 }
 
 .cook-card:hover {
     transform:translateY(-6px);
-    box-shadow:0 18px 36px rgba(0,0,0,0.12);
 }
 
-.cook-card img {
-    width:100%;
-    border-radius:12px;
-    height:180px;
-    object-fit:cover;
-    margin-bottom:12px;
-}
-
-.cook-name { font-weight:700; margin-bottom:4px; }
-.cook-nation { font-size:0.95rem; color:#7a6e65; }
-.cook-bio { font-size:0.95rem; color:#2b2b2b; margin-bottom:12px; flex:1; }
-
-.btn {
-    padding:10px 20px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:500;
-}
-
-.btn-primary { background:#ff7f50; color:#fff; }
-
-.modal {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    justify-content:center;
-    align-items:center;
-    z-index:1000;
-}
-
-.modal-content {
-    background:#fff;
-    border-radius:16px;
-    max-width:700px;
-    width:90%;
-    padding:24px;
-    position:relative;
-    max-height:90vh;
-    overflow-y:auto;
-}
-
-.close-btn {
-    position:absolute;
-    top:16px;
-    right:16px;
-    font-size:1.5rem;
-    cursor:pointer;
-}
-
-.image-gallery {
-    display:flex;
-    gap:12px;
-    overflow-x:auto;
-}
-
-.image-gallery img {
-    width:120px;
-    height:100px;
-    object-fit:cover;
-    border-radius:10px;
+.cook-card a {
+    color:#ff7f50;
+    text-decoration:none;
+    font-weight:600;
 }
 </style>
 </head>
@@ -163,107 +87,66 @@ h2 {
 
 <div class="container">
   <h2>Find a Cook Near You</h2>
+
   <div id="cook-grid" class="cook-grid"></div>
 </div>
 
-<div id="cook-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h3 id="modal-name"></h3>
-    <p id="modal-nation"></p>
-    <p id="modal-bio"></p>
-
-    <h4>Kitchen Photos</h4>
-    <div id="kitchen-gallery" class="image-gallery"></div>
-
-    <h4>Dish Photos</h4>
-    <div id="dish-gallery" class="image-gallery"></div>
-
-    <button id="book-btn-modal" class="btn btn-primary">Book a Meal</button>
-  </div>
-</div>
-
 <script>
-// load cooks
-if(!localStorage.getItem('cooks')) {
-  localStorage.setItem('cooks', JSON.stringify([]));
-}
+async function loadCooks() {
+  try {
+    const res = await fetch("http://localhost:3000/api/cooks");
+    const data = await res.text();
+    let cooks = data ? JSON.parse(data) : [];
 
-const cooks = JSON.parse(localStorage.getItem('cooks'));
-const cookGrid = document.getElementById('cook-grid');
+    // 👉 Fallback demo cooks if backend is empty
+    if (!cooks.length) {
+      cooks = [
+        {
+          id: "1",
+          name: "Mario Chef",
+          bio: "Italian home chef",
+          city: "Florence",
+          region: "Tuscany"
+        },
+        {
+          id: "2",
+          name: "Sofia Pasta Queen",
+          bio: "Fresh homemade pasta expert",
+          city: "Rome",
+          region: "Lazio"
+        },
+        {
+          id: "3",
+          name: "Antonio Grill Master",
+          bio: "Best grilled meat in town",
+          city: "Naples",
+          region: "Campania"
+        }
+      ];
+    }
 
-const modal = document.getElementById('cook-modal');
-const modalName = document.getElementById('modal-name');
-const modalNation = document.getElementById('modal-nation');
-const modalBio = document.getElementById('modal-bio');
-const kitchenGallery = document.getElementById('kitchen-gallery');
-const dishGallery = document.getElementById('dish-gallery');
-const closeBtn = document.querySelector('.close-btn');
-const bookBtnModal = document.getElementById('book-btn-modal');
+    const container = document.getElementById("cook-grid");
 
-function renderCooks() {
-  cookGrid.innerHTML = '';
+    container.innerHTML = cooks.map(cook => `
+      <div class="cook-card">
+        <h3>${cook.name}</h3>
+        <p>${cook.bio || ""}</p>
+        <p><b>City:</b> ${cook.city || ""}</p>
+        <p><b>Region:</b> ${cook.region || ""}</p>
+        <a href="cook-profile.html?id=${cook.id}">
+          View Profile
+        </a>
+      </div>
+    `).join("");
 
-  if (cooks.length === 0) {
-    cookGrid.innerHTML = "<p>No cooks available yet.</p>";
-    return;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("cook-grid").innerHTML =
+      "<p>Error loading cooks</p>";
   }
-
-  cooks.forEach(cook => {
-    const card = document.createElement('div');
-    card.className = 'cook-card';
-
-    card.innerHTML = `
-      <img src="${cook.dishPhotos?.[0] || ''}">
-      <div class="cook-name">${cook.name}</div>
-      <div class="cook-nation">${cook.nationality || ''}</div>
-      <div class="cook-bio">${cook.bio || ''}</div>
-      <button class="btn btn-primary book-btn">Book a Meal</button>
-    `;
-
-    card.querySelector('.book-btn').addEventListener('click', () => {
-      openModal(cook);
-    });
-
-    cookGrid.appendChild(card);
-  });
 }
 
-function openModal(cook) {
-  modalName.textContent = cook.name;
-  modalNation.textContent = cook.nationality || '';
-  modalBio.textContent = cook.bio || '';
-
-  kitchenGallery.innerHTML = '';
-  dishGallery.innerHTML = '';
-
-  (cook.kitchenPhotos || []).forEach(p => {
-    const img = document.createElement('img');
-    img.src = p;
-    kitchenGallery.appendChild(img);
-  });
-
-  (cook.dishPhotos || []).forEach(p => {
-    const img = document.createElement('img');
-    img.src = p;
-    dishGallery.appendChild(img);
-  });
-
-  bookBtnModal.onclick = () => {
-    localStorage.setItem('selectedCook', JSON.stringify(cook));
-    window.location.href = 'book-meal.html';
-  };
-
-  modal.style.display = 'flex';
-}
-
-closeBtn.onclick = () => modal.style.display = 'none';
-
-window.onclick = (e) => {
-  if (e.target === modal) modal.style.display = 'none';
-};
-
-renderCooks();
+window.addEventListener("DOMContentLoaded", loadCooks);
 </script>
 
 </body>

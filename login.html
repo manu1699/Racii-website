@@ -124,7 +124,7 @@ button:hover {
 async function handleLogin(event) {
   event.preventDefault();
 
-  const email = document.getElementById('email').value.trim();
+  const email = document.getElementById('email').value.trim().toLowerCase();
   const password = document.getElementById('password').value.trim();
   const role = document.getElementById('role').value;
 
@@ -134,14 +134,14 @@ async function handleLogin(event) {
   errorBox.style.display = 'none';
   successBox.style.display = 'none';
 
-  if (!email || !password || !role) {
+  if (!email || !password) {
     errorBox.textContent = "All fields are required";
     errorBox.style.display = "block";
     return;
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/login", {
+    const response = await fetch(`${getApiUrl()}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -165,7 +165,59 @@ async function handleLogin(event) {
       name: data.user.name,
       type: data.user.type
     };
+app.post('/api/cooks', async (req, res) => {
+  try {
+    console.log("🔥 COOK APPLICATION RECEIVED");
 
+    const {
+      name,
+      bio,
+      region,
+      city,
+      address,
+      kitchenPhotos,
+      dishPhotos,
+      idProof,
+      joinCooking,
+      allowDrinks,
+      learnCooking,
+      eatWithMe
+    } = req.body;
+
+    if (!name || !bio || !region || !city || !address) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const newCook = {
+      id: Date.now().toString(),
+      name,
+      bio,
+      region,
+      city,
+      address,
+      kitchenPhotos: kitchenPhotos || [],
+      dishPhotos: dishPhotos || [],
+      idProof: idProof || "",
+      joinCooking: !!joinCooking,
+      allowDrinks: !!allowDrinks,
+      learnCooking: !!learnCooking,
+      eatWithMe: !!eatWithMe,
+      createdAt: new Date().toISOString()
+    };
+
+    db.data.cooks.push(newCook);
+    await db.write();
+
+    res.status(201).json({
+      message: "Cook application saved successfully",
+      cook: newCook
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
     loginUser(user);
 
     successBox.textContent = "Login successful! Redirecting...";
