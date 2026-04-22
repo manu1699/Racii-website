@@ -1,72 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RACII | Client Register</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACII | Client Register</title>
 
-  <style>
-    .form-group { display:flex; align-items:center; margin-bottom:16px; }
-    .form-group input[type="checkbox"] { margin-right:12px; }
-    .error { color:red; margin-top:10px; display:none; }
-    .success { color:green; margin-top:10px; display:none; }
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* FORM BOX */
+.form-container {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 450px;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* checkbox */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.form-group input {
+  width: auto;
+  margin-right: 10px;
+}
+
+/* messages */
+.error {
+  color: red;
+  margin-top: 10px;
+  display: none;
+  text-align: center;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  display: none;
+  text-align: center;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <nav class="nav-bar">
-    <div class="logo">🍳 RACII</div>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="client-register.html" class="active">Client Register</a>
-      <a href="client-login.html">Client Login</a>
-      <a href="cook-register.html">Cook Register</a>
-      <a href="cook-login.html">Cook Login</a>
+<div class="form-container">
+
+  <h2>Client Registration</h2>
+  <p>Create your account to find and book amazing cooks!</p>
+
+  <form id="client-register-form">
+
+    <label>Full Name</label>
+    <input type="text" id="name" required>
+
+    <label>Email</label>
+    <input type="email" id="email" required>
+
+    <label>Phone Number</label>
+    <input type="tel" id="phone" required>
+
+    <label>Food Preferences</label>
+    <input type="text" id="preferences" required>
+
+    <label>Password</label>
+    <input type="password" id="password" required>
+
+    <div class="form-group">
+      <input type="checkbox" id="terms">
+      <label for="terms">I agree to Terms & Conditions</label>
     </div>
-    <button id="theme-toggle">🌙</button>
-  </nav>
-</header>
 
-<section class="form-section">
-  <div class="form-container">
-    <h2>Client Registration</h2>
-    <p>Create your account to find and book amazing cooks!</p>
+    <button type="submit">Register</button>
 
-    <form id="client-register-form">
+    <div class="error" id="errorBox"></div>
+    <div class="success" id="successBox"></div>
 
-      <label>Full Name</label>
-      <input type="text" id="name" required>
-
-      <label>Email</label>
-      <input type="email" id="email" required>
-
-      <label>Phone Number</label>
-      <input type="tel" id="phone" required>
-
-      <label>Food Preferences</label>
-      <input type="text" id="preferences" required>
-
-      <label>Password</label>
-      <input type="password" id="password" required>
-
-      <div class="form-group">
-        <input type="checkbox" id="terms">
-        <label for="terms">
-          I agree to Terms & Conditions
-        </label>
-      </div>
-
-      <button type="submit">Register</button>
-
-      <div class="error" id="errorBox"></div>
-      <div class="success" id="successBox"></div>
-
-    </form>
-  </div>
-</section>
+  </form>
+</div>
 
 <script>
 document.getElementById("client-register-form").addEventListener("submit", async function(e) {
@@ -100,9 +175,7 @@ document.getElementById("client-register-form").addEventListener("submit", async
   try {
     const res = await fetch("http://localhost:3000/api/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
         email,
@@ -135,3 +208,6 @@ document.getElementById("client-register-form").addEventListener("submit", async
   }
 });
 </script>
+
+</body>
+</html>
