@@ -1,4 +1,11 @@
 {
-    "users": []
-  }
-  
+  "users": [
+    {
+      "id": "1776856035514",
+      "name": "manoj",
+      "email": "reddymanoj73@gmail.com",
+      "password": "$2b$10$xiiX54OX9AXvq29FQ2qH6OhR9zhKO6EzM7aQx6FwKtyur8NTPEHeK",
+      "type": "client"
+    }
+  ]
+}
