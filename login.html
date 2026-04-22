@@ -111,7 +111,13 @@ button:hover {
     </div>
 
     <button type="submit">Login</button>
-
+    
+<p style="text-align:center; margin-top:15px;">
+  Don't have an account?
+  <a href="client-register.html" style="color:#667eea; font-weight:600; text-decoration:none;">
+    Sign up here
+  </a>
+</p>
     <div class="error" id="errorBox"></div>
     <div class="success" id="successBox"></div>
 
@@ -165,59 +171,7 @@ async function handleLogin(event) {
       name: data.user.name,
       type: data.user.type
     };
-app.post('/api/cooks', async (req, res) => {
-  try {
-    console.log("🔥 COOK APPLICATION RECEIVED");
 
-    const {
-      name,
-      bio,
-      region,
-      city,
-      address,
-      kitchenPhotos,
-      dishPhotos,
-      idProof,
-      joinCooking,
-      allowDrinks,
-      learnCooking,
-      eatWithMe
-    } = req.body;
-
-    if (!name || !bio || !region || !city || !address) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
-
-    const newCook = {
-      id: Date.now().toString(),
-      name,
-      bio,
-      region,
-      city,
-      address,
-      kitchenPhotos: kitchenPhotos || [],
-      dishPhotos: dishPhotos || [],
-      idProof: idProof || "",
-      joinCooking: !!joinCooking,
-      allowDrinks: !!allowDrinks,
-      learnCooking: !!learnCooking,
-      eatWithMe: !!eatWithMe,
-      createdAt: new Date().toISOString()
-    };
-
-    db.data.cooks.push(newCook);
-    await db.write();
-
-    res.status(201).json({
-      message: "Cook application saved successfully",
-      cook: newCook
-    });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
-});
     loginUser(user);
 
     successBox.textContent = "Login successful! Redirecting...";
