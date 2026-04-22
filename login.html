@@ -24,7 +24,6 @@ body {
   padding: 20px;
 }
 
-/* UNIFIED CARD STYLE */
 .card {
   background: white;
   border-radius: 16px;
@@ -90,7 +89,6 @@ button:hover {
   text-align: center;
 }
 
-/* SIGNUP LINK */
 .signup-link {
   text-align: center;
   margin-top: 15px;
@@ -145,15 +143,12 @@ button:hover {
   </form>
 </div>
 
-<script src="js/auth.js"></script>
-
 <script>
 async function handleLogin(event) {
   event.preventDefault();
 
   const email = document.getElementById('email').value.trim().toLowerCase();
   const password = document.getElementById('password').value.trim();
-  const role = document.getElementById('role').value;
 
   const errorBox = document.getElementById('errorBox');
   const successBox = document.getElementById('successBox');
@@ -193,7 +188,7 @@ async function handleLogin(event) {
       type: data.user.type
     };
 
-    loginUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
 
     successBox.textContent = "Login successful! Redirecting...";
     successBox.style.display = "block";
@@ -205,8 +200,8 @@ async function handleLogin(event) {
     }, 1200);
 
   } catch (err) {
-    console.error(err);
-    errorBox.textContent = "Connection error. Please try again.";
+    console.error("LOGIN ERROR:", err);
+    errorBox.textContent = "Connection error. Server not reachable.";
     errorBox.style.display = "block";
   }
 }
