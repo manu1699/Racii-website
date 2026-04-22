@@ -8,7 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -20,7 +24,8 @@ body {
   padding: 20px;
 }
 
-.login-container {
+/* UNIFIED CARD STYLE */
+.card {
   background: white;
   border-radius: 16px;
   padding: 40px;
@@ -62,6 +67,7 @@ button {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 button:hover {
@@ -73,6 +79,7 @@ button:hover {
   font-size: 0.9rem;
   display: none;
   margin-top: 10px;
+  text-align: center;
 }
 
 .success {
@@ -80,13 +87,28 @@ button:hover {
   font-size: 0.9rem;
   display: none;
   margin-top: 10px;
+  text-align: center;
+}
+
+/* SIGNUP LINK */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.signup-link a {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="login-container">
+<div class="card">
+
   <h2>Login to RACII</h2>
 
   <form id="loginForm" onsubmit="handleLogin(event)">
@@ -111,13 +133,12 @@ button:hover {
     </div>
 
     <button type="submit">Login</button>
-    
-<p style="text-align:center; margin-top:15px;">
-  Don't have an account?
-  <a href="client-register.html" style="color:#667eea; font-weight:600; text-decoration:none;">
-    Sign up here
-  </a>
-</p>
+
+    <div class="signup-link">
+      Don't have an account?
+      <a href="client-register.html">Sign up here</a>
+    </div>
+
     <div class="error" id="errorBox"></div>
     <div class="success" id="successBox"></div>
 
