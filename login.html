@@ -188,7 +188,11 @@ async function handleLogin(event) {
       type: data.user.type
     };
 
-    localStorage.setItem("user", JSON.stringify(user));
+    loginUser(user);
+
+localStorage.setItem("user", JSON.stringify(user));
+
+successBox.textContent = "Login successful! Redirecting...";
 
     successBox.textContent = "Login successful! Redirecting...";
     successBox.style.display = "block";

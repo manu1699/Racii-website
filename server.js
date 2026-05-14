@@ -169,3 +169,31 @@ function startServer() {
 
 // ---------------- BOOT ----------------
 initDB();
+// ---------------- BOOKINGS ----------------
+app.post('/api/bookings', async (req, res) => {
+  try {
+    const booking = {
+      id: Date.now().toString(),
+      ...req.body,
+      status: "pending",
+      createdAt: new Date().toISOString()
+    };
+
+    db.data.bookings.push(booking);
+    await db.write();
+
+    res.status(201).json(booking);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Booking failed" });
+  }
+});
+
+app.get('/api/bookings', (req, res) => {
+  try {
+    res.json(db.data.bookings || []);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load bookings" });
+  }
+});

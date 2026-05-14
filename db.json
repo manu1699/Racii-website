@@ -6,6 +6,14 @@
       "email": "reddymanoj73@gmail.com",
       "password": "$2b$10$xiiX54OX9AXvq29FQ2qH6OhR9zhKO6EzM7aQx6FwKtyur8NTPEHeK",
       "type": "client"
+    },
+    {
+      "id": "1778770268595",
+      "name": "manoj",
+      "email": "manojreddy165@gmail.com",
+      "password": "$2b$10$JFJRBqCzAz9og5O48NKj..G4tkjUtPkgUFiI5OLH8pT75C9cN4cUq",
+      "type": "client",
+      "createdAt": "2026-05-14T14:51:08.595Z"
     }
   ]
 }

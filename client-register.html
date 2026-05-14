@@ -181,12 +181,15 @@ document.getElementById("client-register-form").addEventListener("submit", async
         email,
         password,
         type: "client",
+
+        // ⚠️ optional extra fields (backend currently ignores them)
         phone,
         preferences
       })
     });
 
     const data = await res.json();
+    console.log("SIGNUP RESPONSE:", data);
 
     if (!res.ok) {
       errorBox.textContent = data.error || "Registration failed";
@@ -194,20 +197,29 @@ document.getElementById("client-register-form").addEventListener("submit", async
       return;
     }
 
-    successBox.textContent = "Registration successful!";
+    // ✅ CREATE USER OBJECT (IMPORTANT FOR PROFILE LATER)
+    const user = {
+      id: data.user.id,
+      name: data.user.name,
+      type: "client"
+    };
+
+    // ✅ SAVE TO LOCALSTORAGE
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("userType", "client");
+    localStorage.setItem("userName", user.name);
+
+    successBox.textContent = "Registration successful! Logging you in...";
     successBox.style.display = "block";
 
+    // 🚀 AUTO REDIRECT (MVP FLOW)
     setTimeout(() => {
-      window.location.href = "client-login.html";
+      window.location.href = "index.html";
     }, 1200);
 
   } catch (err) {
     console.error(err);
-    errorBox.textContent = "Connection error";
+    errorBox.textContent = "Connection error. Server not reachable.";
     errorBox.style.display = "block";
   }
 });
-</script>
-
-</body>
-</html>

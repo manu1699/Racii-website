@@ -5,7 +5,6 @@ if (sidebar) {
     el.addEventListener('click', () => { sidebar.classList.remove('show'); });
   });
 
-  // Sidebar toggle for mobile hamburger
   const header = document.querySelector("header");
   if (header) {
     header.addEventListener("click", function(e) {
@@ -43,19 +42,15 @@ if (authModal) {
   }
 
   function showSignUp() {
-    if (signinForm && signupForm) {
-      signinForm.style.display = 'none';
-      signupForm.style.display = 'block';
-      document.getElementById('auth-title').innerText = 'Create your RACII account';
-    }
+    signinForm.style.display = 'none';
+    signupForm.style.display = 'block';
+    document.getElementById('auth-title').innerText = 'Create your RACII account';
   }
 
   function showSignIn() {
-    if (signinForm && signupForm) {
-      signupForm.style.display = 'none';
-      signinForm.style.display = 'block';
-      document.getElementById('auth-title').innerText = 'Login to RACII';
-    }
+    signupForm.style.display = 'none';
+    signinForm.style.display = 'block';
+    document.getElementById('auth-title').innerText = 'Login to RACII';
   }
 
   openAuthBtns.forEach(btn => btn.addEventListener('click', e => {
@@ -73,6 +68,7 @@ if (authModal) {
 const loginBtn = document.getElementById('login-submit');
 if (loginBtn) {
   loginBtn.addEventListener('click', async () => {
+
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
 
@@ -91,17 +87,36 @@ if (loginBtn) {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Login successful! Welcome ' + data.user.name);
-        localStorage.setItem('userType', data.user.type);
-        localStorage.setItem('userName', data.user.name);
+
+        const user = {
+          id: data.user.id,
+          name: data.user.name,
+          type: data.user.type
+        };
+
+        // ✅ FIXED STORAGE (important)
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userType', user.type);
+        localStorage.setItem('userName', user.name);
+
+        alert('Login successful! Welcome ' + user.name);
+
         if (authModal) authModal.classList.remove('show');
-        window.location.href = 'dashboard.html';
+
+        // 🔥 FIXED REDIRECT LOGIC
+        if (user.type === 'cook') {
+          window.location.href = 'cook/dashboard.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+
       } else {
         alert('Error: ' + data.error);
       }
+
     } catch (err) {
       console.error(err);
-      alert('Something went wrong. Try again later.');
+      alert('Connection error. Backend not reachable.');
     }
   });
 }
@@ -110,19 +125,21 @@ if (loginBtn) {
 const signupBtn = document.getElementById('signup-submit');
 if (signupBtn) {
   signupBtn.addEventListener('click', async () => {
+
     const name = document.getElementById('signup-name').value.trim();
     const email = document.getElementById('signup-email').value.trim();
     const password = document.getElementById('signup-password').value.trim();
     const userType = document.getElementById('signup-type')?.value;
 
     const termsCheckbox = document.getElementById(userType === 'cook' ? 'cook-terms' : 'client-terms');
-    if (!termsCheckbox || !termsCheckbox.checked) {
-      alert('Please agree to the Terms & Conditions');
+
+    if (!name || !email || !password || !userType) {
+      alert('Please fill all fields');
       return;
     }
 
-    if (!name || !email || !password || !userType) {
-      alert('Please fill all fields and select user type');
+    if (!termsCheckbox || !termsCheckbox.checked) {
+      alert('Please agree to Terms & Conditions');
       return;
     }
 
@@ -136,29 +153,48 @@ if (signupBtn) {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Signup successful! Welcome ' + data.user.name);
+
+        const user = {
+          id: data.user.id,
+          name: data.user.name,
+          type: userType
+        };
+
+        // ✅ FIXED STORAGE
+        localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('userType', userType);
-        localStorage.setItem('userName', data.user.name);
+        localStorage.setItem('userName', user.name);
+
+        alert('Signup successful! Welcome ' + user.name);
+
         if (authModal) authModal.classList.remove('show');
-        window.location.href = 'dashboard.html';
+
+        // 🔥 FIXED REDIRECT LOGIC
+        if (userType === 'cook') {
+          window.location.href = 'cook/dashboard.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+
       } else {
         alert('Error: ' + data.error);
       }
+
     } catch (err) {
       console.error(err);
-      alert('Something went wrong. Try again later.');
+      alert('Connection error. Backend not reachable.');
     }
   });
 }
 
-/* ---------------- GOOGLE LOGIN/SIGNUP PLACEHOLDERS ---------------- */
+/* ---------------- GOOGLE LOGIN/SIGNUP ---------------- */
 const googleLogin = document.getElementById('google-login');
 if (googleLogin) googleLogin.addEventListener('click', () => alert('Google Login flow'));
 
 const googleSignup = document.getElementById('google-signup');
 if (googleSignup) googleSignup.addEventListener('click', () => alert('Google Signup flow'));
 
-/* ---------------- REGION/CITY SELECTION ---------------- */
+/* ---------------- REGION/CITY ---------------- */
 const italyCities = {
   lombardy: ['Milan','Bergamo','Brescia','Monza','Como'],
   lazio: ['Rome','Frosinone','Viterbo','Latina','Rieti'],
@@ -174,7 +210,9 @@ function populateCities() {
   const region = document.getElementById('region')?.value;
   const citySelect = document.getElementById('city');
   if (!citySelect) return;
+
   citySelect.innerHTML = '<option value="">Select City</option>';
+
   if (region && italyCities[region]) {
     italyCities[region].forEach(city => {
       const opt = document.createElement('option');
@@ -187,6 +225,10 @@ function populateCities() {
 
 function searchCooks() {
   const city = document.getElementById('city')?.value;
-  if (!city) { alert('Please select a city!'); return; }
+  if (!city) {
+    alert('Please select a city!');
+    return;
+  }
+
   window.location.href = 'find-cook.html?city=' + encodeURIComponent(city);
 }
