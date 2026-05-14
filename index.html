@@ -48,8 +48,10 @@ header {
 .top-menu{
   display:flex;
   align-items:center;
-  gap:16px;
-  flex-wrap:wrap;
+  gap:12px;
+  flex-wrap:nowrap;
+  justify-content:flex-end;
+
 }
 .top-menu a,
 .login-btn{
@@ -75,16 +77,6 @@ header {
   background:none;
   border:1px solid var(--accent);
   cursor:pointer;
-}
-
-/* USER DISPLAY (NEW) */
-.user-box{
-  display:none;
-  font-weight:600;
-  padding:8px 14px;
-  border-radius:12px;
-  background:rgba(255,107,107,0.15);
-  border:1px solid var(--accent);
 }
 
 /* HAMBURGER */
@@ -185,6 +177,12 @@ header {
   cursor:pointer;
   transition:0.3s;
 }
+.book-meal-home select:hover,
+.book-meal-home select:focus{
+  border-color:var(--accent);
+  outline:none;
+  box-shadow:0 0 6px rgba(255,107,107,0.2);
+}
 .book-meal-home button{
   background:linear-gradient(90deg, var(--accent), #ff3b3b);
   color:#fff;
@@ -224,6 +222,26 @@ footer{
   35%{opacity:0;transform:scale(1.1)}
   100%{opacity:0}
 }
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 768px) {
+    .top-menu { display:none; }
+    .hamburger { display:flex; }
+
+    header { padding:10px 14px; }
+    .logo-container img { height:42px; }
+
+    .content { padding:120px 12px 24px 12px; }
+
+    .section { padding:28px 12px; margin:24px auto; max-width:95%; }
+    .section h2 { font-size:1.55rem; }
+
+    .book-meal-home { padding:24px 12px; max-width:95%; }
+    .book-meal-home button,
+    .book-meal-home select { width:100%; font-size:1rem; }
+
+    footer { padding:16px; font-size:0.95rem; }
+}
 </style>
 
 </head>
@@ -243,6 +261,8 @@ footer{
   <button onclick="location.href='find-cook.html'">Find a Cook</button>
   <button onclick="location.href='cook-register.html'">Apply as Cook</button>
   <button onclick="location.href='my-bookings.html'">My Bookings</button>
+  <!-- FIXED Login -->
+  <button onclick="location.href='login.html'">Login / Signup</button>
 </div>
 
 <!-- Header -->
@@ -253,6 +273,7 @@ footer{
     </a>
   </div>
 
+  <!-- Hamburger -->
   <div class="hamburger" onclick="toggleSidebar()">
     <div></div>
     <div></div>
@@ -265,14 +286,11 @@ footer{
     <a href="find-cook.html">Find a Cook</a>
     <a href="cook-register.html">Apply as Cook</a>
     <a href="my-bookings.html">My Bookings</a>
-
-    <!-- USER NAME (NEW) -->
-    <span id="userBox" class="user-box"></span>
-
-    <!-- LOGIN BUTTON -->
-    <button id="loginBtn" class="login-btn" onclick="location.href='login.html'">
-      Login / Signup
-    </button>
+    <!-- FIXED Login -->
+     <div class="auth-box">
+  <span id="userBox" class="user-box"></span>
+  <button id="loginBtn" class="login-btn">Login / Signup</button>
+</div>
   </nav>
 </header>
 
@@ -281,29 +299,113 @@ footer{
     <h2>Welcome to RACII</h2>
     <p>Connect with talented cooks and explore meals around you.</p>
   </section>
+
+  <section class="book-meal-home" id="book-meal-section">
+    <h3>Book a Meal</h3>
+    <label for="region">Select Region</label>
+    <select id="region" onchange="populateCities()">
+      <option value="">Select Region</option>
+      <option value="lombardy">Lombardy</option>
+      <option value="lazio">Lazio</option>
+      <option value="tuscany">Tuscany</option>
+      <option value="sicily">Sicily</option>
+      <option value="veneto">Veneto</option>
+      <option value="piemonte">Piemonte</option>
+      <option value="campania">Campania</option>
+      <option value="emilia-romagna">Emilia-Romagna</option>
+    </select>
+
+    <label for="city">Select City</label>
+    <select id="city"><option value="">Select City</option></select>
+
+    <button onclick="searchCooks()">Find Cooks Near You</button>
+  </section>
 </main>
 
-<footer>© 2025 RACII | Connecting Cooks & Clients 🌍</footer>
+<footer>© 2025 RACII | Connecting Cooks & Clients Globally 🌍</footer>
 
 <script>
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('show');
-}
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('show');
+  }
 
-/* =========================
-   USER LOGIN DISPLAY (NEW)
-========================= */
+  // Populate cities based on selected region
+  const regionCities = {
+    lombardy: ['Milan','Pavia','Lecco', 'Bergamo', 'Brescia', 'Como'],
+    lazio: ['Rome', 'Latina', 'Frosinone', 'Viterbo'],
+    tuscany: ['Florence', 'Pisa', 'Siena', 'Lucca'],
+    sicily: ['Palermo', 'Catania', 'Messina', 'Trapani'],
+    veneto: ['Venice', 'Verona', 'Padua', 'Vicenza'],
+    piemonte: ['Turin', 'Alessandria', 'Novara', 'Cuneo'],
+    campania: ['Naples', 'Salerno', 'Caserta', 'Avellino'],
+    'emilia-romagna': ['Bologna', 'Modena', 'Parma', 'Ravenna']
+  };
+
+  function populateCities() {
+    const regionSelect = document.getElementById('region');
+    const citySelect = document.getElementById('city');
+    const selectedRegion = regionSelect.value;
+
+    citySelect.innerHTML = '<option value="">Select City</option>'; // reset
+
+    if (selectedRegion && regionCities[selectedRegion]) {
+      regionCities[selectedRegion].forEach(city => {
+        const option = document.createElement('option');
+        option.value = city.toLowerCase().replace(/\s+/g, '-');
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    }
+  }
+
+  // Search for cooks and navigate to results
+  function searchCooks() {
+    const region = document.getElementById('region').value;
+    const city = document.getElementById('city').value;
+
+    if (!region || !city) {
+      alert('Please select both region and city.');
+      return;
+    }
+
+    // Navigate to find-cook page with search parameters
+    window.location.href = `find-cook.html?region=${region}&city=${city}`;
+  }
+
+  // Close sidebar when clicking a sidebar button on mobile
+  document.querySelectorAll('.sidebar button').forEach(button => {
+    button.addEventListener('click', function() {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+    });
+  });
+</script>
+
+<!-- your page content ends here -->
+
+<script>
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (user) {
-  document.getElementById("userBox").style.display = "inline-block";
-  document.getElementById("userBox").innerText = user.name;
+  const userBox = document.getElementById("userBox");
+  const loginBtn = document.getElementById("loginBtn");
 
-  document.getElementById("loginBtn").innerText = "Logout";
-  document.getElementById("loginBtn").onclick = function () {
-    localStorage.removeItem("user");
-    location.reload();
-  };
+  if (userBox) {
+    userBox.style.display = "inline-block";
+    userBox.innerText = user.name;
+  }
+
+  if (loginBtn) {
+    loginBtn.innerText = "Logout";
+    loginBtn.onclick = function () {
+      localStorage.removeItem("user");
+      location.reload();
+    };
+  }
 }
 </script>
 

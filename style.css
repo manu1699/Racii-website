@@ -38,8 +38,7 @@
   color: #ff6b6b;
 }
 
-
-
+/* Overlay */
 .overlay {
   position: fixed;
   inset: 0;
@@ -55,24 +54,66 @@
   visibility: visible;
 }
 
+/* CONTENT */
 .content {
-  margin-left: 220px;
+  margin-left: 0;
   flex: 1;
 }
 
-/* ====== UPDATED HEADER NAV ====== */
-header nav {
-  display: flex;
-  justify-content: space-between;
+/* =========================
+   🔥 HEADER FIX (IMPORTANT)
+========================= */
+header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  padding: 12px 24px; /* adjusted for index page style */
-  background: rgba(255, 255, 255, 0.75); /* slightly transparent */
+  padding: 12px 24px;
+  background: rgba(255,255,255,0.75);
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1001;
   border-bottom: 1px solid #ddd;
   backdrop-filter: blur(6px);
+}
+
+/* LEFT LOGO */
+.logo-container {
+  justify-self: start;
+}
+
+/* CENTER MENU (TRUE CENTER FIX) */
+.top-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+/* RIGHT LOGIN */
+.auth-box {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* IMPORTANT: prevent shifting */
+.top-menu a,
+.login-btn,
+.user-box {
+  white-space: nowrap;
+}
+
+/* USER BOX */
+.user-box {
+  display: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid #ff6b6b;
+  background: rgba(255,107,107,0.15);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /* Buttons */
@@ -114,7 +155,6 @@ header nav {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   color: #fff;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
@@ -124,16 +164,14 @@ header nav {
   margin-bottom: 24px;
   color: black;
   font-weight: 700;
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
 .section p {
   font-size: 1.05rem;
   color: black;
-  text-shadow: none;
 }
 
-/* Book a Meal Section */
+/* Book Meal */
 .book-meal-home {
   background: rgba(255, 255, 255, 0.85);
   padding: 60px 16px;
@@ -151,6 +189,7 @@ header nav {
   border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 1rem;
+  width: 100%;
 }
 
 .book-meal-home button {
@@ -159,21 +198,10 @@ header nav {
   background: #ff6b6b;
   color: #fff;
   font-weight: 600;
-  transition: 0.25s;
 }
 
 .book-meal-home button:hover {
   background: #e05555;
-}
-
-/* My Bookings Section */
-#my-bookings-section {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 40px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.85);
-  display: none;
 }
 
 /* Footer */
@@ -195,147 +223,52 @@ html {
   box-sizing: border-box;
 }
 
-/* Make images responsive */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* ---------------- MOBILE FIXES ---------------- */
+/* MOBILE */
 @media (max-width: 768px) {
 
-  /* Reduce header padding */
+  .top-menu {
+    display: none !important;
+  }
+
   header {
     padding: 10px 14px;
   }
 
-  /* Hide big menu in mobile */
-  .top-menu {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  /* Make logo smaller */
-  .logo-container img {
-    height: 40px;
-  }
-
-  /* Enable sidebar hamburger button */
   header::after {
     content: "☰";
     font-size: 26px;
     cursor: pointer;
     padding: 6px 10px;
     border-radius: 8px;
-    background: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.6);
     position: absolute;
     right: 18px;
     top: 14px;
-    backdrop-filter: blur(5px);
   }
 
-  header::after:hover {
-    background: #fff;
-  }
-
-  /* Make content fit properly */
   .content {
-    max-width: 1200px;   /* or same as index page */
-    margin: 0 auto;       /* center content */
-    padding: 100px 20px 40px; /* top padding so header doesn't overlap */
-    transform-origin: top center;
+    padding: 100px 16px 40px;
   }
-  
 
-  /* Responsive card spacing */
   .section,
   .book-meal-home {
-    padding: 26px 16px;
-    margin: 24px 0;
+    padding: 24px 12px;
+    margin: 20px 0;
   }
 
-  .section h2 { font-size: 1.7rem; }
-  .section p { font-size: 1rem; }
-
-  .book-meal-home h3 { font-size: 1.3rem; }
-
-  select, button {
-    width: 100%;
-    max-width: 100%;
+  .section h2 {
+    font-size: 1.5rem;
   }
-
 }
 
-/* ====== ZOOM FOR LARGE SCREENS ====== */
+/* Large screens */
 @media (min-width: 1440px) {
   body {
     transform: scale(0.95);
-  }
-}
-/* ---------------- MOBILE OPTIMIZATION ---------------- */
-@media (max-width: 768px) {
-  /* Header adjustments */
-  header nav {
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 16px;
-  }
-  nav .logo {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-  }
-  nav div a {
-      margin: 6px 8px 0 8px;
-      font-size: 0.95rem;
-  }
-
-  /* Main container adjustments */
-  .container {
-      padding: 100px 12px 24px;
-      margin: 0 auto;
-  }
-
-  /* Sections & Cards */
-  .section, .book-meal-home, .booking-card, .cook-card {
-      padding: 20px 12px;
-      margin: 16px 0;
-  }
-
-  /* Headings */
-  h2 {
-      font-size: 1.5rem;
-  }
-  .section h2, .book-meal-home h3 {
-      font-size: 1.3rem;
-  }
-
-  /* Cook card layout */
-  .cook-grid {
-      grid-template-columns: 1fr; /* single column in mobile */
-      gap: 14px;
-  }
-
-  /* Buttons & Inputs full width */
-  .btn, .book-meal-home input, .book-meal-home select, .book-meal-home button {
-      width: 100%;
-      max-width: 100%;
-  }
-
-  /* Modal adjustments */
-  .modal-content {
-      width: 95%;
-      padding: 16px;
-  }
-  .image-gallery img {
-      width: 100px;
-      height: 80px;
-  }
-
-  /* Footer */
-  footer {
-      padding: 16px 12px;
   }
 }
